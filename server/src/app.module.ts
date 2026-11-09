@@ -6,6 +6,7 @@ import { AppController } from './app.controller.js';
 import { JwtAuthGuard } from './core/guards/jwt-auth.guard.js';
 import { AccountsModule } from './modules/accounts/accounts.module.js';
 import { AuthModule } from './modules/auth/auth.module.js';
+import { CategoriesModule } from './modules/categories/categories.module.js';
 import { UsersModule } from './modules/users/users.module.js';
 
 @Module({
@@ -20,6 +21,7 @@ import { UsersModule } from './modules/users/users.module.js';
     UsersModule,
     AuthModule,
     AccountsModule,
+    CategoriesModule,
   ],
   controllers: [AppController],
   providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }],
