@@ -6,16 +6,22 @@ html {
     (
       color: (
         theme-type: light,
-        primary: mat.$azure-palette,
+        primary: mat.$cyan-palette,
         tertiary: mat.$blue-palette,
       ),
-      typography: Roboto,
+      typography: Inter,
       density: 0,
     )
   );
 }
 
+:root {
+  --color-income: #2e7d32;
+  --color-expense: #c62828;
+  --color-warning: #b26a00;
+}
+
 body {
   margin: 0;
-  font-family: Roboto, sans-serif;
+  font-family: Inter, sans-serif;
 }

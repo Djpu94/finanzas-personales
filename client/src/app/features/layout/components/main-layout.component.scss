@@ -1,0 +1,38 @@
+.layout-container {
+  height: 100vh;
+}
+
+.layout-sidenav {
+  width: 260px;
+}
+
+.layout-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.app-name {
+  margin-left: 8px;
+  font-weight: 600;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
+  font-weight: 600;
+}
+
+.layout-content {
+  padding: 24px;
+}
