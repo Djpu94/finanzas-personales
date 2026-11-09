@@ -1,0 +1,21 @@
+<section class="auth-page">
+  <mat-card class="auth-card">
+    <mat-card-header>
+      <mat-card-title>Hola, {{ user()?.name }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <p>Panel en construcción.</p>
+      <div class="auth-actions">
+        <button
+          mat-flat-button
+          type="button"
+          [disabled]="loggingOut()"
+          (click)="logout()"
+        >
+          Cerrar sesión
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</section>

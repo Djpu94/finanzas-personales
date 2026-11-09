@@ -1,25 +1,28 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
 import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { provideHttpClient } from '@angular/common/http';
 import { App } from './app';
+import { AppModule } from './app-module';
+
+const SESSION_USER = { id: '1', name: 'Ana', email: 'ana@example.com' };
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([])],
-      declarations: [App],
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      imports: [AppModule],
+      providers: [provideHttpClientTesting()],
     }).compileComponents();
   });
 
   it('should create the app', () => {
+    const httpMock = TestBed.inject(HttpTestingController);
     const fixture = TestBed.createComponent(App);
+    httpMock.expectOne('/api/auth/me').flush(SESSION_USER);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
+    httpMock.verify();
   });
 
   it('should render the health status from the API', () => {
@@ -27,6 +30,7 @@ describe('App', () => {
     fixture.detectChanges();
 
     const httpMock = TestBed.inject(HttpTestingController);
+    httpMock.expectOne('/api/auth/me').flush(SESSION_USER);
     httpMock.expectOne('/api/health').flush({ status: 'ok' });
     fixture.detectChanges();
 

@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+.auth-page {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.auth-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
