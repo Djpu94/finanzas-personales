@@ -1,0 +1,23 @@
+# Dependencias
+node_modules/
+
+# Salidas de build y caches
+dist/
+coverage/
+.angular/
+*.tsbuildinfo
+
+# Entorno local (secretos). Versiona solo .env.example
+.env
+.env.*
+!.env.example
+
+# Logs y temporales
+npm-debug.log*
+*.log
+tmp/
+
+# Editores y SO
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,26 @@
+{
+  "name": "finanzas-personales",
+  "version": "0.0.1",
+  "private": true,
+  "description": "App de finanzas personales (monorepo: client/ Angular, server/ NestJS)",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n server,client -c blue,magenta \"npm run start:dev -w server\" \"npm run start -w client\"",
+    "build": "npm run build -w server && npm run build -w client",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.0",
+    "concurrently": "^9.2.1",
+    "eslint": "^9.39.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.1",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.46.0"
+  }
+}
