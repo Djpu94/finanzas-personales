@@ -1,0 +1,120 @@
+<section class="budgets" aria-labelledby="budgets-title">
+  <header class="budgets-header">
+    <h1 id="budgets-title">Presupuestos</h1>
+    <div class="header-actions">
+      <div class="month-selector">
+        <button
+          mat-icon-button
+          type="button"
+          aria-label="Mes anterior"
+          (click)="store.previousMonth()"
+        >
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+        <span class="month-label" aria-live="polite">{{ monthLabel() }}</span>
+        <button
+          mat-icon-button
+          type="button"
+          aria-label="Mes siguiente"
+          [disabled]="store.isCurrentMonth()"
+          (click)="store.nextMonth()"
+        >
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+      <button mat-flat-button type="button" (click)="create()">
+        <mat-icon>add</mat-icon>
+        Nuevo presupuesto
+      </button>
+    </div>
+  </header>
+
+  @if (store.loading()) {
+    <mat-progress-bar
+      mode="indeterminate"
+      aria-label="Cargando presupuestos"
+    ></mat-progress-bar>
+  }
+
+  @if (store.error()) {
+    <mat-card class="state-card" role="alert">
+      <mat-card-content>
+        <p>{{ store.error() }}</p>
+        <button mat-stroked-button type="button" (click)="store.load()">
+          Reintentar
+        </button>
+      </mat-card-content>
+    </mat-card>
+  } @else if (items().length === 0 && !store.loading()) {
+    <mat-card class="state-card">
+      <mat-card-content>
+        <mat-icon class="empty-icon" aria-hidden="true">savings</mat-icon>
+        <h2>No hay presupuestos para {{ monthLabel() }}</h2>
+        <p>
+          Define un límite mensual por categoría de gasto para saber cuánto te
+          queda disponible.
+        </p>
+        <button mat-flat-button type="button" (click)="create()">
+          Crear presupuesto
+        </button>
+      </mat-card-content>
+    </mat-card>
+  } @else {
+    <div class="budget-grid">
+      @for (item of items(); track trackById($index, item)) {
+        <mat-card
+          class="budget-card"
+          [class.budget-card--warning]="item.status === 'warning'"
+          [class.budget-card--exceeded]="item.status === 'exceeded'"
+        >
+          <mat-card-header>
+            <span
+              class="category-color"
+              [style.background-color]="item.color"
+              aria-hidden="true"
+            ></span>
+            <mat-card-title>{{ item.name }}</mat-card-title>
+            <mat-card-subtitle>{{ item.statusLabel }}</mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <mat-progress-bar
+              mode="determinate"
+              class="budget-bar"
+              [class.budget-bar--ok]="item.status === 'ok'"
+              [class.budget-bar--warning]="item.status === 'warning'"
+              [class.budget-bar--exceeded]="item.status === 'exceeded'"
+              [value]="item.barValue"
+              [attr.aria-label]="item.name + ': ' + item.statusLabel"
+            ></mat-progress-bar>
+            <p class="amounts">
+              Gastado
+              <strong>{{ item.budget.spent | currencyCents: currency() }}</strong>
+              de {{ item.budget.limitAmount | currencyCents: currency() }}
+              ({{ item.budget.percentage | number: '1.0-0' }}%)
+            </p>
+          </mat-card-content>
+
+          <mat-card-actions align="end">
+            <button
+              mat-icon-button
+              type="button"
+              [attr.aria-label]="'Editar presupuesto de ' + item.name"
+              (click)="edit(item.budget)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              type="button"
+              [attr.aria-label]="'Eliminar presupuesto de ' + item.name"
+              (click)="remove(item)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      }
+    </div>
+  }
+</section>

@@ -93,7 +93,31 @@
           <mat-card-title>Atención</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <p>Configura tus presupuestos para ver alertas aquí.</p>
+          @if (attentionItems().length === 0) {
+            <p>No hay presupuestos al 80 % o más de su límite.</p>
+          } @else {
+            <ul class="attention-list">
+              @for (item of attentionItems(); track item.budgetId) {
+                <li
+                  class="attention-item"
+                  [class.attention-item--exceeded]="item.status === 'exceeded'"
+                >
+                  <mat-icon aria-hidden="true">{{
+                    item.status === 'exceeded' ? 'error' : 'warning_amber'
+                  }}</mat-icon>
+                  <span class="category-color" [style.background-color]="item.color" aria-hidden="true"></span>
+                  <div class="attention-text">
+                    <strong>{{ item.name }}</strong>
+                    <span>
+                      {{ item.statusLabel }}: {{ item.budget.spent | currencyCents: store.currency() }}
+                      de {{ item.budget.limitAmount | currencyCents: store.currency() }}
+                      ({{ item.budget.percentage | number: '1.0-0' }}%)
+                    </span>
+                  </div>
+                </li>
+              }
+            </ul>
+          }
         </mat-card-content>
         <mat-card-actions align="end">
           <a mat-stroked-button routerLink="/budgets">Ir a presupuestos</a>

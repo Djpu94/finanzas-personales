@@ -1,3 +1,5 @@
+import { BudgetAlert } from '../../budgets/models/budget.model';
+
 export interface CategoryTotal {
   categoryId: string;
   name: string;
@@ -14,7 +16,7 @@ export interface AnalyticsOverview {
   // Porcentaje (12.5 = 12,5 %).
   variationVsPreviousMonth: number;
   topExpenseCategories: CategoryTotal[];
-  budgetAlerts: unknown[];
+  budgetAlerts: BudgetAlert[];
 }
 
 export interface CashFlowPoint {

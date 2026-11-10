@@ -69,6 +69,39 @@
   flex: 1 1 280px;
 }
 
+.attention-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.attention-item {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-warning);
+
+  &.attention-item--exceeded {
+    color: var(--color-expense);
+  }
+}
+
+.attention-item .category-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.attention-text {
+  display: flex;
+  flex-direction: column;
+  color: var(--mat-sys-on-surface, inherit);
+}
+
 .skeleton-row,
 .skeleton-chart {
   display: flex;

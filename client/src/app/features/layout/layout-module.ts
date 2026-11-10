@@ -43,8 +43,8 @@ const routes: Routes = [
       },
       {
         path: 'budgets',
-        component: PlaceholderPageComponent,
-        data: { title: 'Presupuestos' },
+        loadChildren: () =>
+          import('../budgets/budgets-module').then((m) => m.BudgetsModule),
       },
       {
         path: 'profile',

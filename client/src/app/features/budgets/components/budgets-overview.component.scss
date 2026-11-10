@@ -1,0 +1,97 @@
+.budgets {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.budgets-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  h1 {
+    margin: 0;
+  }
+}
+
+.header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.month-selector {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.month-label {
+  min-width: 140px;
+  text-align: center;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+.state-card {
+  text-align: center;
+
+  .empty-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+.budget-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.budget-card {
+  mat-card-header {
+    align-items: center;
+  }
+
+  .category-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+
+  mat-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 12px;
+  }
+
+  .amounts {
+    margin: 0;
+  }
+}
+
+.budget-bar {
+  // Doble clase en el template para ganar especificidad sobre el tema de Material.
+  &.budget-bar--ok {
+    --mdc-linear-progress-active-indicator-color: var(--color-income);
+    --mdc-linear-progress-track-color: color-mix(in srgb, var(--color-income) 20%, transparent);
+  }
+
+  &.budget-bar--warning {
+    --mdc-linear-progress-active-indicator-color: var(--color-warning);
+    --mdc-linear-progress-track-color: color-mix(in srgb, var(--color-warning) 20%, transparent);
+  }
+
+  &.budget-bar--exceeded {
+    --mdc-linear-progress-active-indicator-color: var(--color-expense);
+    --mdc-linear-progress-track-color: color-mix(in srgb, var(--color-expense) 20%, transparent);
+  }
+}

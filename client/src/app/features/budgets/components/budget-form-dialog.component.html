@@ -1,0 +1,78 @@
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <h2 mat-dialog-title>{{ title }}</h2>
+
+  <mat-dialog-content>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Categoría de gasto</mat-label>
+      <mat-select formControlName="categoryId">
+        @for (option of categoryOptions; track option.category.id) {
+          <mat-option [value]="option.category.id">
+            <span [style.padding-left.px]="option.depth * 16">
+              {{ option.category.name }}
+            </span>
+          </mat-option>
+        }
+      </mat-select>
+      @if (form.controls.categoryId.hasError('required')) {
+        <mat-error>Selecciona una categoría.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Límite mensual</mat-label>
+      <input
+        matInput
+        type="number"
+        min="0.01"
+        step="0.01"
+        formControlName="amount"
+      />
+      @if (form.controls.amount.hasError('required')) {
+        <mat-error>Indica un límite.</mat-error>
+      } @else if (form.controls.amount.hasError('min')) {
+        <mat-error>El límite debe ser mayor que 0.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Mes</mat-label>
+      <input
+        matInput
+        readonly
+        [matDatepicker]="picker"
+        formControlName="period"
+        aria-label="Mes del presupuesto"
+      />
+      <mat-datepicker-toggle matIconSuffix [for]="picker" />
+      <mat-datepicker
+        #picker
+        startView="year"
+        (monthSelected)="onMonthSelected($event, picker)"
+      />
+      @if (form.controls.period.hasError('required')) {
+        <mat-error>Selecciona un mes.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-slide-toggle formControlName="alertsEnabled">
+      Avisar al superar el 80 %
+    </mat-slide-toggle>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" [disabled]="saving()" (click)="cancel()">
+      Cancelar
+    </button>
+    <button
+      mat-flat-button
+      type="submit"
+      [disabled]="saving()"
+      [attr.aria-busy]="saving()"
+    >
+      @if (saving()) {
+        <mat-spinner diameter="18" />
+      }
+      Guardar
+    </button>
+  </mat-dialog-actions>
+</form>
