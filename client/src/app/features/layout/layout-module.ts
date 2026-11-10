@@ -24,8 +24,10 @@ const routes: Routes = [
       },
       {
         path: 'transactions',
-        component: PlaceholderPageComponent,
-        data: { title: 'Transacciones' },
+        loadChildren: () =>
+          import('../transactions/transactions-module').then(
+            (m) => m.TransactionsModule,
+          ),
       },
       {
         path: 'accounts',
