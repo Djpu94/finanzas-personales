@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller.js';
 import { JwtAuthGuard } from './core/guards/jwt-auth.guard.js';
 import { AccountsModule } from './modules/accounts/accounts.module.js';
+import { AnalyticsModule } from './modules/analytics/analytics.module.js';
 import { AuthModule } from './modules/auth/auth.module.js';
 import { CategoriesModule } from './modules/categories/categories.module.js';
 import { TransactionsModule } from './modules/transactions/transactions.module.js';
@@ -24,6 +25,7 @@ import { UsersModule } from './modules/users/users.module.js';
     AccountsModule,
     CategoriesModule,
     TransactionsModule,
+    AnalyticsModule,
   ],
   controllers: [AppController],
   providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }],
