@@ -6,6 +6,7 @@ import {
   signal,
 } from '@angular/core';
 import { ApiService } from './core/api.service';
+import { ThemeService } from './core/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,8 @@ import { ApiService } from './core/api.service';
 })
 export class App implements OnInit {
   private readonly api = inject(ApiService);
+  // Se inyecta aquí para aplicar el tema al arrancar, también en pantallas sin toolbar.
+  protected readonly theme = inject(ThemeService);
 
   protected readonly healthStatus = signal('cargando...');
 

@@ -7,6 +7,7 @@ import {
   input,
 } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
+import { ThemeService } from '../../../core/theme.service';
 import { CashFlowPoint } from '../models/dashboard.model';
 import { readCssVariable } from '../utils/chart-helpers';
 import { formatCurrencyUnits } from '../utils/format';
@@ -24,11 +25,14 @@ const EXPENSE_FALLBACK_COLOR = '#c62828';
 })
 export class CashFlowChartComponent {
   private readonly locale = inject(LOCALE_ID);
+  private readonly theme = inject(ThemeService);
 
   readonly points = input.required<CashFlowPoint[]>();
   readonly currency = input.required<string>();
 
   protected readonly chartConfig = computed<ChartConfiguration<'line'>>(() => {
+    // Leer el tema hace que el chart se recree al cambiarlo, con los colores nuevos.
+    this.theme.resolvedTheme();
     const points = this.points();
     const currency = this.currency();
     const locale = this.locale;

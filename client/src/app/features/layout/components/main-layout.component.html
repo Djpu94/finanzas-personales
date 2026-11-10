@@ -23,6 +23,27 @@
       <button
         mat-icon-button
         type="button"
+        aria-label="Elegir tema"
+        [matMenuTriggerFor]="themeMenu"
+      >
+        <mat-icon>{{ themeIcon() }}</mat-icon>
+      </button>
+      <mat-menu #themeMenu="matMenu">
+        @for (option of themeOptions; track option.value) {
+          <button
+            mat-menu-item
+            type="button"
+            [class.active-theme]="theme.currentTheme() === option.value"
+            (click)="theme.setTheme(option.value)"
+          >
+            <mat-icon>{{ option.icon }}</mat-icon>
+            <span>{{ option.label }}</span>
+          </button>
+        }
+      </mat-menu>
+      <button
+        mat-icon-button
+        type="button"
         aria-label="Menú de usuario"
         [matMenuTriggerFor]="userMenu"
       >

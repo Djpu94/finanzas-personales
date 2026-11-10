@@ -14,6 +14,21 @@
     />
   </head>
   <body>
+    <script>
+      // Aplica el tema antes de Angular para evitar un parpadeo con el tema incorrecto.
+      (function () {
+        var pref = 'system';
+        try {
+          pref = localStorage.getItem('theme.preference') || 'system';
+        } catch (e) {}
+        var dark =
+          pref === 'dark' ||
+          (pref !== 'light' &&
+            window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+        if (dark) document.body.classList.add('dark-theme');
+      })();
+    </script>
     <app-root></app-root>
   </body>
 </html>

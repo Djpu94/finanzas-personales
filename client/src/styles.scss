@@ -15,13 +15,35 @@ html {
   );
 }
 
+// Mismas paletas con tema oscuro: los componentes Material heredan las variables --mat-sys-*.
+body.dark-theme {
+  color-scheme: dark;
+  @include mat.theme(
+    (
+      color: (
+        theme-type: dark,
+        primary: mat.$cyan-palette,
+        tertiary: mat.$blue-palette,
+      ),
+    )
+  );
+}
+
 :root {
   --color-income: #2e7d32;
   --color-expense: #c62828;
-  --color-warning: #b26a00;
+  --color-warning: #8f5600;
+}
+
+body.dark-theme {
+  --color-income: #81c784;
+  --color-expense: #ef9a9a;
+  --color-warning: #ffb74d;
 }
 
 body {
   margin: 0;
   font-family: Inter, sans-serif;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
 }

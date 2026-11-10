@@ -11,6 +11,13 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter, finalize } from 'rxjs';
 import { AuthService } from '../../../core/auth.service';
 import { LayoutService } from '../../../core/layout.service';
+import { ThemePreference, ThemeService } from '../../../core/theme.service';
+
+interface ThemeOption {
+  value: ThemePreference;
+  label: string;
+  icon: string;
+}
 
 @Component({
   selector: 'app-main-layout',
@@ -24,6 +31,18 @@ export class MainLayoutComponent {
   private readonly router = inject(Router);
 
   protected readonly layout = inject(LayoutService);
+  protected readonly theme = inject(ThemeService);
+  protected readonly themeOptions: readonly ThemeOption[] = [
+    { value: 'light', label: 'Claro', icon: 'light_mode' },
+    { value: 'dark', label: 'Oscuro', icon: 'dark_mode' },
+    { value: 'system', label: 'Sistema', icon: 'brightness_auto' },
+  ];
+  protected readonly themeIcon = computed(
+    () =>
+      this.themeOptions.find(
+        (option) => option.value === this.theme.currentTheme(),
+      )?.icon ?? 'brightness_auto',
+  );
   protected readonly user = this.auth.currentUser;
   protected readonly userInitial = computed(
     () => this.user()?.name.charAt(0).toUpperCase() ?? '?',
