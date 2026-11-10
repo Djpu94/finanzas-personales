@@ -1,0 +1,66 @@
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <h2 mat-dialog-title>{{ title }}</h2>
+
+  <mat-dialog-content>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="name" maxlength="100" />
+      @if (form.controls.name.hasError('required')) {
+        <mat-error>El nombre es obligatorio.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Tipo</mat-label>
+      <mat-select formControlName="type">
+        @for (option of typeOptions; track option.value) {
+          <mat-option [value]="option.value">
+            <mat-icon class="option-icon">{{ option.icon }}</mat-icon>
+            {{ option.label }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <div class="balance-row">
+      <mat-form-field appearance="outline" class="balance-field">
+        <mat-label>Saldo inicial</mat-label>
+        <input
+          matInput
+          type="number"
+          step="0.01"
+          formControlName="initialBalance"
+        />
+        @if (form.controls.initialBalance.hasError('required')) {
+          <mat-error>El saldo inicial es obligatorio.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="currency-field">
+        <mat-label>Moneda</mat-label>
+        <mat-select formControlName="currency">
+          @for (currency of currencies; track currency) {
+            <mat-option [value]="currency">{{ currency }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" [disabled]="saving()" (click)="cancel()">
+      Cancelar
+    </button>
+    <button
+      mat-flat-button
+      type="submit"
+      [disabled]="saving()"
+      [attr.aria-busy]="saving()"
+    >
+      @if (saving()) {
+        <mat-spinner diameter="18" />
+      }
+      Guardar
+    </button>
+  </mat-dialog-actions>
+</form>

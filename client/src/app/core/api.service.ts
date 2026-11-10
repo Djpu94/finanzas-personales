@@ -20,6 +20,14 @@ export class ApiService {
     return this.http.post<T>(this.buildUrl(path), body ?? null);
   }
 
+  patch<T>(path: string, body: unknown): Observable<T> {
+    return this.http.patch<T>(this.buildUrl(path), body);
+  }
+
+  delete<T = void>(path: string): Observable<T> {
+    return this.http.delete<T>(this.buildUrl(path));
+  }
+
   getHealth(): Observable<HealthResponse> {
     return this.get<HealthResponse>('/health');
   }

@@ -1,0 +1,74 @@
+<section class="accounts-page">
+  <header class="accounts-header">
+    <h1 class="accounts-title">Cuentas</h1>
+    @if (accounts().length > 0) {
+      <button mat-flat-button type="button" (click)="openCreate()">
+        <mat-icon>add</mat-icon>
+        Nueva cuenta
+      </button>
+    }
+  </header>
+
+  @if (loading() && accounts().length === 0) {
+    <div class="state-container">
+      <mat-spinner diameter="36" />
+    </div>
+  } @else if (error(); as message) {
+    <div class="state-container">
+      <mat-icon class="state-icon">error_outline</mat-icon>
+      <p>{{ message }}</p>
+      <button mat-stroked-button type="button" (click)="reload()">
+        Reintentar
+      </button>
+    </div>
+  } @else if (accounts().length === 0) {
+    <div class="state-container">
+      <mat-icon class="state-icon empty-icon">account_balance_wallet</mat-icon>
+      <h2>Aún no tienes cuentas</h2>
+      <p>Añade una cuenta para empezar a registrar tu dinero.</p>
+      <button mat-flat-button type="button" (click)="openCreate()">
+        Añade tu primera cuenta
+      </button>
+    </div>
+  } @else {
+    <div class="accounts-grid">
+      @for (account of accounts(); track account.id) {
+        <mat-card class="account-card">
+          <mat-card-header>
+            <mat-icon mat-card-avatar class="type-icon">
+              {{ typeIcon(account.type) }}
+            </mat-icon>
+            <mat-card-title>{{ account.name }}</mat-card-title>
+            <mat-card-subtitle>{{ typeLabel(account.type) }}</mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <p class="balance-label">Saldo inicial</p>
+            <p class="balance">
+              {{ account.initialBalance | currencyCents: account.currency }}
+            </p>
+          </mat-card-content>
+
+          <mat-card-actions align="end">
+            <button
+              mat-icon-button
+              type="button"
+              [attr.aria-label]="'Editar ' + account.name"
+              (click)="openEdit(account)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              type="button"
+              [attr.aria-label]="'Archivar ' + account.name"
+              (click)="archive(account)"
+            >
+              <mat-icon>archive</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      }
+    </div>
+  }
+</section>
