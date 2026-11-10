@@ -1,25 +1,28 @@
 <section class="dashboard" aria-labelledby="dashboard-title">
   <header class="dashboard-header">
     <h1 id="dashboard-title">Resumen</h1>
-    <div class="month-selector">
-      <button
-        mat-icon-button
-        type="button"
-        aria-label="Mes anterior"
-        (click)="store.previousMonth()"
-      >
-        <mat-icon>chevron_left</mat-icon>
-      </button>
-      <span class="month-label" aria-live="polite">{{ monthLabel() }}</span>
-      <button
-        mat-icon-button
-        type="button"
-        aria-label="Mes siguiente"
-        [disabled]="store.isCurrentMonth()"
-        (click)="store.nextMonth()"
-      >
-        <mat-icon>chevron_right</mat-icon>
-      </button>
+    <div class="header-actions">
+      <div class="month-selector">
+        <button
+          mat-icon-button
+          type="button"
+          aria-label="Mes anterior"
+          (click)="store.previousMonth()"
+        >
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+        <span class="month-label" aria-live="polite">{{ monthLabel() }}</span>
+        <button
+          mat-icon-button
+          type="button"
+          aria-label="Mes siguiente"
+          [disabled]="store.isCurrentMonth()"
+          (click)="store.nextMonth()"
+        >
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+      <app-report-export-menu [period]="store.selectedMonth()" />
     </div>
   </header>
 

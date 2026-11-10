@@ -28,6 +28,10 @@ export class ApiService {
     return this.http.delete<T>(this.buildUrl(path));
   }
 
+  getBlob(path: string, params?: Record<string, string>): Observable<Blob> {
+    return this.http.get(this.buildUrl(path), { params, responseType: 'blob' });
+  }
+
   getHealth(): Observable<HealthResponse> {
     return this.get<HealthResponse>('/health');
   }

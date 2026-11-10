@@ -26,6 +26,7 @@ import {
   TransactionListQuery,
 } from '../models/transaction.model';
 import { TransactionsStoreService } from '../services/transactions-store.service';
+import { currentMonthKey } from '../../dashboard/utils/month';
 import {
   TransactionFormData,
   TransactionFormDialogComponent,
@@ -90,6 +91,11 @@ export class TransactionsListComponent {
     this.accountsStore.accounts().filter((account) => !account.isArchived),
   );
   protected readonly categoryOptions = this.categoriesStore.indentedCategories;
+
+  // El reporte exporta un mes: el de la fecha "Desde" del filtro, o el actual si no hay.
+  protected readonly exportPeriod = computed(
+    () => this.query().filters.from?.slice(0, 7) ?? currentMonthKey(),
+  );
 
   private readonly accountsById = computed(
     () => new Map(this.accountsStore.accounts().map((account) => [account.id, account])),

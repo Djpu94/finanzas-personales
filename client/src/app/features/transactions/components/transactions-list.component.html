@@ -1,10 +1,13 @@
 <section class="transactions-page">
   <header class="transactions-header">
     <h1 class="transactions-title">Transacciones</h1>
-    <button mat-flat-button type="button" (click)="openCreate()">
-      <mat-icon>add</mat-icon>
-      Nueva transacción
-    </button>
+    <div class="header-actions">
+      <app-report-export-menu [period]="exportPeriod()" />
+      <button mat-flat-button type="button" (click)="openCreate()">
+        <mat-icon>add</mat-icon>
+        Nueva transacción
+      </button>
+    </div>
   </header>
 
   <form class="filter-bar" [formGroup]="filterForm">

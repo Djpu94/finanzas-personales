@@ -9,6 +9,7 @@ import { AnalyticsModule } from './modules/analytics/analytics.module.js';
 import { AuthModule } from './modules/auth/auth.module.js';
 import { BudgetsModule } from './modules/budgets/budgets.module.js';
 import { CategoriesModule } from './modules/categories/categories.module.js';
+import { ReportsModule } from './modules/reports/reports.module.js';
 import { TransactionsModule } from './modules/transactions/transactions.module.js';
 import { UsersModule } from './modules/users/users.module.js';
 
@@ -28,6 +29,7 @@ import { UsersModule } from './modules/users/users.module.js';
     TransactionsModule,
     BudgetsModule,
     AnalyticsModule,
+    ReportsModule,
   ],
   controllers: [AppController],
   providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }],

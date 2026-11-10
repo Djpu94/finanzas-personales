@@ -1,0 +1,21 @@
+<button
+  mat-stroked-button
+  type="button"
+  aria-label="Exportar reporte mensual"
+  [matMenuTriggerFor]="exportMenu"
+  [disabled]="exporting() !== null"
+>
+  <mat-icon>file_download</mat-icon>
+  Exportar
+</button>
+
+<mat-menu #exportMenu="matMenu">
+  <button mat-menu-item type="button" (click)="download('csv')">
+    <mat-icon>table_chart</mat-icon>
+    <span>CSV (Excel, Sheets)</span>
+  </button>
+  <button mat-menu-item type="button" (click)="download('pdf')">
+    <mat-icon>picture_as_pdf</mat-icon>
+    <span>PDF</span>
+  </button>
+</mat-menu>
