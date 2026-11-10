@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument, SchemaTypes, Types } from 'mongoose';
 import { HEX_COLOR_PATTERN } from '../../common/utils/hex-color.js';
 import { User } from '../users/user.schema.js';
 
@@ -9,13 +9,13 @@ export type CategoryType = (typeof CATEGORY_TYPES)[number];
 
 @Schema({ timestamps: true })
 export class Category {
-  @Prop({ type: Types.ObjectId, ref: User.name, required: true })
+  @Prop({ type: SchemaTypes.ObjectId, ref: User.name, required: true })
   userId: Types.ObjectId;
 
   @Prop({ required: true, trim: true, maxlength: 100, type: String })
   name: string;
 
-  @Prop({ type: Types.ObjectId, ref: 'Category', default: null })
+  @Prop({ type: SchemaTypes.ObjectId, ref: 'Category', default: null })
   parentId: Types.ObjectId | null;
 
   @Prop({ required: true, enum: CATEGORY_TYPES, type: String })

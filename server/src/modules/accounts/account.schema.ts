@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument, SchemaTypes, Types } from 'mongoose';
 import { User } from '../users/user.schema.js';
 
 export const ACCOUNT_TYPES = [
@@ -13,7 +13,12 @@ export type AccountType = (typeof ACCOUNT_TYPES)[number];
 
 @Schema({ timestamps: true })
 export class Account {
-  @Prop({ type: Types.ObjectId, ref: User.name, required: true, index: true })
+  @Prop({
+    type: SchemaTypes.ObjectId,
+    ref: User.name,
+    required: true,
+    index: true,
+  })
   userId: Types.ObjectId;
 
   @Prop({ required: true, trim: true, maxlength: 100, type: String })

@@ -1,11 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument, SchemaTypes, Types } from 'mongoose';
 import { HEX_COLOR_PATTERN } from '../../common/utils/hex-color.js';
 import { User } from '../users/user.schema.js';
 
 @Schema({ timestamps: true })
 export class Tag {
-  @Prop({ type: Types.ObjectId, ref: User.name, required: true })
+  @Prop({ type: SchemaTypes.ObjectId, ref: User.name, required: true })
   userId: Types.ObjectId;
 
   @Prop({ required: true, trim: true, maxlength: 50, type: String })

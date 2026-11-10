@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument, SchemaTypes, Types } from 'mongoose';
 import { Account } from '../accounts/account.schema.js';
 import { Category } from '../categories/category.schema.js';
 import { Tag } from '../categories/tag.schema.js';
@@ -11,7 +11,7 @@ export type TransactionType = (typeof TRANSACTION_TYPES)[number];
 
 @Schema({ timestamps: true })
 export class Transaction {
-  @Prop({ type: Types.ObjectId, ref: User.name, required: true })
+  @Prop({ type: SchemaTypes.ObjectId, ref: User.name, required: true })
   userId: Types.ObjectId;
 
   @Prop({ required: true, enum: TRANSACTION_TYPES, type: String })
@@ -32,17 +32,20 @@ export class Transaction {
   @Prop({ required: true, trim: true, maxlength: 500, type: String })
   description: string;
 
-  @Prop({ type: Types.ObjectId, ref: Account.name, required: true })
+  @Prop({ type: SchemaTypes.ObjectId, ref: Account.name, required: true })
   accountId: Types.ObjectId;
 
   // Solo para transferencias: cuenta de destino.
-  @Prop({ type: Types.ObjectId, ref: Account.name, default: null })
+  @Prop({ type: SchemaTypes.ObjectId, ref: Account.name, default: null })
   targetAccountId: Types.ObjectId | null;
 
-  @Prop({ type: Types.ObjectId, ref: Category.name, default: null })
+  @Prop({ type: SchemaTypes.ObjectId, ref: Category.name, default: null })
   categoryId: Types.ObjectId | null;
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: Tag.name }], default: [] })
+  @Prop({
+    type: [{ type: SchemaTypes.ObjectId, ref: Tag.name }],
+    default: [],
+  })
   tagIds: Types.ObjectId[];
 
   @Prop({ type: String, trim: true, maxlength: 1000 })
