@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import type { Cache } from 'cache-manager';
 import { Model, Types } from 'mongoose';
 import { Account } from '../accounts/account.schema.js';
+import { BudgetsService } from '../budgets/budgets.service.js';
 import { Category } from '../categories/category.schema.js';
 import { Transaction } from '../transactions/transaction.schema.js';
 import {
@@ -79,17 +80,24 @@ export class AnalyticsService {
     private readonly accountModel: Model<Account>,
     @InjectModel(Category.name)
     private readonly categoryModel: Model<Category>,
+    private readonly budgetsService: BudgetsService,
     @Inject(CACHE_MANAGER) private readonly cache: Cache,
   ) {}
 
+  // Las alertas de presupuesto se consultan fuera de la caché: cambian al
+  // crear presupuestos o movimientos y no deben quedar desfasadas 60 s.
   async getOverview(
     userId: string,
     month?: string,
   ): Promise<AnalyticsOverviewResponseDto> {
     const resolvedMonth = month ?? toMonthKey(new Date());
-    return this.withCache(`analytics:overview:${userId}:${resolvedMonth}`, () =>
-      this.computeOverview(userId, resolvedMonth),
-    );
+    const [overview, budgetAlerts] = await Promise.all([
+      this.withCache(`analytics:overview:${userId}:${resolvedMonth}`, () =>
+        this.computeOverview(userId, resolvedMonth),
+      ),
+      this.budgetsService.getAlerts(userId, resolvedMonth),
+    ]);
+    return { ...overview, budgetAlerts };
   }
 
   async getSeries(
@@ -107,7 +115,7 @@ export class AnalyticsService {
   private async computeOverview(
     userId: string,
     month: string,
-  ): Promise<AnalyticsOverviewResponseDto> {
+  ): Promise<Omit<AnalyticsOverviewResponseDto, 'budgetAlerts'>> {
     const objectId = new Types.ObjectId(userId);
     const currentRange = parseMonthKey(month);
     const previousMonth = previousMonthKey(month);
@@ -162,7 +170,6 @@ export class AnalyticsService {
         objectId,
         categoryRows,
       ),
-      budgetAlerts: [],
     };
   }
 

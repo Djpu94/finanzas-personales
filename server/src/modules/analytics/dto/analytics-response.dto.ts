@@ -1,3 +1,5 @@
+import type { BudgetAlertDto } from '../../budgets/dto/budget-response.dto.js';
+
 export interface CategoryTotalDto {
   categoryId: string;
   name: string;
@@ -11,7 +13,7 @@ export interface AnalyticsOverviewResponseDto {
   monthlyBalance: number;
   variationVsPreviousMonth: number;
   topExpenseCategories: CategoryTotalDto[];
-  budgetAlerts: unknown[];
+  budgetAlerts: BudgetAlertDto[];
 }
 
 export interface CashFlowPointDto {

@@ -2,6 +2,7 @@ import type { Cache } from 'cache-manager';
 import { Model, Types } from 'mongoose';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Account } from '../accounts/account.schema.js';
+import { BudgetsService } from '../budgets/budgets.service.js';
 import { Category } from '../categories/category.schema.js';
 import { Transaction } from '../transactions/transaction.schema.js';
 import { AnalyticsService } from './analytics.service.js';
@@ -31,6 +32,7 @@ describe('AnalyticsService', () => {
   let accountAggregate: ReturnType<typeof vi.fn>;
   let categoryFind: ReturnType<typeof vi.fn>;
   let cache: ReturnType<typeof createCache>;
+  let budgetGetAlerts: ReturnType<typeof vi.fn>;
   let service: AnalyticsService;
 
   function build(options: {
@@ -39,6 +41,7 @@ describe('AnalyticsService', () => {
     net?: unknown[];
     balances?: unknown[];
     categoryDocs?: unknown[];
+    alerts?: unknown[];
   }) {
     // Orden de llamadas en computeOverview y computeSeries: flujo, categorías, neto; luego saldos.
     transactionAggregate = vi.fn();
@@ -59,11 +62,13 @@ describe('AnalyticsService', () => {
       }),
     }));
     cache = createCache();
+    budgetGetAlerts = vi.fn().mockResolvedValue(options.alerts ?? []);
 
     service = new AnalyticsService(
       { aggregate: transactionAggregate } as unknown as Model<Transaction>,
       { aggregate: accountAggregate } as unknown as Model<Account>,
       { find: categoryFind } as unknown as Model<Category>,
+      { getAlerts: budgetGetAlerts } as unknown as BudgetsService,
       cache,
     );
   }
@@ -132,6 +137,27 @@ describe('AnalyticsService', () => {
         topExpenseCategories: [],
         budgetAlerts: [],
       });
+    });
+
+    it('incluye las alertas de presupuesto sin cachearlas', async () => {
+      const alert = {
+        budgetId: '665f1a2b3c4d5e6f7a8b9c0e',
+        categoryId: '665f1a2b3c4d5e6f7a8b9c0f',
+        period: '2024-03',
+        limitAmount: 10000,
+        spent: 9000,
+        percentage: 90,
+        level: 'warning',
+      };
+      build({ alerts: [alert] });
+
+      const first = await service.getOverview(USER_ID, '2024-03');
+      const second = await service.getOverview(USER_ID, '2024-03');
+
+      expect(first.budgetAlerts).toEqual([alert]);
+      expect(second.budgetAlerts).toEqual([alert]);
+      expect(budgetGetAlerts).toHaveBeenCalledTimes(2);
+      expect(budgetGetAlerts).toHaveBeenCalledWith(USER_ID, '2024-03');
     });
 
     it('reutiliza el resultado cacheado sin volver a agregar', async () => {

@@ -2,6 +2,7 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Account, AccountSchema } from '../accounts/account.schema.js';
+import { BudgetsModule } from '../budgets/budgets.module.js';
 import { Category, CategorySchema } from '../categories/category.schema.js';
 import {
   Transaction,
@@ -16,6 +17,7 @@ import {
 @Module({
   imports: [
     CacheModule.register({ ttl: ANALYTICS_CACHE_TTL_MS }),
+    BudgetsModule,
     MongooseModule.forFeature([
       { name: Transaction.name, schema: TransactionSchema },
       { name: Account.name, schema: AccountSchema },
