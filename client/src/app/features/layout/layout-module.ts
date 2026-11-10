@@ -34,8 +34,10 @@ const routes: Routes = [
       },
       {
         path: 'categories',
-        component: PlaceholderPageComponent,
-        data: { title: 'Categorías' },
+        loadChildren: () =>
+          import('../categories/categories-module').then(
+            (m) => m.CategoriesModule,
+          ),
       },
       {
         path: 'budgets',

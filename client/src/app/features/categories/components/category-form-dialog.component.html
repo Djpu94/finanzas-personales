@@ -1,0 +1,70 @@
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <h2 mat-dialog-title>{{ title }}</h2>
+
+  <mat-dialog-content>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="name" maxlength="100" />
+      @if (form.controls.name.hasError('required')) {
+        <mat-error>El nombre es obligatorio.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Tipo</mat-label>
+      <mat-select formControlName="type">
+        @for (option of typeOptions; track option.value) {
+          <mat-option [value]="option.value">{{ option.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Categoría padre</mat-label>
+      <mat-select formControlName="parentId">
+        <mat-option [value]="null">Sin padre</mat-option>
+        @for (option of parentOptions; track option.category.id) {
+          <mat-option [value]="option.category.id">
+            <span [style.padding-left.px]="option.depth * 16">
+              {{ option.category.name }}
+            </span>
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <div class="appearance-row">
+      <label class="color-field">
+        <span class="color-label">Color</span>
+        <input
+          type="color"
+          formControlName="color"
+          aria-label="Color de la categoría"
+        />
+      </label>
+
+      <mat-form-field appearance="outline" class="icon-field">
+        <mat-label>Icono (opcional)</mat-label>
+        <input matInput formControlName="icon" maxlength="50" />
+        <mat-hint>Nombre de un icono de Material, p. ej. restaurant</mat-hint>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" [disabled]="saving()" (click)="cancel()">
+      Cancelar
+    </button>
+    <button
+      mat-flat-button
+      type="submit"
+      [disabled]="saving()"
+      [attr.aria-busy]="saving()"
+    >
+      @if (saving()) {
+        <mat-spinner diameter="18" />
+      }
+      Guardar
+    </button>
+  </mat-dialog-actions>
+</form>

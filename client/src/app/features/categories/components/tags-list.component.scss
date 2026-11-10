@@ -1,0 +1,45 @@
+.state {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 0;
+}
+
+.state--empty {
+  flex-direction: column;
+  text-align: center;
+  opacity: 0.8;
+}
+
+.state--error {
+  color: var(--mat-sys-error, #b3261e);
+}
+
+.tag-form {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.tag-name {
+  flex: 1;
+  min-width: 220px;
+}
+
+.color-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+
+  input[type='color'] {
+    width: 56px;
+    height: 40px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  }
+}

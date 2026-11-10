@@ -1,0 +1,55 @@
+@if (loading()) {
+  <div class="state state--loading" role="status">
+    <mat-spinner diameter="32" />
+    <span>Cargando etiquetas…</span>
+  </div>
+} @else if (error(); as message) {
+  <div class="state state--error" role="alert">
+    <mat-icon>error_outline</mat-icon>
+    <span>{{ message }}</span>
+    <button mat-button type="button" (click)="reload()">Reintentar</button>
+  </div>
+} @else {
+  <form class="tag-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <mat-form-field appearance="outline" class="tag-name">
+      <mat-label>Nueva etiqueta</mat-label>
+      <input matInput formControlName="name" maxlength="50" />
+      @if (form.controls.name.hasError('required') || form.controls.name.hasError('pattern')) {
+        <mat-error>El nombre es obligatorio.</mat-error>
+      }
+    </mat-form-field>
+
+    <label class="color-field">
+      <span class="color-label">Color</span>
+      <input type="color" formControlName="color" aria-label="Color de la etiqueta" />
+    </label>
+
+    <button mat-flat-button type="submit" [disabled]="saving()" [attr.aria-busy]="saving()">
+      @if (saving()) {
+        <mat-spinner diameter="18" />
+      }
+      Añadir
+    </button>
+  </form>
+
+  @if (tags().length === 0) {
+    <div class="state state--empty">
+      <mat-icon>label_off</mat-icon>
+      <p>Todavía no tienes etiquetas. Crea la primera con el formulario de arriba.</p>
+    </div>
+  } @else {
+    <mat-chip-set aria-label="Etiquetas">
+      @for (tag of tags(); track tag.id) {
+        <mat-chip-row
+          [style.--mdc-chip-container-color]="tag.color"
+          (removed)="remove(tag)"
+        >
+          {{ tag.name }}
+          <button matChipRemove [attr.aria-label]="'Eliminar etiqueta ' + tag.name">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      }
+    </mat-chip-set>
+  }
+}

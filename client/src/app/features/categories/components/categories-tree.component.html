@@ -1,0 +1,108 @@
+<section class="categories-tree">
+  <header class="section-header">
+    <p class="section-hint">
+      Organiza tus ingresos y gastos en categorías y subcategorías.
+    </p>
+    @if (categories().length > 0) {
+      <button mat-flat-button type="button" (click)="openCreate()">
+        <mat-icon>add</mat-icon>
+        Nueva categoría
+      </button>
+    }
+  </header>
+
+  @if (loading() && categories().length === 0) {
+    <div class="state-container">
+      <mat-spinner diameter="36" />
+    </div>
+  } @else if (error(); as message) {
+    <div class="state-container">
+      <mat-icon class="state-icon">error_outline</mat-icon>
+      <p>{{ message }}</p>
+      <button mat-stroked-button type="button" (click)="reload()">
+        Reintentar
+      </button>
+    </div>
+  } @else if (categories().length === 0) {
+    <div class="state-container">
+      <mat-icon class="state-icon empty-icon">category</mat-icon>
+      <h2>Aún no tienes categorías</h2>
+      <p>Crea una categoría para clasificar tus movimientos.</p>
+      <button mat-flat-button type="button" (click)="openCreate()">
+        Crea tu primera categoría
+      </button>
+    </div>
+  } @else {
+    <mat-tree
+      class="category-tree"
+      [dataSource]="dataSource"
+      [treeControl]="treeControl"
+    >
+      <mat-tree-node
+        *matTreeNodeDef="let node; when: hasChild"
+        matTreeNodePadding
+        class="tree-node"
+      >
+        <button
+          mat-icon-button
+          type="button"
+          class="toggle-button"
+          [attr.aria-label]="
+            (treeControl.isExpanded(node) ? 'Contraer ' : 'Expandir ') +
+            node.category.name
+          "
+          [attr.aria-expanded]="treeControl.isExpanded(node)"
+          (click)="toggle(node)"
+        >
+          <mat-icon>
+            {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
+          </mat-icon>
+        </button>
+        <ng-container
+          *ngTemplateOutlet="nodeContent; context: { $implicit: node }"
+        ></ng-container>
+      </mat-tree-node>
+
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding class="tree-node">
+        <span class="toggle-spacer" aria-hidden="true"></span>
+        <ng-container
+          *ngTemplateOutlet="nodeContent; context: { $implicit: node }"
+        ></ng-container>
+      </mat-tree-node>
+    </mat-tree>
+  }
+</section>
+
+<ng-template #nodeContent let-node>
+  <mat-icon
+    class="node-icon"
+    [style.color]="node.category.color"
+    aria-hidden="true"
+  >
+    {{ node.category.icon ?? "label" }}
+  </mat-icon>
+  <span class="node-name">{{ node.category.name }}</span>
+  <span
+    class="color-swatch"
+    [style.background-color]="node.category.color"
+    aria-hidden="true"
+  ></span>
+  <span class="type-badge">{{ typeLabel(node.category.type) }}</span>
+  <span class="spacer"></span>
+  <button
+    mat-icon-button
+    type="button"
+    [attr.aria-label]="'Editar ' + node.category.name"
+    (click)="openEdit(node.category)"
+  >
+    <mat-icon>edit</mat-icon>
+  </button>
+  <button
+    mat-icon-button
+    type="button"
+    [attr.aria-label]="'Eliminar ' + node.category.name"
+    (click)="remove(node.category)"
+  >
+    <mat-icon>delete</mat-icon>
+  </button>
+</ng-template>

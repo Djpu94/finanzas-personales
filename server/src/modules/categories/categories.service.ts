@@ -5,7 +5,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
-import { Connection, Model, Types } from 'mongoose';
+import type { Connection, Model } from 'mongoose';
+import { Types } from 'mongoose';
 import { isDuplicateKeyError } from '../../common/utils/is-duplicate-key-error.js';
 import { Category, CategoryDocument } from './category.schema.js';
 import {
