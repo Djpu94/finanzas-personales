@@ -1,0 +1,63 @@
+.distribution-card {
+  height: 100%;
+}
+
+.donut-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+
+.chart-frame {
+  position: relative;
+  height: 200px;
+  flex: 0 1 200px;
+}
+
+.legend {
+  flex: 1 1 200px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.legend-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+}
+
+.swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.legend-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.legend-amount {
+  font-weight: 500;
+}
+
+.legend-share {
+  color: var(--mat-sys-on-surface-variant, #5f6368);
+  min-width: 3ch;
+  text-align: right;
+}
+
+.muted {
+  color: var(--mat-sys-on-surface-variant, #5f6368);
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}

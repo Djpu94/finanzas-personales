@@ -1,0 +1,56 @@
+.recent-card {
+  height: 100%;
+}
+
+.recent-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.recent-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--mat-sys-outline-variant, #e0e0e0);
+}
+
+.recent-item:last-child {
+  border-bottom: none;
+}
+
+.recent-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.recent-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recent-amount {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.income {
+  color: var(--color-income);
+}
+
+.expense {
+  color: var(--color-expense);
+}
+
+.neutral,
+.muted {
+  color: var(--mat-sys-on-surface-variant, #5f6368);
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}

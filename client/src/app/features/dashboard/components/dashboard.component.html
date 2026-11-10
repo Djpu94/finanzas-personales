@@ -1,21 +1,112 @@
-<section class="auth-page">
-  <mat-card class="auth-card">
-    <mat-card-header>
-      <mat-card-title>Hola, {{ user()?.name }}</mat-card-title>
-    </mat-card-header>
+<section class="dashboard" aria-labelledby="dashboard-title">
+  <header class="dashboard-header">
+    <h1 id="dashboard-title">Resumen</h1>
+    <div class="month-selector">
+      <button
+        mat-icon-button
+        type="button"
+        aria-label="Mes anterior"
+        (click)="store.previousMonth()"
+      >
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <span class="month-label" aria-live="polite">{{ monthLabel() }}</span>
+      <button
+        mat-icon-button
+        type="button"
+        aria-label="Mes siguiente"
+        [disabled]="store.isCurrentMonth()"
+        (click)="store.nextMonth()"
+      >
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+  </header>
 
-    <mat-card-content>
-      <p>Panel en construcción.</p>
-      <div class="auth-actions">
-        <button
-          mat-flat-button
-          type="button"
-          [disabled]="loggingOut()"
-          (click)="logout()"
-        >
-          Cerrar sesión
+  @if (store.loading()) {
+    <mat-progress-bar
+      mode="indeterminate"
+      aria-label="Actualizando datos"
+    ></mat-progress-bar>
+  }
+
+  @if (store.error() && !store.overview()) {
+    <mat-card class="state-card" role="alert">
+      <mat-card-content>
+        <p>{{ store.error() }}</p>
+        <button mat-stroked-button type="button" (click)="store.init()">
+          Reintentar
         </button>
+      </mat-card-content>
+    </mat-card>
+  } @else if (store.totalTransactions() === 0) {
+    <mat-card class="state-card onboarding">
+      <mat-card-content>
+        <mat-icon class="onboarding-icon" aria-hidden="true"
+          >receipt_long</mat-icon
+        >
+        <h2>Aún no tienes datos</h2>
+        <p>
+          Añade tu primera transacción para ver tu patrimonio, tus ingresos y
+          tus gastos aquí.
+        </p>
+        <a mat-flat-button routerLink="/transactions"
+          >Añadir primera transacción</a
+        >
+      </mat-card-content>
+    </mat-card>
+  } @else {
+    @if (store.overview(); as overview) {
+      <app-verdict-row [overview]="overview" [currency]="store.currency()" />
+    } @else {
+      <div class="skeleton-row" aria-busy="true" aria-label="Cargando resumen">
+        <div class="skeleton skeleton-hero"></div>
+        <div class="skeleton skeleton-kpi"></div>
+        <div class="skeleton skeleton-kpi"></div>
       </div>
-    </mat-card-content>
-  </mat-card>
+    }
+
+    <div class="charts">
+      @if (store.series(); as series) {
+        <app-cash-flow-chart
+          class="zone-flow"
+          [points]="series.cashFlow"
+          [currency]="store.currency()"
+        />
+        <app-category-donut
+          class="zone-distribution"
+          [items]="series.categoryDistribution"
+          [currency]="store.currency()"
+        />
+      } @else {
+        <div class="skeleton skeleton-chart zone-flow" aria-busy="true"></div>
+        <div
+          class="skeleton skeleton-chart zone-distribution"
+          aria-busy="true"
+        ></div>
+      }
+    </div>
+
+    <div class="secondary">
+      <mat-card class="attention-card">
+        <mat-card-header>
+          <mat-card-title>Atención</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Configura tus presupuestos para ver alertas aquí.</p>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <a mat-stroked-button routerLink="/budgets">Ir a presupuestos</a>
+        </mat-card-actions>
+      </mat-card>
+
+      @if (store.totalTransactions() !== null) {
+        <app-recent-transactions
+          class="zone-recent"
+          [transactions]="store.recentTransactions()"
+          [currency]="store.currency()"
+        />
+      }
+    </div>
+  }
 </section>

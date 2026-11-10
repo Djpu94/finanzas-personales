@@ -1,0 +1,69 @@
+.verdict-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.verdict-main {
+  flex: 2 1 320px;
+}
+
+.sub-kpi {
+  flex: 1 1 180px;
+}
+
+.label {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--mat-sys-on-surface-variant, #5f6368);
+}
+
+.net-worth {
+  margin: 4px 0 8px;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.kpi-value {
+  margin: 4px 0 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.variation {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  font-weight: 500;
+}
+
+.variation mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.positive,
+.income {
+  color: var(--color-income);
+}
+
+.negative,
+.expense {
+  color: var(--color-expense);
+}
+
+.neutral {
+  color: var(--mat-sys-on-surface-variant, #5f6368);
+}
+
+.muted {
+  color: var(--mat-sys-on-surface-variant, #5f6368);
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}

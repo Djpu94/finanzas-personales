@@ -1,0 +1,39 @@
+<mat-card class="distribution-card">
+  <mat-card-header>
+    <mat-card-title>Gastos por categoría</mat-card-title>
+    <mat-card-subtitle>Distribución del mes</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    @if (slices().length === 0) {
+      <p class="muted">No hay gastos categorizados este mes.</p>
+    } @else {
+      <div class="donut-layout">
+        <div class="chart-frame">
+          <canvas
+            role="img"
+            aria-label="Gráfico de anillo con la distribución de gastos por categoría"
+            [appChartContainer]="chartConfig()"
+          ></canvas>
+        </div>
+        <ul class="legend" aria-label="Leyenda de categorías">
+          @for (slice of slices(); track slice.categoryId) {
+            <li class="legend-item">
+              <span
+                class="swatch"
+                aria-hidden="true"
+                [style.background-color]="slice.color"
+              ></span>
+              <span class="legend-name">{{ slice.name }}</span>
+              <span class="legend-amount tnum">{{
+                formatAmount(slice.total)
+              }}</span>
+              <span class="legend-share tnum">{{
+                formatShare(slice.share)
+              }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+  </mat-card-content>
+</mat-card>

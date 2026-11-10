@@ -1,0 +1,15 @@
+<mat-card class="chart-card">
+  <mat-card-header>
+    <mat-card-title>Flujo del mes</mat-card-title>
+    <mat-card-subtitle>Ingresos y gastos por día</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="chart-frame">
+      <canvas
+        role="img"
+        aria-label="Gráfico de líneas con los ingresos y gastos diarios del mes"
+        [appChartContainer]="chartConfig()"
+      ></canvas>
+    </div>
+  </mat-card-content>
+</mat-card>

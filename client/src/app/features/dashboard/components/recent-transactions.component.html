@@ -1,0 +1,32 @@
+<mat-card class="recent-card">
+  <mat-card-header>
+    <mat-card-title>En movimiento</mat-card-title>
+    <mat-card-subtitle>Últimas transacciones</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    @if (transactions().length === 0) {
+      <p class="muted">Todavía no hay movimientos.</p>
+    } @else {
+      <ul class="recent-list">
+        @for (transaction of transactions(); track transaction.id) {
+          <li class="recent-item">
+            <div class="recent-main">
+              <span class="recent-description">{{
+                transaction.description
+              }}</span>
+              <span class="muted tnum">{{
+                transaction.date | date: 'dd/MM/yyyy'
+              }}</span>
+            </div>
+            <span class="recent-amount tnum" [ngClass]="toneFor(transaction)">
+              {{ signFor(transaction) }}{{ formatAmount(transaction.amount) }}
+            </span>
+          </li>
+        }
+      </ul>
+    }
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <a mat-button routerLink="/transactions">Ver todas</a>
+  </mat-card-actions>
+</mat-card>

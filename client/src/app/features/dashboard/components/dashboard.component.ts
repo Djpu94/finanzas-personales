@@ -1,32 +1,30 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  LOCALE_ID,
+  computed,
   inject,
-  signal,
+  OnInit,
 } from '@angular/core';
-import { Router } from '@angular/router';
-import { finalize } from 'rxjs';
-import { AuthService } from '../../../core/auth.service';
+import { DashboardStoreService } from '../services/dashboard-store.service';
+import { formatMonthLabel } from '../utils/month';
 
 @Component({
   selector: 'app-dashboard',
   standalone: false,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dashboard.component.html',
-  styleUrl: '../../auth/auth.scss',
+  styleUrl: './dashboard.component.scss',
 })
-export class DashboardComponent {
-  private readonly auth = inject(AuthService);
-  private readonly router = inject(Router);
+export class DashboardComponent implements OnInit {
+  protected readonly store = inject(DashboardStoreService);
+  private readonly locale = inject(LOCALE_ID);
 
-  protected readonly user = this.auth.currentUser;
-  protected readonly loggingOut = signal(false);
+  protected readonly monthLabel = computed(() =>
+    formatMonthLabel(this.store.selectedMonth(), this.locale),
+  );
 
-  protected logout(): void {
-    this.loggingOut.set(true);
-    this.auth
-      .logout()
-      .pipe(finalize(() => void this.router.navigateByUrl('/login')))
-      .subscribe();
+  ngOnInit(): void {
+    this.store.init();
   }
 }

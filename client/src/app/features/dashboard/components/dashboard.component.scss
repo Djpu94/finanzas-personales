@@ -1,0 +1,126 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+.dashboard-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.month-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.month-label {
+  min-width: 10ch;
+  text-align: center;
+  text-transform: capitalize;
+  font-variant-numeric: tabular-nums;
+}
+
+.state-card {
+  max-width: 560px;
+}
+
+.onboarding {
+  text-align: center;
+  padding: 24px;
+}
+
+.onboarding-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: var(--mat-sys-primary, #006874);
+}
+
+.charts,
+.secondary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.zone-flow {
+  flex: 2 1 420px;
+  min-width: 0;
+}
+
+.zone-distribution {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
+.attention-card,
+.zone-recent {
+  flex: 1 1 280px;
+}
+
+.skeleton-row,
+.skeleton-chart {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.skeleton {
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    var(--mat-sys-surface-container, #eceff1) 25%,
+    var(--mat-sys-surface-container-high, #e0e5e8) 50%,
+    var(--mat-sys-surface-container, #eceff1) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.skeleton-hero {
+  flex: 2 1 320px;
+  height: 160px;
+}
+
+.skeleton-kpi {
+  flex: 1 1 180px;
+  height: 160px;
+}
+
+.skeleton-chart {
+  height: 280px;
+}
+
+.skeleton-chart.zone-flow {
+  flex: 2 1 420px;
+}
+
+.skeleton-chart.zone-distribution {
+  flex: 1 1 280px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}

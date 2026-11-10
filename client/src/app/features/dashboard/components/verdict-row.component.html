@@ -1,0 +1,33 @@
+<div class="verdict-row">
+  <mat-card class="verdict-main" appearance="raised">
+    <mat-card-content>
+      <p class="label" id="net-worth-label">Patrimonio neto</p>
+      <p class="net-worth tnum" aria-labelledby="net-worth-label">
+        {{ overview().netWorth | currencyCents: currency() }}
+      </p>
+      <p class="variation" [ngClass]="trend().tone">
+        <mat-icon aria-hidden="true">{{ trend().icon }}</mat-icon>
+        <span class="tnum">{{ variationText() }}</span>
+        <span class="muted">vs mes anterior</span>
+      </p>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="sub-kpi" appearance="outlined">
+    <mat-card-content>
+      <p class="label">Ingresos del mes</p>
+      <p class="kpi-value income tnum">
+        {{ formatAmount(overview().monthlyIncome) }}
+      </p>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="sub-kpi" appearance="outlined">
+    <mat-card-content>
+      <p class="label">Gastos del mes</p>
+      <p class="kpi-value expense tnum">
+        {{ formatAmount(overview().monthlyExpense) }}
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>
