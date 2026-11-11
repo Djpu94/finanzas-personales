@@ -14,7 +14,6 @@ import { CoreModule } from './core/core-module';
 import { authInterceptor } from './core/auth.interceptor';
 import { errorInterceptor } from './core/error.interceptor';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { BannersComponent } from './shared/components/banners.component';
@@ -30,7 +29,6 @@ registerLocaleData(localeEs);
     CoreModule,
     MatButtonModule,
     MatIconModule,
-    MatSnackBarModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable

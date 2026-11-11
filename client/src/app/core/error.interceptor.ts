@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, throwError } from 'rxjs';
+import { SnackNotifierService } from './snack-notifier.service';
 import { SILENT_HTTP_ERROR } from './silent-http-error';
 
 const SNACKBAR_DURATION_MS = 5000;
@@ -15,7 +15,7 @@ const FALLBACK_MESSAGES: Record<number, string> = {
 
 // Debe ir después de authInterceptor: el 401 ya gestionó el refresh y la sesión.
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
-  const snackBar = inject(MatSnackBar);
+  const notifier = inject(SnackNotifierService);
 
   return next(req).pipe(
     catchError((error: unknown) => {
@@ -24,7 +24,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         !req.context.get(SILENT_HTTP_ERROR) &&
         shouldNotify(error.status)
       ) {
-        snackBar.open(errorMessage(error), 'Cerrar', {
+        notifier.open(errorMessage(error), 'Cerrar', {
           duration: SNACKBAR_DURATION_MS,
         });
       }

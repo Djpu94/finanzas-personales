@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { guestGuard } from '../../core/guest.guard';
 import { LoginComponent } from './components/login.component';
 import { RegisterComponent } from './components/register.component';
@@ -35,6 +36,7 @@ const routes: Routes = [
     MatFormFieldModule,
     MatInputModule,
     MatProgressSpinnerModule,
+    MatSnackBarModule,
   ],
 })
 export class AuthModule {}

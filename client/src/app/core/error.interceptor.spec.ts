@@ -10,10 +10,10 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { errorInterceptor } from './error.interceptor';
 import { SILENT_HTTP_ERROR } from './silent-http-error';
+import { SnackNotifierService } from './snack-notifier.service';
 
 describe('errorInterceptor', () => {
   let http: HttpClient;
@@ -26,7 +26,7 @@ describe('errorInterceptor', () => {
       providers: [
         provideHttpClient(withInterceptors([errorInterceptor])),
         provideHttpClientTesting(),
-        { provide: MatSnackBar, useValue: { open } },
+        { provide: SnackNotifierService, useValue: { open } },
       ],
     });
     http = TestBed.inject(HttpClient);
