@@ -61,12 +61,14 @@
           [class.budget-card--exceeded]="item.status === 'exceeded'"
         >
           <mat-card-header>
-            <span
-              class="category-color"
-              [style.background-color]="item.color"
-              aria-hidden="true"
-            ></span>
-            <mat-card-title>{{ item.name }}</mat-card-title>
+            <mat-card-title>
+              <span
+                class="category-color"
+                [style.background-color]="item.color"
+                aria-hidden="true"
+              ></span>
+              {{ item.name }}
+            </mat-card-title>
             <mat-card-subtitle>{{ item.statusLabel }}</mat-card-subtitle>
           </mat-card-header>
 

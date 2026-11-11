@@ -30,11 +30,13 @@
       @for (account of accounts(); track account.id) {
         <mat-card class="account-card">
           <mat-card-header>
-            <mat-icon mat-card-avatar class="type-icon">
+            <mat-icon mat-card-avatar class="type-icon" aria-hidden="true">
               {{ typeIcon(account.type) }}
             </mat-icon>
-            <mat-card-title>{{ account.name }}</mat-card-title>
-            <mat-card-subtitle>{{ typeLabel(account.type) }}</mat-card-subtitle>
+            <mat-card-title class="account-name">{{ account.name }}</mat-card-title>
+            @if (typeLabel(account.type) !== account.name) {
+              <mat-card-subtitle>{{ typeLabel(account.type) }}</mat-card-subtitle>
+            }
           </mat-card-header>
 
           <mat-card-content>
