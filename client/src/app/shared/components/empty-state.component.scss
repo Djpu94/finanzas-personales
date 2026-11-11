@@ -2,42 +2,43 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 32px 16px;
+  gap: var(--space-2);
+  padding: var(--space-8) var(--space-4);
   text-align: center;
-  color: var(--mat-sys-on-surface-variant);
+  color: var(--color-text-secondary);
 
   &__icon {
-    width: 48px;
-    height: 48px;
-    font-size: 48px;
-    color: var(--mat-sys-primary);
+    width: var(--space-12);
+    height: var(--space-12);
+    font-size: var(--space-12);
+    color: var(--color-primary);
   }
 
   &__title {
-    margin: 8px 0 0;
-    font-size: 1.125rem;
+    margin: var(--space-2) 0 0;
+    font-size: var(--font-size-h3);
     font-weight: 600;
-    color: var(--mat-sys-on-surface);
+    color: var(--color-text-primary);
   }
 
   &__message {
     margin: 0;
-    max-width: 420px;
+    max-width: var(--content-narrow-width);
   }
 
-  button {
-    margin-top: 12px;
+  button,
+  a {
+    margin-top: var(--space-3);
   }
 
   &--compact {
-    padding: 16px 8px;
-    gap: 4px;
+    padding: var(--space-4) var(--space-2);
+    gap: var(--space-1);
 
     .empty-state__icon {
-      width: 32px;
-      height: 32px;
-      font-size: 32px;
+      width: var(--space-8);
+      height: var(--space-8);
+      font-size: var(--space-8);
     }
 
     .empty-state__title {

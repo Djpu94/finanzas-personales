@@ -17,6 +17,7 @@
   --font-size-h1: clamp(1.75rem, 1.4rem + 1.5vw, 2.25rem);
   --font-size-h2: clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
   --font-size-h3: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  --font-size-sm: 0.875rem;
 
   --duration-fast: 120ms;
   --duration-base: 200ms;
@@ -36,4 +37,10 @@
   --layout-content-max-width: 1200px;
   --layout-sidenav-width: 256px;
   --layout-sidenav-width-collapsed: 72px;
+  --content-narrow-width: 420px;
+
+  // Altura reservada para canvas de Chart.js: evita CLS al cargar.
+  --chart-frame-height: 280px;
+  --chart-frame-height-sm: 200px;
+  --kpi-min-height: 160px;
 }

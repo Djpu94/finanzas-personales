@@ -1,9 +1,9 @@
 .health-status {
   position: fixed;
-  right: 12px;
-  bottom: 8px;
+  right: var(--space-3);
+  bottom: var(--space-2);
   margin: 0;
-  font-size: 12px;
-  opacity: 0.7;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
   pointer-events: none;
 }

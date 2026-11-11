@@ -1,4 +1,27 @@
+@use '../../../../styles/mixins' as m;
+
+:host {
+  display: block;
+  padding: var(--space-3) var(--space-2);
+}
+
+.nav-item {
+  margin-block: var(--space-1);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--color-secondary) 8%, transparent);
+  }
+
+  @include m.focus-ring;
+}
+
 .active-link {
-  background-color: var(--mat-sys-secondary-container);
+  background-color: var(--color-secondary-container);
+  color: var(--color-on-secondary-container);
   font-weight: 600;
 }

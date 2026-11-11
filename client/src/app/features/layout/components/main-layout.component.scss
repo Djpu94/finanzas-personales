@@ -1,19 +1,56 @@
+@use '../../../../styles/mixins' as m;
+
+:host {
+  display: block;
+}
+
 .layout-container {
   height: 100vh;
 }
 
 .layout-sidenav {
-  width: 260px;
+  width: var(--layout-sidenav-width);
+  background-color: var(--color-surface-sunken);
+  border-inline-end: 1px solid var(--color-border-subtle);
+}
+
+.skip-link {
+  position: absolute;
+  inset-inline-start: var(--space-2);
+  top: var(--space-2);
+  z-index: var(--z-overlay);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  text-decoration: none;
+  transform: translateY(-200%);
+  transition: transform var(--duration-fast) var(--ease-standard);
+
+  &:focus-visible,
+  &:focus {
+    transform: none;
+  }
+}
+
+.layout-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  background-color: color-mix(in srgb, var(--color-surface) 85%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--color-border-subtle);
 }
 
 .layout-toolbar {
-  position: sticky;
-  top: 0;
-  z-index: 1;
+  background-color: transparent;
+  color: var(--color-text-primary);
+  padding-inline: var(--space-2);
+  @include m.focus-ring;
 }
 
 .app-name {
-  margin-left: 8px;
+  margin-inline-start: var(--space-2);
   font-weight: 600;
 }
 
@@ -25,19 +62,27 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: var(--mat-sys-primary-container);
-  color: var(--mat-sys-on-primary-container);
+  width: var(--space-8);
+  height: var(--space-8);
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary-container);
+  color: var(--color-on-primary-container);
   font-weight: 600;
 }
 
 .layout-content {
-  padding: 24px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--layout-content-max-width);
+  margin-inline: auto;
+  padding: var(--space-4);
+
+  @include m.bp-up(md) {
+    padding: var(--space-6);
+  }
 }
 
 .active-theme {
-  color: var(--mat-sys-primary);
+  color: var(--color-primary);
   font-weight: 600;
 }
