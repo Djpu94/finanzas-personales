@@ -4,6 +4,8 @@ node_modules/
 # Salidas de build y caches
 dist/
 coverage/
+test-results/
+playwright-report/
 .angular/
 *.tsbuildinfo
 
