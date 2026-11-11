@@ -11,6 +11,10 @@ body.dark-theme {
         primary: mat.$cyan-palette,
         tertiary: mat.$blue-palette,
       ),
+      typography: (
+        plain-family: m.$font-sans-stack,
+        brand-family: m.$font-sans-stack,
+      ),
     )
   );
   @include m.theme-roles(

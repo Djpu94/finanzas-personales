@@ -10,7 +10,10 @@ html {
         primary: mat.$cyan-palette,
         tertiary: mat.$blue-palette,
       ),
-      typography: Inter,
+      typography: (
+        plain-family: m.$font-sans-stack,
+        brand-family: m.$font-sans-stack,
+      ),
       density: 0,
     )
   );
