@@ -52,6 +52,18 @@ export interface TransactionRequest {
   notes: string | null;
 }
 
+export interface BulkTransactionError {
+  // Posición de la transacción dentro del lote enviado.
+  index: number;
+  message: string;
+}
+
+export interface BulkCreateTransactionsResponse {
+  inserted: number;
+  failed: number;
+  errors: BulkTransactionError[];
+}
+
 export interface TransactionFilters {
   // Fechas en formato yyyy-MM-dd (día local).
   from: string | null;

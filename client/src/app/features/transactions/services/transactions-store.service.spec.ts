@@ -9,6 +9,7 @@ import {
   EMPTY_TRANSACTION_FILTERS,
   Transaction,
   TransactionListQuery,
+  TransactionRequest,
 } from '../models/transaction.model';
 import { TransactionsStoreService } from './transactions-store.service';
 
@@ -28,6 +29,18 @@ const TRANSACTION = {
 } as Transaction;
 
 const OTHER = { ...TRANSACTION, id: 't2', description: 'Nómina' } as Transaction;
+
+const TRANSACTION_REQUEST: TransactionRequest = {
+  type: 'expense',
+  amount: 1250,
+  date: '2026-01-10T00:00:00.000Z',
+  description: 'Supermercado',
+  accountId: 'a1',
+  targetAccountId: null,
+  categoryId: 'c1',
+  tagIds: [],
+  notes: null,
+};
 
 const QUERY: TransactionListQuery = {
   filters: { ...EMPTY_TRANSACTION_FILTERS, type: 'expense' },
@@ -91,7 +104,7 @@ describe('TransactionsStoreService', () => {
     expect(store.total()).toBe(1);
   });
 
-  it('create recarga el listado desde el backend', () => {
+  it('create recarga el listado desde el backend', async () => {
     store.load(QUERY);
     http
       .expectOne((req) => req.url === '/api/transactions')
@@ -111,11 +124,27 @@ describe('TransactionsStoreService', () => {
       })
       .subscribe();
     http.expectOne('/api/transactions').flush(TRANSACTION);
+    // La recarga espera a invalidar la caché de listas antes de pedir al backend.
+    await new Promise((resolve) => setTimeout(resolve));
     http
       .expectOne((req) => req.url === '/api/transactions')
       .flush({ data: [TRANSACTION], total: 1, page: 2, pageSize: 10 });
 
     expect(store.transactions()).toEqual([TRANSACTION]);
+  });
+
+  it('createBulk envía el lote sin recargar el listado', () => {
+    const response = { inserted: 1, failed: 1, errors: [{ index: 1, message: 'Importe inválido' }] };
+    let result: unknown;
+    store.createBulk([TRANSACTION_REQUEST]).subscribe((value) => (result = value));
+
+    const request = http.expectOne('/api/transactions/bulk');
+    expect(request.request.method).toBe('POST');
+    expect(request.request.body).toEqual([TRANSACTION_REQUEST]);
+    request.flush(response);
+
+    expect(result).toEqual(response);
+    expect(store.transactions()).toEqual([]);
   });
 
   it('delete quita la fila y descuenta el total sin recargar', () => {

@@ -17,13 +17,20 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { SharedModule } from '../../shared/shared-module';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatStepperModule } from '@angular/material/stepper';
+import { CsvImportWizardComponent } from './components/csv-import-wizard.component';
 import { TransactionFormDialogComponent } from './components/transaction-form-dialog.component';
 import { TransactionsListComponent } from './components/transactions-list.component';
 
 const routes: Routes = [{ path: '', component: TransactionsListComponent }];
 
 @NgModule({
-  declarations: [TransactionsListComponent, TransactionFormDialogComponent],
+  declarations: [
+    TransactionsListComponent,
+    TransactionFormDialogComponent,
+    CsvImportWizardComponent,
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -31,6 +38,7 @@ const routes: Routes = [{ path: '', component: TransactionsListComponent }];
     SharedModule,
     MatButtonModule,
     MatButtonToggleModule,
+    MatCheckboxModule,
     MatChipsModule,
     MatDatepickerModule,
     MatDialogModule,
@@ -42,6 +50,7 @@ const routes: Routes = [{ path: '', component: TransactionsListComponent }];
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatSelectModule,
+    MatStepperModule,
     MatTableModule,
   ],
 })

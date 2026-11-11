@@ -3,6 +3,10 @@
     <h1 class="transactions-title">Transacciones</h1>
     <div class="header-actions">
       <app-report-export-menu [period]="exportPeriod()" />
+      <button mat-stroked-button type="button" (click)="openImport()">
+        <mat-icon>upload_file</mat-icon>
+        Importar CSV
+      </button>
       <button mat-flat-button type="button" (click)="openCreate()">
         <mat-icon>add</mat-icon>
         Nueva transacción

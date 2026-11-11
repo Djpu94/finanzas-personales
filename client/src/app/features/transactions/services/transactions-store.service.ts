@@ -1,7 +1,9 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable, finalize, tap } from 'rxjs';
 import { ApiService } from '../../../core/api.service';
+import { OfflineCacheService } from '../../../core/offline-cache.service';
 import {
+  BulkCreateTransactionsResponse,
   DEFAULT_PAGE_SIZE,
   EMPTY_TRANSACTION_FILTERS,
   Transaction,
@@ -15,6 +17,7 @@ import { toApiParams } from '../utils/transaction-query';
 @Injectable({ providedIn: 'root' })
 export class TransactionsStoreService {
   private readonly api = inject(ApiService);
+  private readonly offlineCache = inject(OfflineCacheService);
   private readonly transactionsState = signal<Transaction[]>([]);
   private readonly totalState = signal(0);
   private readonly pageState = signal(1);
@@ -47,20 +50,28 @@ export class TransactionsStoreService {
     });
   }
 
+  // No recarga la lista: el wizard de importación lo hace una vez al terminar todos los lotes.
+  createBulk(requests: TransactionRequest[]): Observable<BulkCreateTransactionsResponse> {
+    return this.api
+      .post<BulkCreateTransactionsResponse>('/transactions/bulk', requests)
+      .pipe(tap(() => void this.offlineCache.invalidateTransactions()));
+  }
+
   create(request: TransactionRequest): Observable<Transaction> {
     return this.api
       .post<Transaction>('/transactions', request)
-      .pipe(tap(() => this.reload()));
+      .pipe(tap(() => this.invalidateAndReload()));
   }
 
   // Se recarga en lugar de parchear: la transacción editada puede dejar de cumplir los filtros.
   update(id: string, request: TransactionRequest): Observable<Transaction> {
     return this.api
       .patch<Transaction>(`/transactions/${id}`, request)
-      .pipe(tap(() => this.reload()));
+      .pipe(tap(() => this.invalidateAndReload()));
   }
 
   // Quita la fila localmente; si la página queda vacía, el componente decide la página anterior.
+  // La caché de listas se invalida para que una recarga offline no muestre la fila borrada.
   delete(id: string): Observable<void> {
     return this.api.delete(`/transactions/${id}`).pipe(
       tap(() => {
@@ -68,8 +79,14 @@ export class TransactionsStoreService {
           items.filter((item) => item.id !== id),
         );
         this.totalState.update((total) => Math.max(0, total - 1));
+        void this.offlineCache.invalidateTransactions();
       }),
     );
+  }
+
+  // Tras una escritura la caché "performance" no debe servir listas anteriores.
+  private invalidateAndReload(): void {
+    void this.offlineCache.invalidateTransactions().then(() => this.reload());
   }
 
   private fetch(query: TransactionListQuery): void {

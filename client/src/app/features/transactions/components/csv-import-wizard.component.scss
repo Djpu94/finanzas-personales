@@ -1,0 +1,127 @@
+:host {
+  display: block;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 32px 16px;
+  border: 2px dashed currentColor;
+  border-radius: 12px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  opacity: 0.85;
+
+  &:hover,
+  &:focus-visible,
+  &.dropzone--active {
+    opacity: 1;
+    outline: none;
+  }
+
+  mat-icon {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.dropzone__title {
+  font-weight: 600;
+}
+
+.mapping-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.half-field {
+  flex: 1 1 200px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.type-toggle {
+  margin: 8px 0;
+}
+
+.section-title {
+  margin: 16px 0 8px;
+  font-size: 1rem;
+}
+
+.step-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.muted {
+  opacity: 0.75;
+  font-size: 0.875rem;
+}
+
+.summary {
+  margin: 8px 0;
+}
+
+.form-error,
+.error-text {
+  color: var(--mat-sys-error, #b3261e);
+}
+
+.form-error {
+  margin: 8px 0;
+}
+
+.result-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+
+  th,
+  td {
+    padding: 6px 8px;
+    text-align: left;
+    border-bottom: 1px solid rgba(127, 127, 127, 0.25);
+    vertical-align: top;
+  }
+
+  .amount {
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .income {
+    color: #2e7d32;
+  }
+
+  .row-error td {
+    background: rgba(179, 38, 30, 0.06);
+  }
+}

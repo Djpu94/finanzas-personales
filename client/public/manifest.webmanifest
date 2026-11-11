@@ -1,0 +1,37 @@
+{
+  "name": "Finanzas personales",
+  "short_name": "Finanzas",
+  "description": "Controla tus cuentas, movimientos, presupuestos y saldos.",
+  "lang": "es",
+  "display": "standalone",
+  "scope": "./",
+  "start_url": "./",
+  "background_color": "#fafdfd",
+  "theme_color": "#006874",
+  "icons": [
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/icon-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

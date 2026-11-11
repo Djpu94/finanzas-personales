@@ -1,0 +1,16 @@
+<main class="offline-page">
+  <mat-icon class="offline-page__icon" aria-hidden="true">cloud_off</mat-icon>
+  <h1>Sin conexión</h1>
+  <p>
+    No se pudo conectar con el servidor. Los saldos guardados siguen disponibles
+    si ya iniciaste sesión antes.
+  </p>
+  <button
+    mat-flat-button
+    type="button"
+    [disabled]="retrying()"
+    (click)="retry()"
+  >
+    Reintentar
+  </button>
+</main>

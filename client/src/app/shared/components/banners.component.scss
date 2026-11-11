@@ -1,0 +1,22 @@
+.banner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.banner--offline {
+  background: #ffdcc2;
+  color: #2d1600;
+}
+
+.banner--install {
+  background: #cde7ec;
+  color: #001f24;
+}
+
+.banner span {
+  flex: 1 1 auto;
+}

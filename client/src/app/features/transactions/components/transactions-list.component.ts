@@ -26,6 +26,7 @@ import {
   TransactionListQuery,
 } from '../models/transaction.model';
 import { TransactionsStoreService } from '../services/transactions-store.service';
+import { CsvImportWizardComponent } from './csv-import-wizard.component';
 import { currentMonthKey } from '../../dashboard/utils/month';
 import {
   TransactionFormData,
@@ -181,6 +182,14 @@ export class TransactionsListComponent {
 
   protected openCreate(): void {
     this.openForm(null);
+  }
+
+  protected openImport(): void {
+    this.dialog.open(CsvImportWizardComponent, {
+      width: '760px',
+      maxWidth: '95vw',
+      autoFocus: false,
+    });
   }
 
   protected openEdit(transaction: Transaction): void {
