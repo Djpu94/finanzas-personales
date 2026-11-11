@@ -2,6 +2,7 @@
 
 .distribution-card {
   height: 100%;
+  min-height: var(--chart-card-min-height);
 }
 
 .donut-layout {

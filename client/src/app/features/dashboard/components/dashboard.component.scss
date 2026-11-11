@@ -43,6 +43,10 @@
   @include tabular-nums;
 }
 
+.progress-slot {
+  height: var(--space-1);
+}
+
 .state-card {
   max-width: var(--content-narrow-width);
 }
@@ -96,7 +100,7 @@
 }
 
 .skeleton-summary {
-  min-height: var(--kpi-min-height);
+  min-height: 0;
 }
 
 .attention-list {

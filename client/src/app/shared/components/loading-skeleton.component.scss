@@ -7,6 +7,17 @@
   width: 100%;
 }
 
+// Replica la rejilla de .verdict-row para que la altura del skeleton coincida con el resumen real.
+.skeleton-host--summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+
+  @include m.bp-up(md) {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
 .skeleton {
   border-radius: var(--radius-sm);
   background: linear-gradient(
@@ -39,7 +50,22 @@
 
   &--chart {
     width: 100%;
-    height: var(--chart-frame-height);
+    height: var(--chart-card-min-height);
+  }
+
+  &--summary-main {
+    min-height: var(--verdict-main-min-height);
+  }
+
+  &--summary-sub {
+    min-height: var(--verdict-sub-min-height);
+  }
+
+  @include m.bp-up(md) {
+    &--summary-main,
+    &--summary-sub {
+      min-height: var(--verdict-md-min-height);
+    }
   }
 }
 

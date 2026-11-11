@@ -30,12 +30,14 @@
     </div>
   </header>
 
-  @if (store.loading()) {
-    <mat-progress-bar
-      mode="indeterminate"
-      aria-label="Actualizando datos"
-    ></mat-progress-bar>
-  }
+  <div class="progress-slot">
+    @if (store.loading()) {
+      <mat-progress-bar
+        mode="indeterminate"
+        aria-label="Actualizando datos"
+      ></mat-progress-bar>
+    }
+  </div>
 
   @if (store.error() && !store.overview()) {
     <mat-card class="state-card">
@@ -66,7 +68,7 @@
       </section>
     } @else {
       <app-loading-skeleton
-        variant="card"
+        variant="summary"
         label="Cargando resumen"
         class="skeleton-summary"
       />

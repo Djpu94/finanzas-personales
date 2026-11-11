@@ -5,7 +5,7 @@ import {
   input,
 } from '@angular/core';
 
-export type LoadingSkeletonVariant = 'card' | 'list' | 'chart';
+export type LoadingSkeletonVariant = 'card' | 'list' | 'chart' | 'summary';
 
 @Component({
   selector: 'app-loading-skeleton',

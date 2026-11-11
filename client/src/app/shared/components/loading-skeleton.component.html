@@ -1,5 +1,6 @@
 <div
   class="skeleton-host"
+  [class.skeleton-host--summary]="variant() === 'summary'"
   role="status"
   aria-busy="true"
   [attr.aria-label]="label()"
@@ -12,6 +13,11 @@
     }
     @case ('chart') {
       <div class="skeleton skeleton--chart"></div>
+    }
+    @case ('summary') {
+      <div class="skeleton skeleton--summary-main"></div>
+      <div class="skeleton skeleton--summary-sub"></div>
+      <div class="skeleton skeleton--summary-sub"></div>
     }
     @default {
       @for (item of items(); track item) {

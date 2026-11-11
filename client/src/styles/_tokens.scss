@@ -52,6 +52,11 @@
   // Altura reservada para canvas de Chart.js: evita CLS al cargar.
   --chart-frame-height: 280px;
   --chart-frame-height-sm: 200px;
-  --kpi-min-height: 160px;
+  // Altura total de una tarjeta de gráfico con cabecera; skeleton y tarjeta real la comparten.
+  --chart-card-min-height: 364px;
+    // Alturas medidas de .verdict-row (apilado / 3 columnas); el skeleton de resumen las replica.
+    --verdict-main-min-height: 130px;
+    --verdict-sub-min-height: 86px;
+    --verdict-md-min-height: 146px;
   --card-min-width: 260px;
 }
