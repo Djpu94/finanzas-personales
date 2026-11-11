@@ -1,3 +1,5 @@
+@use '../../../../styles/mixins' as *;
+
 .distribution-card {
   height: 100%;
 }
@@ -5,59 +7,52 @@
 .donut-layout {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: var(--space-4);
   align-items: center;
 }
 
 .chart-frame {
   position: relative;
-  height: 200px;
-  flex: 0 1 200px;
+  height: var(--chart-frame-height-sm);
+  flex: 0 1 var(--chart-frame-height-sm);
 }
 
 .legend {
-  flex: 1 1 200px;
+  flex: 1 1 var(--chart-frame-height-sm);
+  min-width: 0;
   margin: 0;
   padding: 0;
   list-style: none;
   display: grid;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .legend-item {
   display: grid;
-  grid-template-columns: auto 1fr auto auto;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
   align-items: center;
-  gap: 8px;
-  font-size: 0.875rem;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
 }
 
 .swatch {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+  width: var(--space-2);
+  height: var(--space-2);
+  border-radius: var(--radius-full);
 }
 
 .legend-name {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  @include truncate;
 }
 
 .legend-amount {
   font-weight: 500;
+  @include tabular-nums;
 }
 
 .legend-share {
-  color: var(--mat-sys-on-surface-variant, #5f6368);
   min-width: 3ch;
   text-align: right;
-}
-
-.muted {
-  color: var(--mat-sys-on-surface-variant, #5f6368);
-}
-
-.tnum {
-  font-variant-numeric: tabular-nums;
+  color: var(--color-text-secondary);
+  @include tabular-nums;
 }

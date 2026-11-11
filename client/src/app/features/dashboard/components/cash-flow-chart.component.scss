@@ -4,6 +4,6 @@
 
 .chart-frame {
   position: relative;
-  height: 280px;
+  height: var(--chart-frame-height);
   width: 100%;
 }

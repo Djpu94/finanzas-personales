@@ -1,3 +1,5 @@
+@use '../../../../styles/mixins' as *;
+
 .recent-card {
   height: 100%;
 }
@@ -12,9 +14,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--mat-sys-outline-variant, #e0e0e0);
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border-subtle);
 }
 
 .recent-item:last-child {
@@ -28,29 +30,28 @@
 }
 
 .recent-description {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  @include truncate;
 }
 
 .recent-amount {
   font-weight: 500;
   white-space: nowrap;
+  @include tabular-nums;
 }
 
 .income {
-  color: var(--color-income);
+  color: var(--color-success);
 }
 
 .expense {
-  color: var(--color-expense);
+  color: var(--color-danger);
 }
 
 .neutral,
 .muted {
-  color: var(--mat-sys-on-surface-variant, #5f6368);
+  color: var(--color-text-secondary);
 }
 
 .tnum {
-  font-variant-numeric: tabular-nums;
+  @include tabular-nums;
 }

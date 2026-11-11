@@ -57,13 +57,15 @@
     </mat-card>
   } @else {
     @if (store.overview(); as overview) {
-      <app-verdict-row [overview]="overview" [currency]="store.currency()" />
+      <section aria-label="Resumen del mes">
+        <app-verdict-row [overview]="overview" [currency]="store.currency()" />
+      </section>
     } @else {
-      <div class="skeleton-row" aria-busy="true" aria-label="Cargando resumen">
-        <div class="skeleton skeleton-hero"></div>
-        <div class="skeleton skeleton-kpi"></div>
-        <div class="skeleton skeleton-kpi"></div>
-      </div>
+      <app-loading-skeleton
+        variant="card"
+        label="Cargando resumen"
+        class="skeleton-summary"
+      />
     }
 
     <div class="charts">
@@ -79,61 +81,68 @@
           [currency]="store.currency()"
         />
       } @else {
-        <div class="skeleton skeleton-chart zone-flow" aria-busy="true"></div>
-        <div
-          class="skeleton skeleton-chart zone-distribution"
-          aria-busy="true"
-        ></div>
+        <app-loading-skeleton
+          variant="chart"
+          label="Cargando gráfico de flujo"
+          class="zone-flow"
+        />
+        <app-loading-skeleton
+          variant="chart"
+          label="Cargando distribución"
+          class="zone-distribution"
+        />
       }
     </div>
 
     <div class="secondary">
-      <mat-card class="attention-card">
-        <mat-card-header>
-          <mat-card-title>Atención</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          @if (attentionItems().length === 0) {
-            <p>No hay presupuestos al 80 % o más de su límite.</p>
-          } @else {
-            <ul class="attention-list">
-              @for (item of attentionItems(); track item.budgetId) {
-                <li
-                  class="attention-item"
-                  [class.attention-item--exceeded]="item.status === 'exceeded'"
-                >
-                  <mat-icon aria-hidden="true">{{
-                    item.status === 'exceeded' ? 'error' : 'warning_amber'
-                  }}</mat-icon>
-                  <span
-                    class="category-color"
-                    [style.background-color]="item.color"
-                    aria-hidden="true"
-                  ></span>
-                  <div class="attention-text">
-                    <strong>{{ item.name }}</strong>
-                    <span>
-                      {{ item.statusLabel }}:
-                      {{
-                        item.budget.spent | currencyCents: store.currency()
-                      }}
-                      de
-                      {{
-                        item.budget.limitAmount
-                          | currencyCents: store.currency()
-                      }}
-                      ({{ item.budget.percentage | number: '1.0-0' }}%)
-                    </span>
-                  </div>
-                </li>
-              }
-            </ul>
-          }
-        </mat-card-content>
-        <mat-card-actions align="end">
-          <a mat-stroked-button routerLink="/budgets">Ir a presupuestos</a>
-        </mat-card-actions>
-      </mat-card>
+      <section class="zone-attention" aria-labelledby="attention-title">
+        <mat-card class="attention-card">
+          <mat-card-header>
+            <h2 mat-card-title id="attention-title">Atención</h2>
+          </mat-card-header>
+          <mat-card-content>
+            @if (attentionItems().length === 0) {
+              <p>No hay presupuestos al 80 % o más de su límite.</p>
+            } @else {
+              <ul class="attention-list">
+                @for (item of attentionItems(); track item.budgetId) {
+                  <li
+                    class="attention-item"
+                    [class.attention-item--exceeded]="item.status === 'exceeded'"
+                  >
+                    <mat-icon aria-hidden="true">{{
+                      item.status === 'exceeded' ? 'error' : 'warning_amber'
+                    }}</mat-icon>
+                    <span
+                      class="category-color"
+                      [style.background-color]="item.color"
+                      aria-hidden="true"
+                    ></span>
+                    <div class="attention-text">
+                      <strong>{{ item.name }}</strong>
+                      <span>
+                        {{ item.statusLabel }}:
+                        {{
+                          item.budget.spent | currencyCents: store.currency()
+                        }}
+                        de
+                        {{
+                          item.budget.limitAmount
+                            | currencyCents: store.currency()
+                        }}
+                        ({{ item.budget.percentage | number: '1.0-0' }}%)
+                      </span>
+                    </div>
+                  </li>
+                }
+              </ul>
+            }
+          </mat-card-content>
+          <mat-card-actions align="end">
+            <a mat-stroked-button routerLink="/budgets">Ir a presupuestos</a>
+          </mat-card-actions>
+        </mat-card>
+      </section>
 
       @if (store.totalTransactions() !== null) {
         <app-recent-transactions

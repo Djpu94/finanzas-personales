@@ -1,69 +1,75 @@
+@use '../../../../styles/mixins' as *;
+
 .verdict-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+
+  @include bp-up(md) {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+  }
 }
 
-.verdict-main {
-  flex: 2 1 320px;
-}
-
+.verdict-main,
 .sub-kpi {
-  flex: 1 1 180px;
+  height: 100%;
+  min-width: 0;
 }
 
 .label {
   margin: 0;
-  font-size: 0.875rem;
-  color: var(--mat-sys-on-surface-variant, #5f6368);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
 }
 
 .net-worth {
-  margin: 4px 0 8px;
-  font-size: clamp(2rem, 5vw, 3rem);
+  margin: var(--space-1) 0 var(--space-2);
+  font-size: var(--font-size-display);
   font-weight: 600;
   line-height: 1.1;
   letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+  @include tabular-nums;
 }
 
 .kpi-value {
-  margin: 4px 0 0;
-  font-size: 1.5rem;
+  margin: var(--space-1) 0 0;
+  font-size: var(--font-size-h3);
   font-weight: 500;
+  overflow-wrap: anywhere;
+  @include tabular-nums;
 }
 
 .variation {
   display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 4px;
+  gap: var(--space-1);
   margin: 0;
   font-weight: 500;
-}
 
-.variation mat-icon {
-  font-size: 20px;
-  width: 20px;
-  height: 20px;
+  mat-icon {
+    width: var(--space-5);
+    height: var(--space-5);
+    font-size: var(--space-5);
+  }
 }
 
 .positive,
 .income {
-  color: var(--color-income);
+  color: var(--color-success);
 }
 
 .negative,
 .expense {
-  color: var(--color-expense);
+  color: var(--color-danger);
 }
 
-.neutral {
-  color: var(--mat-sys-on-surface-variant, #5f6368);
-}
-
+.neutral,
 .muted {
-  color: var(--mat-sys-on-surface-variant, #5f6368);
+  color: var(--color-text-secondary);
 }
 
 .tnum {
-  font-variant-numeric: tabular-nums;
+  @include tabular-nums;
 }

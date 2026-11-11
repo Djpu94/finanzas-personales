@@ -1,8 +1,8 @@
 <div class="verdict-row">
   <mat-card class="verdict-main" appearance="raised">
     <mat-card-content>
-      <p class="label" id="net-worth-label">Patrimonio neto</p>
-      <p class="net-worth tnum" aria-labelledby="net-worth-label">
+      <p class="label">Patrimonio neto</p>
+      <p class="net-worth tnum">
         {{ overview().netWorth | currencyCents: currency() }}
       </p>
       <p class="variation" [ngClass]="trend().tone">
