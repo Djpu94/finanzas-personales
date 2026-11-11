@@ -8,13 +8,13 @@
 }
 
 .banner--offline {
-  background: #ffdcc2;
-  color: #2d1600;
+  background: var(--color-warning-container);
+  color: var(--color-on-warning-container);
 }
 
 .banner--install {
-  background: #cde7ec;
-  color: #001f24;
+  background: var(--color-info-container);
+  color: var(--color-on-info-container);
 }
 
 .banner span {

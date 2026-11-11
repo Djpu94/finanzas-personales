@@ -7,14 +7,11 @@ import {
   input,
 } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
+import { readCssVariable } from '../../../core/css-variables';
 import { ThemeService } from '../../../core/theme.service';
 import { CashFlowPoint } from '../models/dashboard.model';
-import { readCssVariable } from '../utils/chart-helpers';
 import { formatCurrencyUnits } from '../utils/format';
 import { formatDayLabel } from '../utils/month';
-
-const INCOME_FALLBACK_COLOR = '#2e7d32';
-const EXPENSE_FALLBACK_COLOR = '#c62828';
 
 @Component({
   selector: 'app-cash-flow-chart',
@@ -36,14 +33,8 @@ export class CashFlowChartComponent {
     const points = this.points();
     const currency = this.currency();
     const locale = this.locale;
-    const incomeColor = readCssVariable(
-      '--color-income',
-      INCOME_FALLBACK_COLOR,
-    );
-    const expenseColor = readCssVariable(
-      '--color-expense',
-      EXPENSE_FALLBACK_COLOR,
-    );
+    const incomeColor = readCssVariable('--color-success');
+    const expenseColor = readCssVariable('--color-danger');
     const formatUnits = (value: number | string) =>
       formatCurrencyUnits(Number(value), currency, locale, 0);
 

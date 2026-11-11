@@ -7,6 +7,7 @@ import {
   input,
 } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
+import { ThemeService } from '../../../core/theme.service';
 import { DEFAULT_CATEGORY_COLOR } from '../../categories/models/category.model';
 import { CategoriesStoreService } from '../../categories/services/categories-store.service';
 import { CategoryTotal } from '../models/dashboard.model';
@@ -30,6 +31,7 @@ interface DistributionSlice {
 export class CategoryDonutComponent {
   private readonly locale = inject(LOCALE_ID);
   private readonly categoriesStore = inject(CategoriesStoreService);
+  private readonly theme = inject(ThemeService);
 
   readonly items = input.required<CategoryTotal[]>();
   readonly currency = input.required<string>();
@@ -58,6 +60,8 @@ export class CategoryDonutComponent {
 
   protected readonly chartConfig = computed<ChartConfiguration<'doughnut'>>(
     () => {
+      // Leer el tema recrea el chart con los colores de Chart.defaults del tema actual.
+      this.theme.resolvedTheme();
       const slices = this.slices();
       return {
         type: 'doughnut',

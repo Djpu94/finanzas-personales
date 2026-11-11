@@ -40,7 +40,11 @@
   @if (store.error() && !store.overview()) {
     <mat-card class="state-card">
       <mat-card-content>
-        <app-error-state [message]="store.error()!" (retry)="store.init()" />
+        <app-error-state
+          [message]="store.error()!"
+          [loading]="store.loading()"
+          (retry)="store.init()"
+        />
       </mat-card-content>
     </mat-card>
   } @else if (store.totalTransactions() === 0) {

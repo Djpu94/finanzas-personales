@@ -1,5 +1,9 @@
 @if (error(); as message) {
-  <app-error-state [message]="message" (retry)="reload()" />
+  <app-error-state
+    [message]="message"
+    [loading]="loading()"
+    (retry)="reload()"
+  />
 } @else {
   <form class="tag-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
     <mat-form-field appearance="outline" class="tag-name">
@@ -47,7 +51,7 @@
       title="Aún no tienes etiquetas"
       message="Las etiquetas te permiten marcar movimientos de forma flexible."
       ctaLabel="Crear la primera etiqueta"
-      compact
+      size="sm"
       (cta)="focusNameInput()"
     />
   } @else {

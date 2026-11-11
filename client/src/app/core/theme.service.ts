@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Chart } from 'chart.js';
+import { readCssVariable } from './css-variables';
 
 export type ThemePreference = 'light' | 'dark' | 'system';
 export type ResolvedTheme = 'light' | 'dark';
@@ -9,8 +10,11 @@ const THEME_STORAGE_KEY = 'theme.preference';
 const DARK_CLASS = 'dark-theme';
 const DARK_MEDIA_QUERY = '(prefers-color-scheme: dark)';
 
-// Colores de texto y rejilla de Chart.js: los canvas no heredan CSS.
-const CHART_COLORS: Record<ResolvedTheme, { text: string; grid: string }> = {
+// Respaldo solo para entornos sin hojas de estilo globales (p. ej. tests unitarios).
+const CHART_FALLBACK_COLORS: Record<
+  ResolvedTheme,
+  { text: string; grid: string }
+> = {
   light: { text: '#49454f', grid: 'rgba(0, 0, 0, 0.08)' },
   dark: { text: '#cac4d0', grid: 'rgba(255, 255, 255, 0.12)' },
 };
@@ -71,7 +75,11 @@ export class ThemeService {
     body.classList.toggle(DARK_CLASS, theme === 'dark');
     this.document.documentElement.style.colorScheme = theme;
 
-    Chart.defaults.color = CHART_COLORS[theme].text;
-    Chart.defaults.borderColor = CHART_COLORS[theme].grid;
+    // Se leen después de cambiar la clase: los tokens del tema dependen de body.dark-theme.
+    const fallback = CHART_FALLBACK_COLORS[theme];
+    Chart.defaults.color =
+      readCssVariable('--color-text-secondary') || fallback.text;
+    Chart.defaults.borderColor =
+      readCssVariable('--color-border-subtle') || fallback.grid;
   }
 }

@@ -1,4 +1,5 @@
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   input,
@@ -14,6 +15,7 @@ import {
 })
 export class ErrorStateComponent {
   readonly message = input('No se pudo cargar la información.');
+  readonly loading = input(false, { transform: booleanAttribute });
 
   readonly retry = output<void>();
 }

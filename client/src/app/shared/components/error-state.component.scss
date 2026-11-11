@@ -17,4 +17,10 @@
     margin: 0;
     color: var(--color-text-secondary);
   }
+
+  &__spinner {
+    display: inline-block;
+    vertical-align: middle;
+    margin-inline-end: var(--space-2);
+  }
 }

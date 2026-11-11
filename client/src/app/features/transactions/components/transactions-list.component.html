@@ -101,7 +101,11 @@
       label="Cargando transacciones"
     />
   } @else if (error(); as message) {
-    <app-error-state [message]="message" (retry)="reload()" />
+    <app-error-state
+      [message]="message"
+      [loading]="loading()"
+      (retry)="reload()"
+    />
   } @else if (total() === 0) {
     @if (hasFilters()) {
       <app-empty-state

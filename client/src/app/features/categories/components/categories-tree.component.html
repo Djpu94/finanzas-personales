@@ -18,7 +18,11 @@
       label="Cargando categorías"
     />
   } @else if (error(); as message) {
-    <app-error-state [message]="message" (retry)="reload()" />
+    <app-error-state
+      [message]="message"
+      [loading]="loading()"
+      (retry)="reload()"
+    />
   } @else if (categories().length === 0) {
     <app-empty-state
       icon="category"

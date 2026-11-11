@@ -1,10 +1,11 @@
 import {
-  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   input,
   output,
 } from '@angular/core';
+
+export type EmptyStateSize = 'sm' | 'md' | 'lg';
 
 @Component({
   selector: 'app-empty-state',
@@ -19,7 +20,7 @@ export class EmptyStateComponent {
   readonly message = input<string>('');
   readonly ctaLabel = input<string | null>(null);
   readonly ctaLink = input<string | null>(null);
-  readonly compact = input(false, { transform: booleanAttribute });
+  readonly size = input<EmptyStateSize>('md');
 
   readonly cta = output<void>();
 }

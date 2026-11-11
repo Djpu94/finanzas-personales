@@ -12,7 +12,11 @@
   @if (loading() && accounts().length === 0) {
     <app-loading-skeleton variant="card" label="Cargando cuentas" />
   } @else if (error(); as message) {
-    <app-error-state [message]="message" (retry)="reload()" />
+    <app-error-state
+      [message]="message"
+      [loading]="loading()"
+      (retry)="reload()"
+    />
   } @else if (accounts().length === 0) {
     <app-empty-state
       icon="account_balance_wallet"

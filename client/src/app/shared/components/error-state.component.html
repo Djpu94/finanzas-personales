@@ -3,7 +3,19 @@
     >error_outline</mat-icon
   >
   <p class="error-state__message">{{ message() }}</p>
-  <button mat-stroked-button type="button" (click)="retry.emit()">
-    Reintentar
+  <button
+    mat-stroked-button
+    type="button"
+    [disabled]="loading()"
+    [attr.aria-busy]="loading()"
+    (click)="retry.emit()"
+  >
+    @if (loading()) {
+      <mat-spinner class="error-state__spinner" diameter="18" />
+      Reintentando…
+    } @else {
+      Reintentar
+    }
   </button>
 </section>
+

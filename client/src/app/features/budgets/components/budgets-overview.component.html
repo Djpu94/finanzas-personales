@@ -37,7 +37,11 @@
   }
 
   @if (store.error(); as message) {
-    <app-error-state [message]="message" (retry)="store.load()" />
+    <app-error-state
+      [message]="message"
+      [loading]="store.loading()"
+      (retry)="store.load()"
+    />
   } @else if (store.loading() && items().length === 0) {
     <app-loading-skeleton variant="card" label="Cargando presupuestos" />
   } @else if (items().length === 0) {

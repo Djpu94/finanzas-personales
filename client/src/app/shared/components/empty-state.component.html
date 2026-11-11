@@ -1,4 +1,4 @@
-<section class="empty-state" [class.empty-state--compact]="compact()">
+<section class="empty-state" [class]="'empty-state--' + size()">
   <mat-icon class="empty-state__icon" aria-hidden="true">{{ icon() }}</mat-icon>
   <h3 class="empty-state__title">{{ title() }}</h3>
   @if (message()) {

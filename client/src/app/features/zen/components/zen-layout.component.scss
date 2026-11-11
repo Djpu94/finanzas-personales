@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: var(--mat-sys-surface, #f5f7f8);
-  color: var(--mat-sys-on-surface, inherit);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
 }
 
 .zen-header {
