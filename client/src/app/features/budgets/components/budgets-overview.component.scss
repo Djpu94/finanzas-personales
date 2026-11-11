@@ -1,7 +1,13 @@
+@use '../../../../styles/mixins' as m;
+
+:host {
+  display: block;
+}
+
 .budgets {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--space-4);
 }
 
 .budgets-header {
@@ -9,10 +15,11 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: var(--space-3);
 
   h1 {
     margin: 0;
+    font-size: var(--font-size-h2);
   }
 }
 
@@ -20,13 +27,13 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .month-selector {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--space-1);
 }
 
 .month-label {
@@ -34,47 +41,50 @@
   text-align: center;
   text-transform: capitalize;
   font-weight: 500;
+  @include m.tabular-nums;
 }
 
 .state-card {
   text-align: center;
 
   .empty-icon {
-    font-size: 48px;
-    width: 48px;
-    height: 48px;
-    color: var(--mat-sys-on-surface-variant);
+    @include m.state-icon;
   }
 }
 
 .budget-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-4);
 }
 
 .budget-card {
+  container-type: inline-size;
+
   mat-card-header {
     align-items: center;
   }
 
   .category-color {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    margin-right: 8px;
+    width: var(--space-3);
+    height: var(--space-3);
+    border-radius: var(--radius-full);
+    margin-right: var(--space-2);
     flex-shrink: 0;
   }
 
   mat-card-content {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding-top: 12px;
+    gap: var(--space-3);
+    padding-top: var(--space-3);
   }
 
+  // Texto "Gastado X de Y (Z%)": cifras tabulares y truncado en móvil.
   .amounts {
     margin: 0;
+    @include m.tabular-nums;
+    @include m.truncate;
   }
 }
 
