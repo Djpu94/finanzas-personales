@@ -125,6 +125,71 @@
       />
     }
   } @else {
+    @if (isHandset()) {
+      <ul class="tx-list" aria-label="Lista de transacciones">
+        @for (tx of transactions(); track tx.id) {
+          <li class="tx-card">
+            <div class="tx-card__main">
+              <span class="tx-card__description">{{ tx.description }}</span>
+              <span class="tx-card__meta">
+                <time [attr.datetime]="tx.date">{{
+                  tx.date | date: 'dd/MM/yyyy'
+                }}</time>
+                ·
+                @if (tx.type === 'transfer') {
+                  {{ accountName(tx.accountId) }} →
+                  {{ accountName(tx.targetAccountId) }}
+                } @else {
+                  {{ accountName(tx.accountId) }}
+                }
+              </span>
+              @if (category(tx.categoryId); as cat) {
+                <span class="category-chip" [style.--chip-color]="cat.color">{{
+                  cat.name
+                }}</span>
+              }
+            </div>
+            <div class="tx-card__side">
+              <span
+                class="amount-cell"
+                [class.amount-income]="tx.type === 'income'"
+                [class.amount-expense]="tx.type === 'expense'"
+              >
+                @switch (tx.type) {
+                  @case ('income') {
+                    +{{ tx.amount | currencyCents: currencyOf(tx.accountId) }}
+                  }
+                  @case ('expense') {
+                    −{{ tx.amount | currencyCents: currencyOf(tx.accountId) }}
+                  }
+                  @default {
+                    {{ tx.amount | currencyCents: currencyOf(tx.accountId) }}
+                  }
+                }
+              </span>
+              <div class="tx-card__actions">
+                <button
+                  mat-icon-button
+                  type="button"
+                  [attr.aria-label]="'Editar ' + tx.description"
+                  (click)="openEdit(tx)"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  type="button"
+                  [attr.aria-label]="'Eliminar ' + tx.description"
+                  (click)="delete(tx)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </li>
+        }
+      </ul>
+    } @else {
     <div class="table-wrapper">
       <table
         mat-table
@@ -222,6 +287,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
     </div>
+    }
 
     <mat-paginator
       [length]="total()"

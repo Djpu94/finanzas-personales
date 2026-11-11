@@ -9,11 +9,18 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder } from '@angular/forms';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { debounceTime, distinctUntilChanged, filter, merge } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  merge,
+} from 'rxjs';
 import { AccountsStoreService } from '../../accounts/services/accounts-store.service';
 import { CategoriesStoreService } from '../../categories/services/categories-store.service';
 import { TagsStoreService } from '../../categories/services/tags-store.service';
@@ -61,6 +68,15 @@ export class TransactionsListComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
   private readonly fb = inject(NonNullableFormBuilder);
+  private readonly breakpoints = inject(BreakpointObserver);
+
+  // Por debajo de 768px la tabla se sustituye por una lista de tarjetas.
+  protected readonly isHandset = toSignal(
+    this.breakpoints
+      .observe('(max-width: 767.98px)')
+      .pipe(map((state) => state.matches)),
+    { initialValue: false },
+  );
 
   // La URL es la fuente de verdad: los filtros y la página se leen de aquí.
   private readonly queryParams = toSignal(this.route.queryParamMap, {
