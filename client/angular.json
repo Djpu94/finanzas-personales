@@ -36,7 +36,11 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "@fontsource-variable/inter/index.css",
+              "@fontsource/material-icons/index.css",
+              "src/styles.scss"
+            ],
             "allowedCommonJsDependencies": ["papaparse"]
           },
           "configurations": {
