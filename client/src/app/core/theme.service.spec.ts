@@ -76,14 +76,15 @@ describe('ThemeService', () => {
 
   it('actualiza los colores por defecto de Chart.js según el tema', async () => {
     stubMatchMedia(false);
-    const { Chart } = await import('chart.js');
+    const { loadChartJs } = await import('./chart-loader');
     const service = createService();
 
     service.setTheme('dark');
-    await vi.waitFor(() => expect(Chart.defaults.color).toBe('#cac4d0'));
+    const { Chart } = await loadChartJs();
+    expect(Chart.defaults.color).toBe('#cac4d0');
 
     service.setTheme('light');
-    await vi.waitFor(() => expect(Chart.defaults.color).toBe('#49454f'));
+    expect(Chart.defaults.color).toBe('#49454f');
   });
 
   it('en modo "system" sigue la preferencia del SO en vivo', () => {

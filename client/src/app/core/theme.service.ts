@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { loadChartJs } from './chart-loader';
+import { setChartTheme } from './chart-loader';
 import { readCssVariable } from './css-variables';
 
 export type ThemePreference = 'light' | 'dark' | 'system';
@@ -82,13 +82,10 @@ export class ThemeService {
       readCssVariable('--color-text-secondary') || fallback.text;
     const gridColor =
       readCssVariable('--color-border-subtle') || fallback.grid;
-    void loadChartJs().then(({ Chart }) => {
-      Chart.defaults.color = textColor;
-      Chart.defaults.borderColor = gridColor;
-      // Solo se desactiva la animación; sin preferencia explícita se mantiene la de Chart.js.
-      if (this.prefersReducedMotion()) {
-        Chart.defaults.animation = false;
-      }
+    setChartTheme({
+      color: textColor,
+      borderColor: gridColor,
+      reducedMotion: this.prefersReducedMotion(),
     });
   }
 
