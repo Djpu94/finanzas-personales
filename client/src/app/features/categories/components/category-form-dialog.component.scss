@@ -1,3 +1,5 @@
+@use '../../../../styles/mixins' as m;
+
 .full-width {
   width: 100%;
 }
@@ -5,23 +7,11 @@
 .appearance-row {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: var(--space-4);
 }
 
 .color-field {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-size: 12px;
-
-  input[type='color'] {
-    width: 56px;
-    height: 40px;
-    padding: 0;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-  }
+  @include m.color-picker-field;
 }
 
 .icon-field {

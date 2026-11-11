@@ -1,9 +1,9 @@
 .categories-page {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--space-4);
 }
 
 .tab-content {
-  padding: 16px 0;
+  padding-block: var(--space-4);
 }

@@ -1,35 +1,33 @@
+@use '../../../../styles/mixins' as m;
+
+:host {
+  display: block;
+}
+
 .section-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 16px;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
 }
 
 .section-hint {
   margin: 0;
-  opacity: 0.75;
+  color: var(--color-text-secondary);
 }
 
 .state-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  padding: 48px 16px;
-  text-align: center;
+  @include m.state-block;
+  padding-block: var(--space-12);
 
   p {
-    margin: 0;
-    opacity: 0.8;
+    color: var(--color-text-secondary);
   }
 }
 
 .state-icon {
-  font-size: 48px;
-  width: 48px;
-  height: 48px;
-  opacity: 0.6;
+  @include m.state-icon;
 }
 
 .category-tree {
@@ -39,14 +37,14 @@
 .tree-node {
   display: flex;
   align-items: center;
-  gap: 8px;
-  min-height: 48px;
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  gap: var(--space-2);
+  min-height: var(--touch-target-min);
+  border-bottom: 1px solid var(--color-border-subtle);
 }
 
 .toggle-spacer {
   display: inline-block;
-  width: 40px;
+  width: var(--touch-target-min);
   flex-shrink: 0;
 }
 
@@ -60,15 +58,16 @@
 
 .color-swatch {
   display: inline-block;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
+  width: var(--space-4);
+  height: var(--space-4);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-strong);
   flex-shrink: 0;
 }
 
 .type-badge {
-  font-size: 12px;
-  opacity: 0.7;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
 }
 
 .spacer {
