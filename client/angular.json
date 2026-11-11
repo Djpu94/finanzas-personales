@@ -37,7 +37,6 @@
               }
             ],
             "styles": [
-              "@fontsource-variable/inter/index.css",
               "@fontsource/material-icons/index.css",
               "src/styles.scss"
             ],

@@ -1,4 +1,5 @@
-// Orden importante: reset y tokens primero, después temas (Material + roles), luego tipografía y utilidades.
+// Orden importante: fuentes y reset primero, luego tokens, temas (Material + roles), tipografía y utilidades.
+@use 'styles/fonts';
 @use 'styles/reset';
 @use 'styles/tokens';
 @use 'styles/themes/light';
