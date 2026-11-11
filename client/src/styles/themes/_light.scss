@@ -1,0 +1,26 @@
+@use '@angular/material' as mat;
+@use '../mixins' as m;
+
+html {
+  color-scheme: light;
+  @include mat.theme(
+    (
+      color: (
+        theme-type: light,
+        primary: mat.$cyan-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Inter,
+      density: 0,
+    )
+  );
+  @include m.theme-roles(
+    (
+      success: (#2e7d32, #c8e6c9, #0a3d12),
+      warning: (#8f5600, #ffddb3, #2b1700),
+      danger: (#c62828, #ffdad6, #410002),
+      info: (#1565c0, #d3e4ff, #001b3d),
+    )
+  );
+  --color-shadow: #000;
+}

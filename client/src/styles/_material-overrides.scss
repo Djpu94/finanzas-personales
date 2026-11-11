@@ -1,0 +1,16 @@
+// Overrides de Material mediante sus variables CSS públicas (sin ::ng-deep).
+// Los snackbars toman el color del rol semántico para mantener contraste en ambos temas.
+.snackbar-success {
+  --mdc-snackbar-container-color: var(--color-success-container);
+  --mdc-snackbar-supporting-text-color: var(--color-on-success-container);
+}
+
+.snackbar-error {
+  --mdc-snackbar-container-color: var(--color-danger-container);
+  --mdc-snackbar-supporting-text-color: var(--color-on-danger-container);
+}
+
+.snackbar-info {
+  --mdc-snackbar-container-color: var(--color-info-container);
+  --mdc-snackbar-supporting-text-color: var(--color-on-info-container);
+}

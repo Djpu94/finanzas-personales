@@ -1,0 +1,95 @@
+@use 'sass:list';
+@use 'sass:map';
+
+// Breakpoints alineados con los de CDK Layout.
+$breakpoints: (
+  sm: 600px,
+  md: 960px,
+  lg: 1280px,
+  xl: 1600px,
+);
+
+@mixin bp-up($name) {
+  @media (min-width: map.get($breakpoints, $name)) {
+    @content;
+  }
+}
+
+@mixin bp-down($name) {
+  @media (max-width: map.get($breakpoints, $name) - 1px) {
+    @content;
+  }
+}
+
+@mixin focus-ring {
+  &:focus-visible {
+    outline: var(--focus-ring-width) solid var(--color-focus);
+    outline-offset: var(--focus-ring-offset);
+  }
+}
+
+@mixin tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+@mixin card-surface {
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elevation-1);
+}
+
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin elevation($level) {
+  box-shadow: var(--elevation-#{$level});
+}
+
+// Roles de color, elevación y forma. Se incluye en cada bloque de tema
+// (html y body.dark-theme) después de mat.theme: las custom properties con var()
+// se resuelven en el elemento donde se declaran, por eso deben repetirse en ambos temas.
+// $semantic: mapa role → (base, container, on-container).
+@mixin theme-roles($semantic) {
+  --color-primary: var(--mat-sys-primary);
+  --color-on-primary: var(--mat-sys-on-primary);
+  --color-primary-container: var(--mat-sys-primary-container);
+  --color-on-primary-container: var(--mat-sys-on-primary-container);
+  --color-secondary: var(--mat-sys-secondary);
+  --color-secondary-container: var(--mat-sys-secondary-container);
+  --color-on-secondary-container: var(--mat-sys-on-secondary-container);
+  --color-surface: var(--mat-sys-surface);
+  --color-surface-elevated: var(--mat-sys-surface-container);
+  --color-surface-sunken: var(--mat-sys-surface-container-low);
+  --color-text-primary: var(--mat-sys-on-surface);
+  --color-text-secondary: var(--mat-sys-on-surface-variant);
+  --color-text-disabled: color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent);
+  --color-border-subtle: var(--mat-sys-outline-variant);
+  --color-border-strong: var(--mat-sys-outline);
+  --color-focus: var(--mat-sys-primary);
+
+  @each $role, $values in $semantic {
+    --color-#{$role}: #{list.nth($values, 1)};
+    --color-#{$role}-container: #{list.nth($values, 2)};
+    --color-on-#{$role}-container: #{list.nth($values, 3)};
+  }
+
+  // Alias heredados: los componentes existentes usan estos nombres.
+  --color-income: var(--color-success);
+  --color-expense: var(--color-danger);
+
+  --elevation-0: none;
+  --elevation-1: 0 1px 2px color-mix(in srgb, var(--color-shadow) 60%, transparent);
+  --elevation-2: 0 2px 6px color-mix(in srgb, var(--color-shadow) 70%, transparent);
+  --elevation-3: 0 6px 16px color-mix(in srgb, var(--color-shadow) 80%, transparent);
+
+  // Forma de Material alineada con los radios de tokens.
+  --mat-sys-corner-small: var(--radius-sm);
+  --mat-sys-corner-medium: var(--radius-md);
+  --mat-sys-corner-large: var(--radius-lg);
+  --mat-sys-corner-extra-large: var(--radius-xl);
+}

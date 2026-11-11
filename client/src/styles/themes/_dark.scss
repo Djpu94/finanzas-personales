@@ -1,0 +1,25 @@
+@use '@angular/material' as mat;
+@use '../mixins' as m;
+
+// Mismas paletas con tema oscuro: los componentes Material heredan las variables --mat-sys-*.
+body.dark-theme {
+  color-scheme: dark;
+  @include mat.theme(
+    (
+      color: (
+        theme-type: dark,
+        primary: mat.$cyan-palette,
+        tertiary: mat.$blue-palette,
+      ),
+    )
+  );
+  @include m.theme-roles(
+    (
+      success: (#81c784, #1b5e20, #c8e6c9),
+      warning: (#ffb74d, #5c3a00, #ffdcbe),
+      danger: (#ef9a9a, #8c1d18, #ffdad6),
+      info: (#90caf9, #0d47a1, #d1e4ff),
+    )
+  );
+  --color-shadow: #000;
+}

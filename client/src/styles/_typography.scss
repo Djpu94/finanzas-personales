@@ -1,0 +1,22 @@
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  line-height: 1.25;
+}
+
+h3 {
+  font-size: var(--font-size-h3);
+  line-height: 1.3;
+}

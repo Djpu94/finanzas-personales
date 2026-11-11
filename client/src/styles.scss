@@ -1,49 +1,8 @@
-@use '@angular/material' as mat;
-
-html {
-  color-scheme: light;
-  @include mat.theme(
-    (
-      color: (
-        theme-type: light,
-        primary: mat.$cyan-palette,
-        tertiary: mat.$blue-palette,
-      ),
-      typography: Inter,
-      density: 0,
-    )
-  );
-}
-
-// Mismas paletas con tema oscuro: los componentes Material heredan las variables --mat-sys-*.
-body.dark-theme {
-  color-scheme: dark;
-  @include mat.theme(
-    (
-      color: (
-        theme-type: dark,
-        primary: mat.$cyan-palette,
-        tertiary: mat.$blue-palette,
-      ),
-    )
-  );
-}
-
-:root {
-  --color-income: #2e7d32;
-  --color-expense: #c62828;
-  --color-warning: #8f5600;
-}
-
-body.dark-theme {
-  --color-income: #81c784;
-  --color-expense: #ef9a9a;
-  --color-warning: #ffb74d;
-}
-
-body {
-  margin: 0;
-  font-family: Inter, sans-serif;
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-}
+// Orden importante: reset y tokens primero, después temas (Material + roles), luego tipografía y utilidades.
+@use 'styles/reset';
+@use 'styles/tokens';
+@use 'styles/themes/light';
+@use 'styles/themes/dark';
+@use 'styles/typography';
+@use 'styles/utilities';
+@use 'styles/material-overrides';
