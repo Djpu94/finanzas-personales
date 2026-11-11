@@ -1,8 +1,10 @@
+@use '../../../../styles/mixins' as m;
+
 .zen-page {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 48px;
+  gap: var(--space-12);
   width: 100%;
   max-width: 720px;
   text-align: center;
@@ -12,23 +14,24 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .zen-label {
   margin: 0;
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  opacity: 0.7;
+  letter-spacing: var(--letter-spacing-caps);
+  color: var(--color-text-secondary);
 }
 
 .zen-balance {
+  @include m.tabular-nums;
+
   margin: 0;
   font-size: clamp(3rem, 14vw, 9rem);
   font-weight: 600;
   line-height: 1.1;
-  font-variant-numeric: tabular-nums;
   overflow-wrap: anywhere;
 }
 
@@ -36,17 +39,18 @@
   display: flex;
   flex-direction: column;
   margin: 0;
-  gap: 4px;
+  gap: var(--space-1);
 }
 
 .zen-next-amount {
+  @include m.tabular-nums;
+
   font-size: clamp(2rem, 7vw, 4rem);
   font-weight: 600;
-  font-variant-numeric: tabular-nums;
 }
 
 .zen-next-description {
-  font-size: 1.25rem;
+  font-size: var(--font-size-lg);
 }
 
 .zen-next--income .zen-next-amount {
@@ -60,5 +64,5 @@
 .zen-date,
 .zen-muted {
   margin: 0;
-  opacity: 0.7;
+  color: var(--color-text-secondary);
 }

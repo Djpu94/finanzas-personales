@@ -3,20 +3,20 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: var(--space-3);
   min-height: 100vh;
-  padding: 24px;
+  padding: var(--space-6);
   text-align: center;
 }
 
 .offline-page__icon {
-  font-size: 56px;
-  width: 56px;
-  height: 56px;
-  opacity: 0.7;
+  font-size: var(--icon-size-lg);
+  width: var(--icon-size-lg);
+  height: var(--icon-size-lg);
+  color: var(--color-text-secondary);
 }
 
 .offline-page p {
-  max-width: 420px;
+  max-width: var(--content-narrow-width);
   margin: 0;
 }

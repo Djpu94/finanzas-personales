@@ -40,8 +40,18 @@
   --layout-header-height: 64px;
   --content-narrow-width: 420px;
 
+  --icon-size-sm: 18px;
+  --icon-size-md: 40px;
+  --icon-size-lg: 56px;
+  --border-width-strong: 2px;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 2rem;
+  --letter-spacing-caps: 0.08em;
+
   // Altura reservada para canvas de Chart.js: evita CLS al cargar.
   --chart-frame-height: 280px;
   --chart-frame-height-sm: 200px;
   --kpi-min-height: 160px;
+  --card-min-width: 260px;
 }
