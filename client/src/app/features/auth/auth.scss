@@ -29,8 +29,8 @@
   align-self: stretch;
   flex: 1 1 50%;
   padding: var(--space-12);
-  background-color: var(--color-primary-container);
-  color: var(--color-on-primary-container);
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
 
   @include m.bp-up(md) {
     display: flex;
@@ -63,7 +63,18 @@
   }
 }
 
+.auth-card {
+  mat-card-header {
+    padding: var(--space-6) var(--space-6) 0;
+  }
+
+  mat-card-content {
+    padding: var(--space-6);
+  }
+}
+
 .auth-title {
+  margin: 0 0 var(--space-4);
   font-size: var(--font-size-h2);
   font-weight: 600;
 }
