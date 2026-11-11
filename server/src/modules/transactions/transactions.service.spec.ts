@@ -9,6 +9,7 @@ import { TransactionsService } from './transactions.service.js';
 
 type ModelMock = {
   create: Mock;
+  insertMany: Mock;
   find: Mock;
   findOne: Mock;
   findOneAndUpdate: Mock;
@@ -23,6 +24,7 @@ function execQuery(result: unknown) {
 function createModelMock(): ModelMock {
   return {
     create: vi.fn(),
+    insertMany: vi.fn(),
     find: vi.fn(),
     findOne: vi.fn(),
     findOneAndUpdate: vi.fn(),
@@ -71,6 +73,132 @@ describe('TransactionsService', () => {
       categoryModel as unknown as Model<Category>,
       tagModel as unknown as Model<Tag>,
     );
+  });
+
+  describe('createMany', () => {
+    function validRow(overrides: Record<string, unknown> = {}) {
+      return {
+        type: 'expense',
+        amount: 1250,
+        date: '2024-01-15T00:00:00.000Z',
+        description: 'Supermercado',
+        accountId: accountA,
+        categoryId,
+        tagIds: [tagId],
+        ...overrides,
+      };
+    }
+
+    function mockOwned(model: ModelMock, ids: string[]) {
+      model.find.mockReturnValue({
+        lean: vi.fn().mockReturnValue(execQuery(ids.map((id) => ({ _id: id })))),
+      });
+    }
+
+    beforeEach(() => {
+      mockOwned(accountModel, [accountA, accountB]);
+      mockOwned(categoryModel, [categoryId]);
+      mockOwned(tagModel, [tagId]);
+    });
+
+    it('rechaza un cuerpo que no es un array', async () => {
+      await expect(service.createMany(userId, { foo: 1 })).rejects.toBeInstanceOf(
+        BadRequestException,
+      );
+      expect(transactionModel.insertMany).not.toHaveBeenCalled();
+    });
+
+    it('rechaza lotes vacíos o demasiado grandes', async () => {
+      await expect(service.createMany(userId, [])).rejects.toBeInstanceOf(
+        BadRequestException,
+      );
+      const tooMany = Array.from({ length: 201 }, () => validRow());
+      await expect(service.createMany(userId, tooMany)).rejects.toBeInstanceOf(
+        BadRequestException,
+      );
+    });
+
+    it('inserta todas las filas válidas en una sola operación no ordenada', async () => {
+      transactionModel.insertMany.mockResolvedValue([{}, {}]);
+
+      const result = await service.createMany(userId, [
+        validRow(),
+        validRow({ type: 'income', categoryId: null, tagIds: [] }),
+      ]);
+
+      expect(transactionModel.insertMany).toHaveBeenCalledTimes(1);
+      expect(transactionModel.insertMany).toHaveBeenCalledWith(
+        [
+          expect.objectContaining({ userId, type: 'expense', categoryId, tagIds: [tagId] }),
+          expect.objectContaining({ userId, type: 'income', categoryId: null, tagIds: [] }),
+        ],
+        { ordered: false, throwOnValidationError: true },
+      );
+      expect(result).toEqual({ inserted: 2, failed: 0, errors: [] });
+    });
+
+    it('reporta filas inválidas con su índice sin impedir el resto', async () => {
+      transactionModel.insertMany.mockResolvedValue([{}]);
+
+      const result = await service.createMany(userId, [
+        validRow(),
+        validRow({ amount: -5 }),
+        'no es objeto',
+      ]);
+
+      expect(transactionModel.insertMany).toHaveBeenCalledWith(
+        [expect.objectContaining({ amount: 1250 })],
+        expect.anything(),
+      );
+      expect(result.inserted).toBe(1);
+      expect(result.failed).toBe(2);
+      expect(result.errors.map((error) => error.index)).toEqual([1, 2]);
+      expect(result.errors[0].message).toContain('amount');
+    });
+
+    it('marca como fallidas las filas que referencian recursos de otro usuario', async () => {
+      const foreignAccount = '665f1a2b3c4d5e6f7a8b9c99';
+      transactionModel.insertMany.mockResolvedValue([{}]);
+
+      const result = await service.createMany(userId, [
+        validRow(),
+        validRow({ accountId: foreignAccount }),
+      ]);
+
+      expect(result.errors).toEqual([
+        { index: 1, message: 'La cuenta no existe' },
+      ]);
+      expect(result.inserted).toBe(1);
+    });
+
+    it('traduce los errores de escritura de Mongo a los índices originales', async () => {
+      transactionModel.insertMany.mockRejectedValue(
+        Object.assign(new Error('bulk'), {
+          writeErrors: [{ index: 1 }],
+          insertedDocs: [{}],
+        }),
+      );
+
+      const result = await service.createMany(userId, [
+        validRow(),
+        validRow({ description: 'Falla' }),
+        validRow(),
+      ]);
+
+      expect(result.failed).toBe(1);
+      expect(result.inserted).toBe(2);
+      expect(result.errors).toEqual([
+        { index: 1, message: 'No se pudo guardar la transacción' },
+      ]);
+    });
+
+    it('relanza errores que no son de escritura masiva', async () => {
+      transactionModel.insertMany.mockRejectedValue(new Error('conexión perdida'));
+
+      await expect(service.createMany(userId, [validRow()])).rejects.toThrow(
+        'conexión perdida',
+      );
+    });
   });
 
   describe('create', () => {

@@ -13,6 +13,7 @@ import {
 import { CurrentUser } from '../../common/decorators/current-user.decorator.js';
 import { ParseObjectIdPipe } from '../../common/pipes/parse-object-id.pipe.js';
 import type { RequestUser } from '../../common/types/request-user.interface.js';
+import { BulkCreateTransactionsResponseDto } from './dto/bulk-create-transactions-response.dto.js';
 import { CreateTransactionDto } from './dto/create-transaction.dto.js';
 import { TransactionQueryDto } from './dto/transaction-query.dto.js';
 import {
@@ -40,6 +41,15 @@ export class TransactionsController {
     @Body() dto: CreateTransactionDto,
   ): Promise<TransactionResponseDto> {
     return this.transactionsService.create(user.id, dto);
+  }
+
+  // El cuerpo es un array sin tipar: cada fila se valida en el servicio para que una fila inválida no rechace el lote.
+  @Post('bulk')
+  createMany(
+    @CurrentUser() user: RequestUser,
+    @Body() rows: unknown,
+  ): Promise<BulkCreateTransactionsResponseDto> {
+    return this.transactionsService.createMany(user.id, rows);
   }
 
   @Get(':id')
