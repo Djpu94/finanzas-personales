@@ -1,0 +1,14 @@
+<section class="empty-state" [class.empty-state--compact]="compact()">
+  <mat-icon class="empty-state__icon" aria-hidden="true">{{ icon() }}</mat-icon>
+  <h2 class="empty-state__title">{{ title() }}</h2>
+  @if (message()) {
+    <p class="empty-state__message">{{ message() }}</p>
+  }
+  @if (ctaLabel() && ctaLink()) {
+    <a mat-flat-button [routerLink]="ctaLink()">{{ ctaLabel() }}</a>
+  } @else if (ctaLabel()) {
+    <button mat-flat-button type="button" (click)="cta.emit()">
+      {{ ctaLabel() }}
+    </button>
+  }
+</section>

@@ -23,6 +23,10 @@
         </button>
       </div>
       <app-report-export-menu [period]="store.selectedMonth()" />
+      <a mat-stroked-button routerLink="/zen">
+        <mat-icon>spa</mat-icon>
+        Modo Zen
+      </a>
     </div>
   </header>
 
@@ -34,28 +38,21 @@
   }
 
   @if (store.error() && !store.overview()) {
-    <mat-card class="state-card" role="alert">
+    <mat-card class="state-card">
       <mat-card-content>
-        <p>{{ store.error() }}</p>
-        <button mat-stroked-button type="button" (click)="store.init()">
-          Reintentar
-        </button>
+        <app-error-state [message]="store.error()!" (retry)="store.init()" />
       </mat-card-content>
     </mat-card>
   } @else if (store.totalTransactions() === 0) {
     <mat-card class="state-card onboarding">
       <mat-card-content>
-        <mat-icon class="onboarding-icon" aria-hidden="true"
-          >receipt_long</mat-icon
-        >
-        <h2>Aún no tienes datos</h2>
-        <p>
-          Añade tu primera transacción para ver tu patrimonio, tus ingresos y
-          tus gastos aquí.
-        </p>
-        <a mat-flat-button routerLink="/transactions"
-          >Añadir primera transacción</a
-        >
+        <app-empty-state
+          icon="receipt_long"
+          title="Aún no tienes datos"
+          message="Añade tu primera transacción para ver tu patrimonio, tus ingresos y tus gastos aquí."
+          ctaLabel="Añadir primera transacción"
+          ctaLink="/transactions"
+        />
       </mat-card-content>
     </mat-card>
   } @else {
@@ -108,12 +105,23 @@
                   <mat-icon aria-hidden="true">{{
                     item.status === 'exceeded' ? 'error' : 'warning_amber'
                   }}</mat-icon>
-                  <span class="category-color" [style.background-color]="item.color" aria-hidden="true"></span>
+                  <span
+                    class="category-color"
+                    [style.background-color]="item.color"
+                    aria-hidden="true"
+                  ></span>
                   <div class="attention-text">
                     <strong>{{ item.name }}</strong>
                     <span>
-                      {{ item.statusLabel }}: {{ item.budget.spent | currencyCents: store.currency() }}
-                      de {{ item.budget.limitAmount | currencyCents: store.currency() }}
+                      {{ item.statusLabel }}:
+                      {{
+                        item.budget.spent | currencyCents: store.currency()
+                      }}
+                      de
+                      {{
+                        item.budget.limitAmount
+                          | currencyCents: store.currency()
+                      }}
                       ({{ item.budget.percentage | number: '1.0-0' }}%)
                     </span>
                   </div>

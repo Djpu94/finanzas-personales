@@ -55,19 +55,19 @@ export class BudgetsStoreService {
 
   create(request: CreateBudgetRequest): Observable<BudgetProgress> {
     return this.api
-      .post<BudgetProgress>('/budgets', request)
+      .post<BudgetProgress>('/budgets', request, { silentErrors: true })
       .pipe(tap((budget) => this.applyChange(budget)));
   }
 
   update(id: string, request: UpdateBudgetRequest): Observable<BudgetProgress> {
     return this.api
-      .patch<BudgetProgress>(`/budgets/${id}`, request)
+      .patch<BudgetProgress>(`/budgets/${id}`, request, { silentErrors: true })
       .pipe(tap((budget) => this.applyChange(budget)));
   }
 
   remove(id: string): Observable<void> {
     return this.api
-      .delete(`/budgets/${id}`)
+      .delete(`/budgets/${id}`, { silentErrors: true })
       .pipe(
         tap(() =>
           this.budgetsState.update((budgets) =>

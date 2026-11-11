@@ -25,10 +25,16 @@
         <mat-icon aria-hidden="true">upload_file</mat-icon>
         @if (fileName()) {
           <span class="dropzone__title">{{ fileName() }}</span>
-          <span class="muted">Haz clic o arrastra otro archivo para reemplazarlo.</span>
+          <span class="muted"
+            >Haz clic o arrastra otro archivo para reemplazarlo.</span
+          >
         } @else {
-          <span class="dropzone__title">Arrastra tu extracto aquí o haz clic para elegirlo</span>
-          <span class="muted">Solo .csv · máximo 5 MB · hasta {{ maxRows }} filas</span>
+          <span class="dropzone__title"
+            >Arrastra tu extracto aquí o haz clic para elegirlo</span
+          >
+          <span class="muted"
+            >Solo .csv · máximo 5 MB · hasta {{ maxRows }} filas</span
+          >
         }
       </button>
 
@@ -37,7 +43,12 @@
       }
 
       <div class="step-actions">
-        <button mat-flat-button matStepperNext type="button" [disabled]="parsed() === null">
+        <button
+          mat-flat-button
+          matStepperNext
+          type="button"
+          [disabled]="parsed() === null"
+        >
           Siguiente
         </button>
       </div>
@@ -54,7 +65,9 @@
             <mat-label>Columna de fecha</mat-label>
             <mat-select formControlName="dateColumn">
               @for (column of columnOptions(); track column.index) {
-                <mat-option [value]="column.index">{{ column.label }}</mat-option>
+                <mat-option [value]="column.index">{{
+                  column.label
+                }}</mat-option>
               }
             </mat-select>
           </mat-form-field>
@@ -63,7 +76,9 @@
             <mat-label>Formato de fecha ambiguo</mat-label>
             <mat-select formControlName="dateOrder">
               @for (option of dateOrderOptions; track option.value) {
-                <mat-option [value]="option.value">{{ option.label }}</mat-option>
+                <mat-option [value]="option.value">{{
+                  option.label
+                }}</mat-option>
               }
             </mat-select>
           </mat-form-field>
@@ -78,9 +93,17 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-button-toggle-group formControlName="amountMode" class="type-toggle" aria-label="Formato de importe">
-          <mat-button-toggle value="single">Una columna (signo)</mat-button-toggle>
-          <mat-button-toggle value="split">Ingreso y gasto separados</mat-button-toggle>
+        <mat-button-toggle-group
+          formControlName="amountMode"
+          class="type-toggle"
+          aria-label="Formato de importe"
+        >
+          <mat-button-toggle value="single"
+            >Una columna (signo)</mat-button-toggle
+          >
+          <mat-button-toggle value="split"
+            >Ingreso y gasto separados</mat-button-toggle
+          >
         </mat-button-toggle-group>
 
         @if (mappingForm.controls.amountMode.value === 'single') {
@@ -88,7 +111,9 @@
             <mat-label>Columna de importe</mat-label>
             <mat-select formControlName="amountColumn">
               @for (column of columnOptions(); track column.index) {
-                <mat-option [value]="column.index">{{ column.label }}</mat-option>
+                <mat-option [value]="column.index">{{
+                  column.label
+                }}</mat-option>
               }
             </mat-select>
             <mat-hint>Los importes negativos se tratan como gastos.</mat-hint>
@@ -100,7 +125,9 @@
               <mat-select formControlName="incomeColumn">
                 <mat-option [value]="null">Ninguna</mat-option>
                 @for (column of columnOptions(); track column.index) {
-                  <mat-option [value]="column.index">{{ column.label }}</mat-option>
+                  <mat-option [value]="column.index">{{
+                    column.label
+                  }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
@@ -110,18 +137,25 @@
               <mat-select formControlName="expenseColumn">
                 <mat-option [value]="null">Ninguna</mat-option>
                 @for (column of columnOptions(); track column.index) {
-                  <mat-option [value]="column.index">{{ column.label }}</mat-option>
+                  <mat-option [value]="column.index">{{
+                    column.label
+                  }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
           </div>
         }
 
-        <mat-checkbox formControlName="remember">Recordar este mapeo para archivos con las mismas columnas</mat-checkbox>
+        <mat-checkbox formControlName="remember"
+          >Recordar este mapeo para archivos con las mismas
+          columnas</mat-checkbox
+        >
       </form>
 
       @if (preview().length > 0) {
-        <h3 class="section-title">Vista previa (primeras {{ preview().length }} filas)</h3>
+        <h3 class="section-title">
+          Vista previa (primeras {{ preview().length }} filas)
+        </h3>
         <table class="result-table">
           <thead>
             <tr>
@@ -139,8 +173,12 @@
                 @if (item.importRow; as importRow) {
                   <td>{{ importRow.date | date: 'dd/MM/yyyy' }}</td>
                   <td>{{ importRow.description }}</td>
-                  <td class="amount" [class.income]="importRow.type === 'income'">
-                    {{ importRow.type === 'income' ? '+' : '−' }}{{ importRow.amount / 100 | number: '1.2-2' }}
+                  <td
+                    class="amount"
+                    [class.income]="importRow.type === 'income'"
+                  >
+                    {{ importRow.type === 'income' ? '+' : '−'
+                    }}{{ importRow.amount / 100 | number: '1.2-2' }}
                   </td>
                   <td>OK</td>
                 } @else {
@@ -172,7 +210,9 @@
         <p class="summary" role="status">
           Se importaron <strong>{{ result.inserted }}</strong> transacciones.
           @if (result.failures.length > 0) {
-            <span>No se pudieron importar {{ result.failures.length }} filas.</span>
+            <span
+              >No se pudieron importar {{ result.failures.length }} filas.</span
+            >
           }
         </p>
 
@@ -201,10 +241,14 @@
               <mat-label>Cuenta por defecto</mat-label>
               <mat-select formControlName="accountId">
                 @for (account of accounts(); track account.id) {
-                  <mat-option [value]="account.id">{{ account.name }}</mat-option>
+                  <mat-option [value]="account.id">{{
+                    account.name
+                  }}</mat-option>
                 }
               </mat-select>
-              <mat-hint>Cuenta donde se registrarán todas las transacciones.</mat-hint>
+              <mat-hint
+                >Cuenta donde se registrarán todas las transacciones.</mat-hint
+              >
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="half-field">
@@ -213,7 +257,9 @@
                 <mat-option [value]="null">Sin categoría</mat-option>
                 @for (item of categoryOptions(); track item.category.id) {
                   <mat-option [value]="item.category.id">
-                    <span [style.padding-left.px]="item.depth * 16">{{ item.category.name }}</span>
+                    <span [style.padding-left.px]="item.depth * 16">{{
+                      item.category.name
+                    }}</span>
                   </mat-option>
                 }
               </mat-select>
@@ -222,9 +268,12 @@
         </form>
 
         <p class="summary">
-          <strong>{{ review().rows.length }}</strong> filas válidas listas para importar.
+          <strong>{{ review().rows.length }}</strong> filas válidas listas para
+          importar.
           @if (review().issues.length > 0) {
-            <span class="error-text">{{ review().issues.length }} filas con errores se omitirán.</span>
+            <span class="error-text"
+              >{{ review().issues.length }} filas con errores se omitirán.</span
+            >
           }
         </p>
 
@@ -248,8 +297,14 @@
         }
 
         @if (importing()) {
-          <mat-progress-bar mode="determinate" [value]="progressPercent()" aria-label="Progreso de importación" />
-          <p class="muted">Importando {{ progress() }} de {{ importTotal() }} filas…</p>
+          <mat-progress-bar
+            mode="determinate"
+            [value]="progressPercent()"
+            aria-label="Progreso de importación"
+          />
+          <p class="muted">
+            Importando {{ progress() }} de {{ importTotal() }} filas…
+          </p>
         }
 
         @if (fatalError()) {
@@ -264,9 +319,16 @@
   @if (summary()) {
     <button mat-flat-button type="button" (click)="close()">Cerrar</button>
   } @else {
-    <button mat-button type="button" [disabled]="importing()" (click)="close()">Cancelar</button>
+    <button mat-button type="button" [disabled]="importing()" (click)="close()">
+      Cancelar
+    </button>
     @if (stepper.selectedIndex === 2) {
-      <button mat-flat-button type="button" [disabled]="!canImport()" (click)="startImport()">
+      <button
+        mat-flat-button
+        type="button"
+        [disabled]="!canImport()"
+        (click)="startImport()"
+      >
         Importar
       </button>
     }

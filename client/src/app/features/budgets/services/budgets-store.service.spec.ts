@@ -5,10 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { describe, expect, it, beforeEach, afterEach } from 'vitest';
-import {
-  currentMonthKey,
-  shiftMonth,
-} from '../../dashboard/utils/month';
+import { currentMonthKey, shiftMonth } from '../../dashboard/utils/month';
 import { BudgetProgress } from '../models/budget.model';
 import { BudgetsStoreService } from './budgets-store.service';
 
@@ -44,9 +41,7 @@ describe('BudgetsStoreService', () => {
 
   function loadMonth(budgets: BudgetProgress[]): void {
     store.load();
-    http
-      .expectOne((request) => request.url === '/api/budgets')
-      .flush(budgets);
+    http.expectOne((request) => request.url === '/api/budgets').flush(budgets);
   }
 
   it('load pide los presupuestos del mes seleccionado', () => {

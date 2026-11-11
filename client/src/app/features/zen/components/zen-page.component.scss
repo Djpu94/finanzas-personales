@@ -1,0 +1,64 @@
+.zen-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  width: 100%;
+  max-width: 720px;
+  text-align: center;
+}
+
+.zen-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.zen-label {
+  margin: 0;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+
+.zen-balance {
+  margin: 0;
+  font-size: clamp(3rem, 14vw, 9rem);
+  font-weight: 600;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.zen-next {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  gap: 4px;
+}
+
+.zen-next-amount {
+  font-size: clamp(2rem, 7vw, 4rem);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.zen-next-description {
+  font-size: 1.25rem;
+}
+
+.zen-next--income .zen-next-amount {
+  color: var(--color-income);
+}
+
+.zen-next--expense .zen-next-amount {
+  color: var(--color-expense);
+}
+
+.zen-date,
+.zen-muted {
+  margin: 0;
+  opacity: 0.7;
+}

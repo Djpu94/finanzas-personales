@@ -1,0 +1,56 @@
+.skeleton-host {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.skeleton {
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    var(--mat-sys-surface-container) 25%,
+    var(--mat-sys-surface-container-high) 50%,
+    var(--mat-sys-surface-container) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+
+  &--title {
+    width: 40%;
+    height: 16px;
+  }
+
+  &--value {
+    width: 60%;
+    height: 32px;
+  }
+
+  &--line {
+    width: 80%;
+    height: 12px;
+  }
+
+  &--row {
+    height: 56px;
+  }
+
+  &--chart {
+    height: 240px;
+  }
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}

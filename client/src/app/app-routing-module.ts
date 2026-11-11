@@ -16,6 +16,12 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/layout/layout-module').then((m) => m.LayoutModule),
   },
+  {
+    path: 'zen',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./features/zen/zen-module').then((m) => m.ZenModule),
+  },
   { path: 'offline', component: OfflinePageComponent },
   { path: '**', redirectTo: 'dashboard' },
 ];

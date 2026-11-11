@@ -22,7 +22,9 @@ export class TransactionsStoreService {
   private readonly totalState = signal(0);
   private readonly pageState = signal(1);
   private readonly pageSizeState = signal(DEFAULT_PAGE_SIZE);
-  private readonly filtersState = signal<TransactionFilters>(EMPTY_TRANSACTION_FILTERS);
+  private readonly filtersState = signal<TransactionFilters>(
+    EMPTY_TRANSACTION_FILTERS,
+  );
   private latestRequestId = 0;
 
   readonly transactions = this.transactionsState.asReadonly();
@@ -51,7 +53,9 @@ export class TransactionsStoreService {
   }
 
   // No recarga la lista: el wizard de importación lo hace una vez al terminar todos los lotes.
-  createBulk(requests: TransactionRequest[]): Observable<BulkCreateTransactionsResponse> {
+  createBulk(
+    requests: TransactionRequest[],
+  ): Observable<BulkCreateTransactionsResponse> {
     return this.api
       .post<BulkCreateTransactionsResponse>('/transactions/bulk', requests)
       .pipe(tap(() => void this.offlineCache.invalidateTransactions()));
@@ -59,21 +63,23 @@ export class TransactionsStoreService {
 
   create(request: TransactionRequest): Observable<Transaction> {
     return this.api
-      .post<Transaction>('/transactions', request)
+      .post<Transaction>('/transactions', request, { silentErrors: true })
       .pipe(tap(() => this.invalidateAndReload()));
   }
 
   // Se recarga en lugar de parchear: la transacción editada puede dejar de cumplir los filtros.
   update(id: string, request: TransactionRequest): Observable<Transaction> {
     return this.api
-      .patch<Transaction>(`/transactions/${id}`, request)
+      .patch<Transaction>(`/transactions/${id}`, request, {
+        silentErrors: true,
+      })
       .pipe(tap(() => this.invalidateAndReload()));
   }
 
   // Quita la fila localmente; si la página queda vacía, el componente decide la página anterior.
   // La caché de listas se invalida para que una recarga offline no muestre la fila borrada.
   delete(id: string): Observable<void> {
-    return this.api.delete(`/transactions/${id}`).pipe(
+    return this.api.delete(`/transactions/${id}`, { silentErrors: true }).pipe(
       tap(() => {
         this.transactionsState.update((items) =>
           items.filter((item) => item.id !== id),

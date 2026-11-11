@@ -8,7 +8,10 @@ import {
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import {
+  MatTreeFlatDataSource,
+  MatTreeFlattener,
+} from '@angular/material/tree';
 import { filter } from 'rxjs';
 import { conflictErrorMessage } from '../../../shared/utils/conflict-error-message';
 import {
@@ -115,7 +118,9 @@ export class CategoriesTreeComponent {
   protected remove(category: Category): void {
     this.store.remove(category.id).subscribe({
       next: () =>
-        this.snackBar.open('Categoría eliminada.', 'Cerrar', { duration: 4000 }),
+        this.snackBar.open('Categoría eliminada.', 'Cerrar', {
+          duration: 4000,
+        }),
       error: (error: unknown) =>
         this.snackBar.open(
           conflictErrorMessage(error, 'No se pudo eliminar la categoría.'),

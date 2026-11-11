@@ -1,8 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   inject,
   signal,
+  viewChild,
 } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -22,6 +24,8 @@ export class TagsListComponent {
   private readonly snackBar = inject(MatSnackBar);
   private readonly fb = inject(NonNullableFormBuilder);
 
+  protected readonly nameInput =
+    viewChild<ElementRef<HTMLInputElement>>('nameInput');
   protected readonly tags = this.store.tags;
   protected readonly loading = this.store.loading;
   protected readonly error = this.store.error;
@@ -42,6 +46,10 @@ export class TagsListComponent {
 
   protected reload(): void {
     this.store.load();
+  }
+
+  protected focusNameInput(): void {
+    this.nameInput()?.nativeElement.focus();
   }
 
   protected submit(): void {

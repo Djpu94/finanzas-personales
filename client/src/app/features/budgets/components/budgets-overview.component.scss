@@ -82,16 +82,28 @@
   // Doble clase en el template para ganar especificidad sobre el tema de Material.
   &.budget-bar--ok {
     --mdc-linear-progress-active-indicator-color: var(--color-income);
-    --mdc-linear-progress-track-color: color-mix(in srgb, var(--color-income) 20%, transparent);
+    --mdc-linear-progress-track-color: color-mix(
+      in srgb,
+      var(--color-income) 20%,
+      transparent
+    );
   }
 
   &.budget-bar--warning {
     --mdc-linear-progress-active-indicator-color: var(--color-warning);
-    --mdc-linear-progress-track-color: color-mix(in srgb, var(--color-warning) 20%, transparent);
+    --mdc-linear-progress-track-color: color-mix(
+      in srgb,
+      var(--color-warning) 20%,
+      transparent
+    );
   }
 
   &.budget-bar--exceeded {
     --mdc-linear-progress-active-indicator-color: var(--color-expense);
-    --mdc-linear-progress-track-color: color-mix(in srgb, var(--color-expense) 20%, transparent);
+    --mdc-linear-progress-track-color: color-mix(
+      in srgb,
+      var(--color-expense) 20%,
+      transparent
+    );
   }
 }

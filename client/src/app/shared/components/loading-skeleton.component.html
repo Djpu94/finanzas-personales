@@ -1,0 +1,23 @@
+<div
+  class="skeleton-host"
+  role="status"
+  aria-busy="true"
+  [attr.aria-label]="label()"
+>
+  @switch (variant()) {
+    @case ('card') {
+      <div class="skeleton skeleton--title"></div>
+      <div class="skeleton skeleton--value"></div>
+      <div class="skeleton skeleton--line"></div>
+    }
+    @case ('chart') {
+      <div class="skeleton skeleton--chart"></div>
+    }
+    @default {
+      @for (item of items(); track item) {
+        <div class="skeleton skeleton--row"></div>
+      }
+    }
+  }
+  <span class="visually-hidden">{{ label() }}</span>
+</div>

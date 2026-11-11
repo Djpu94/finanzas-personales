@@ -60,7 +60,9 @@ export class BudgetsOverviewComponent implements OnInit {
   );
   protected readonly items = computed<BudgetCardItem[]>(() => {
     const categories = new Map(
-      this.categoriesStore.categories().map((category) => [category.id, category]),
+      this.categoriesStore
+        .categories()
+        .map((category) => [category.id, category]),
     );
     return this.store.budgets().map((budget) => {
       const category = categories.get(budget.categoryId);
@@ -96,7 +98,9 @@ export class BudgetsOverviewComponent implements OnInit {
     }
     this.store.remove(item.budget.id).subscribe({
       next: () =>
-        this.snackBar.open('Presupuesto eliminado.', 'Cerrar', { duration: 3000 }),
+        this.snackBar.open('Presupuesto eliminado.', 'Cerrar', {
+          duration: 3000,
+        }),
       error: () =>
         this.snackBar.open(
           'No se pudo eliminar el presupuesto. Inténtalo de nuevo.',

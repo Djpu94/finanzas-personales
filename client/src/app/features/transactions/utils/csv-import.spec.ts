@@ -44,32 +44,45 @@ describe('decodeCsvBytes', () => {
   });
 
   it('falls back to windows-1252 when the bytes are not valid UTF-8', () => {
-    const bytes = new Uint8Array([0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x63, 0x69, 0xf3, 0x6e]);
+    const bytes = new Uint8Array([
+      0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x63, 0x69, 0xf3, 0x6e,
+    ]);
     expect(decodeCsvBytes(bytes.buffer)).toBe('Descripción');
   });
 });
 
 describe('detectDelimiter', () => {
   it('detects semicolon, comma and tab separators', () => {
-    expect(detectDelimiter('fecha;descripcion;importe\n01/02/2024;Super;-12,50')).toBe(';');
-    expect(detectDelimiter('date,description,amount\n2024-02-01,Shop,-12.50')).toBe(',');
+    expect(
+      detectDelimiter('fecha;descripcion;importe\n01/02/2024;Super;-12,50'),
+    ).toBe(';');
+    expect(
+      detectDelimiter('date,description,amount\n2024-02-01,Shop,-12.50'),
+    ).toBe(',');
     expect(detectDelimiter('date\tdescription\n2024-02-01\tShop')).toBe('\t');
   });
 });
 
 describe('parseCsvText', () => {
   it('uses the first non-empty record as header and keeps file row numbers', () => {
-    const parsed = parseCsvText('\nfecha,desc,importe\n\n2024-01-01,Café,-3.00\n', ',');
+    const parsed = parseCsvText(
+      '\nfecha,desc,importe\n\n2024-01-01,Café,-3.00\n',
+      ',',
+    );
 
     expect(parsed.headers).toEqual(['fecha', 'desc', 'importe']);
-    expect(parsed.records).toEqual([{ row: 4, cells: ['2024-01-01', 'Café', '-3.00'] }]);
+    expect(parsed.records).toEqual([
+      { row: 4, cells: ['2024-01-01', 'Café', '-3.00'] },
+    ]);
   });
 });
 
 describe('parseDate', () => {
   it('accepts ISO dates', () => {
     expect(parseDate('2024-03-09', 'dmy')).toEqual(new Date(2024, 2, 9));
-    expect(parseDate('2024-03-09T10:00:00Z', 'mdy')).toEqual(new Date(2024, 2, 9));
+    expect(parseDate('2024-03-09T10:00:00Z', 'mdy')).toEqual(
+      new Date(2024, 2, 9),
+    );
   });
 
   it('reads slash dates in the detected order', () => {
@@ -151,7 +164,12 @@ describe('buildImportRows', () => {
       expenseColumn: 3,
     };
     const parsed = parseCsvText(
-      ['fecha,desc,ingreso,gasto', '2024-01-05,Nómina,900,', '2024-01-06,Pan,,2.30', '2024-01-07,Vacío,,'].join('\n'),
+      [
+        'fecha,desc,ingreso,gasto',
+        '2024-01-05,Nómina,900,',
+        '2024-01-06,Pan,,2.30',
+        '2024-01-07,Vacío,,',
+      ].join('\n'),
       ',',
     );
 
@@ -161,7 +179,9 @@ describe('buildImportRows', () => {
       ['income', 90000],
       ['expense', 230],
     ]);
-    expect(result.issues).toEqual([{ row: 4, message: 'Sin importe de ingreso ni de gasto' }]);
+    expect(result.issues).toEqual([
+      { row: 4, message: 'Sin importe de ingreso ni de gasto' },
+    ]);
   });
 });
 
@@ -188,11 +208,15 @@ describe('toTransactionRequest', () => {
 
 describe('headerFingerprint', () => {
   it('ignores case and surrounding spaces', () => {
-    expect(headerFingerprint(['Fecha', ' Importe '])).toBe(headerFingerprint(['fecha', 'importe']));
+    expect(headerFingerprint(['Fecha', ' Importe '])).toBe(
+      headerFingerprint(['fecha', 'importe']),
+    );
   });
 
   it('differs when the columns differ', () => {
-    expect(headerFingerprint(['fecha', 'importe'])).not.toBe(headerFingerprint(['fecha', 'monto']));
+    expect(headerFingerprint(['fecha', 'importe'])).not.toBe(
+      headerFingerprint(['fecha', 'monto']),
+    );
   });
 });
 
@@ -223,7 +247,11 @@ describe('saved mappings', () => {
 describe('guessMapping', () => {
   it('preselects columns from header names and detects the date order', () => {
     const parsed = parseCsvText(
-      ['Fecha;Concepto;Ingreso;Gasto', '25/01/2024;Nómina;900;', '03/02/2024;Pan;;2,30'].join('\n'),
+      [
+        'Fecha;Concepto;Ingreso;Gasto',
+        '25/01/2024;Nómina;900;',
+        '03/02/2024;Pan;;2,30',
+      ].join('\n'),
       ';',
     );
 
@@ -239,7 +267,10 @@ describe('guessMapping', () => {
   });
 
   it('uses a single signed amount column when one exists', () => {
-    const parsed = parseCsvText('date,description,amount\n2024-01-05,Shop,-3', ',');
+    const parsed = parseCsvText(
+      'date,description,amount\n2024-01-05,Shop,-3',
+      ',',
+    );
 
     expect(guessMapping(parsed.headers, parsed.records)).toMatchObject({
       amountMode: 'single',

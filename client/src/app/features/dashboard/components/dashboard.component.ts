@@ -48,7 +48,9 @@ export class DashboardComponent implements OnInit {
   protected readonly attentionItems = computed<AttentionItem[]>(() => {
     const alerts = this.store.overview()?.budgetAlerts ?? [];
     const categories = new Map(
-      this.categoriesStore.categories().map((category) => [category.id, category]),
+      this.categoriesStore
+        .categories()
+        .map((category) => [category.id, category]),
     );
     return alerts.flatMap((alert) => {
       const status = budgetStatus(alert.percentage);

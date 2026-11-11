@@ -99,7 +99,8 @@ function readMapping(value: MappingFormValue): CsvMapping | null {
   styleUrl: './csv-import-wizard.component.scss',
 })
 export class CsvImportWizardComponent {
-  private readonly dialogRef = inject<MatDialogRef<CsvImportWizardComponent, number>>(MatDialogRef);
+  private readonly dialogRef =
+    inject<MatDialogRef<CsvImportWizardComponent, number>>(MatDialogRef);
   private readonly transactionsStore = inject(TransactionsStoreService);
   private readonly accountsStore = inject(AccountsStoreService);
   private readonly categoriesStore = inject(CategoriesStoreService);
@@ -107,7 +108,10 @@ export class CsvImportWizardComponent {
   private readonly destroyRef = inject(DestroyRef);
 
   protected readonly maxRows = CSV_MAX_ROWS;
-  protected readonly dateOrderOptions: readonly { value: DateOrder; label: string }[] = [
+  protected readonly dateOrderOptions: readonly {
+    value: DateOrder;
+    label: string;
+  }[] = [
     { value: 'dmy', label: 'Día / Mes / Año' },
     { value: 'mdy', label: 'Mes / Día / Año' },
   ];
@@ -141,11 +145,15 @@ export class CsvImportWizardComponent {
   });
 
   private readonly mappingValue = toSignal(
-    this.mappingForm.valueChanges.pipe(map(() => this.mappingForm.getRawValue())),
+    this.mappingForm.valueChanges.pipe(
+      map(() => this.mappingForm.getRawValue()),
+    ),
     { initialValue: this.mappingForm.getRawValue() },
   );
   private readonly destinationValue = toSignal(
-    this.destinationForm.valueChanges.pipe(map(() => this.destinationForm.getRawValue())),
+    this.destinationForm.valueChanges.pipe(
+      map(() => this.destinationForm.getRawValue()),
+    ),
     { initialValue: this.destinationForm.getRawValue() },
   );
 
@@ -179,10 +187,15 @@ export class CsvImportWizardComponent {
     });
   });
 
-  protected readonly review = computed<{ rows: ImportRow[]; issues: ImportIssue[] }>(() => {
+  protected readonly review = computed<{
+    rows: ImportRow[];
+    issues: ImportIssue[];
+  }>(() => {
     const parsed = this.parsed();
     const mapping = this.mapping();
-    return parsed && mapping ? buildImportRows(parsed.records, mapping) : { rows: [], issues: [] };
+    return parsed && mapping
+      ? buildImportRows(parsed.records, mapping)
+      : { rows: [], issues: [] };
   });
 
   protected readonly progressPercent = computed(() => {
@@ -243,7 +256,10 @@ export class CsvImportWizardComponent {
 
     let inserted = 0;
     let processed = 0;
-    const failures: ImportFailure[] = issues.map((issue) => ({ row: issue.row, message: issue.message }));
+    const failures: ImportFailure[] = issues.map((issue) => ({
+      row: issue.row,
+      message: issue.message,
+    }));
 
     this.importing.set(true);
     this.importTotal.set(rows.length);
@@ -255,7 +271,11 @@ export class CsvImportWizardComponent {
       .pipe(
         concatMap((group) =>
           this.transactionsStore
-            .createBulk(group.map((row) => toTransactionRequest(row, accountId, categoryId)))
+            .createBulk(
+              group.map((row) =>
+                toTransactionRequest(row, accountId, categoryId),
+              ),
+            )
             .pipe(map((response) => ({ group, response }))),
         ),
         takeUntilDestroyed(this.destroyRef),
@@ -264,7 +284,10 @@ export class CsvImportWizardComponent {
         next: ({ group, response }) => {
           inserted += response.inserted;
           for (const error of response.errors) {
-            failures.push({ row: group[error.index]?.row ?? 0, message: error.message });
+            failures.push({
+              row: group[error.index]?.row ?? 0,
+              message: error.message,
+            });
           }
           processed += group.length;
           this.progress.set(processed);
@@ -286,7 +309,10 @@ export class CsvImportWizardComponent {
   private finishImport(inserted: number, failures: ImportFailure[]): void {
     this.importing.set(false);
     this.dialogRef.disableClose = false;
-    this.summary.set({ inserted, failures: failures.sort((a, b) => a.row - b.row) });
+    this.summary.set({
+      inserted,
+      failures: failures.sort((a, b) => a.row - b.row),
+    });
     if (inserted > 0) {
       this.transactionsStore.reload();
     }
@@ -308,7 +334,9 @@ export class CsvImportWizardComponent {
     const text = decodeCsvBytes(await file.arrayBuffer());
     const parsed = parseCsvText(text, detectDelimiter(text));
     if (parsed.headers.length < 2) {
-      this.failUpload('No se detectaron columnas. Revisa que el archivo use un separador válido.');
+      this.failUpload(
+        'No se detectaron columnas. Revisa que el archivo use un separador válido.',
+      );
       return;
     }
     if (parsed.records.length === 0) {
@@ -336,7 +364,9 @@ export class CsvImportWizardComponent {
     const saved = loadSavedMapping(headerFingerprint(parsed.headers));
     if (saved && isMappingCompatible(saved, parsed.headers.length)) {
       this.mappingForm.patchValue(saved);
-      this.mappingNotice.set('Se reutilizó el mapeo guardado para estas columnas.');
+      this.mappingNotice.set(
+        'Se reutilizó el mapeo guardado para estas columnas.',
+      );
       return;
     }
     this.mappingForm.patchValue(guessMapping(parsed.headers, parsed.records));

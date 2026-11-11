@@ -12,26 +12,21 @@
   </header>
 
   @if (loading() && categories().length === 0) {
-    <div class="state-container">
-      <mat-spinner diameter="36" />
-    </div>
+    <app-loading-skeleton
+      variant="list"
+      [rows]="4"
+      label="Cargando categorías"
+    />
   } @else if (error(); as message) {
-    <div class="state-container">
-      <mat-icon class="state-icon">error_outline</mat-icon>
-      <p>{{ message }}</p>
-      <button mat-stroked-button type="button" (click)="reload()">
-        Reintentar
-      </button>
-    </div>
+    <app-error-state [message]="message" (retry)="reload()" />
   } @else if (categories().length === 0) {
-    <div class="state-container">
-      <mat-icon class="state-icon empty-icon">category</mat-icon>
-      <h2>Aún no tienes categorías</h2>
-      <p>Crea una categoría para clasificar tus movimientos.</p>
-      <button mat-flat-button type="button" (click)="openCreate()">
-        Crea tu primera categoría
-      </button>
-    </div>
+    <app-empty-state
+      icon="category"
+      title="Aún no tienes categorías"
+      message="Crea una categoría para clasificar tus movimientos."
+      ctaLabel="Crea tu primera categoría"
+      (cta)="openCreate()"
+    />
   } @else {
     <mat-tree
       class="category-tree"
@@ -55,7 +50,7 @@
           (click)="toggle(node)"
         >
           <mat-icon>
-            {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
+            {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
           </mat-icon>
         </button>
         <ng-container
@@ -63,7 +58,11 @@
         ></ng-container>
       </mat-tree-node>
 
-      <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding class="tree-node">
+      <mat-tree-node
+        *matTreeNodeDef="let node"
+        matTreeNodePadding
+        class="tree-node"
+      >
         <span class="toggle-spacer" aria-hidden="true"></span>
         <ng-container
           *ngTemplateOutlet="nodeContent; context: { $implicit: node }"
@@ -79,7 +78,7 @@
     [style.color]="node.category.color"
     aria-hidden="true"
   >
-    {{ node.category.icon ?? "label" }}
+    {{ node.category.icon ?? 'label' }}
   </mat-icon>
   <span class="node-name">{{ node.category.name }}</span>
   <span

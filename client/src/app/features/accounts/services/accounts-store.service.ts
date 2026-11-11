@@ -30,7 +30,7 @@ export class AccountsStoreService {
 
   create(request: CreateAccountRequest): Observable<Account> {
     return this.api
-      .post<Account>('/accounts', request)
+      .post<Account>('/accounts', request, { silentErrors: true })
       .pipe(
         tap((account) =>
           this.accountsState.update((accounts) => [...accounts, account]),
@@ -40,7 +40,7 @@ export class AccountsStoreService {
 
   update(id: string, request: UpdateAccountRequest): Observable<Account> {
     return this.api
-      .patch<Account>(`/accounts/${id}`, request)
+      .patch<Account>(`/accounts/${id}`, request, { silentErrors: true })
       .pipe(
         tap((updated) =>
           this.accountsState.update((accounts) =>
@@ -52,7 +52,7 @@ export class AccountsStoreService {
 
   archive(id: string): Observable<void> {
     return this.api
-      .delete(`/accounts/${id}`)
+      .delete(`/accounts/${id}`, { silentErrors: true })
       .pipe(
         tap(() =>
           this.accountsState.update((accounts) =>

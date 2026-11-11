@@ -1,5 +1,8 @@
 import Papa from 'papaparse';
-import { TransactionRequest, TransactionType } from '../models/transaction.model';
+import {
+  TransactionRequest,
+  TransactionType,
+} from '../models/transaction.model';
 import { toStartOfLocalDayIso } from './transaction-query';
 
 export const CSV_MAX_BYTES = 5 * 1024 * 1024;
@@ -76,9 +79,10 @@ export function detectDelimiter(text: string): string {
   let bestScore = 0;
 
   for (const delimiter of DELIMITER_CANDIDATES) {
-    const widths = Papa.parse<string[]>(sample, { delimiter, skipEmptyLines: true }).data.map(
-      (cells) => cells.length,
-    );
+    const widths = Papa.parse<string[]>(sample, {
+      delimiter,
+      skipEmptyLines: true,
+    }).data.map((cells) => cells.length);
     const counts = new Map<number, number>();
     for (const width of widths) {
       counts.set(width, (counts.get(width) ?? 0) + 1);
@@ -94,7 +98,10 @@ export function detectDelimiter(text: string): string {
 }
 
 export function parseCsvText(text: string, delimiter: string): ParsedCsv {
-  const records = Papa.parse<string[]>(text, { delimiter, skipEmptyLines: false }).data;
+  const records = Papa.parse<string[]>(text, {
+    delimiter,
+    skipEmptyLines: false,
+  }).data;
   const headerIndex = records.findIndex(hasContent);
   if (headerIndex === -1) {
     return { delimiter, headers: [], records: [] };
@@ -165,10 +172,14 @@ export function parseAmount(raw: string): number | null {
   if (!/\d/.test(value)) {
     return null;
   }
-  const negative = value.includes('-') || (value.startsWith('(') && value.endsWith(')'));
+  const negative =
+    value.includes('-') || (value.startsWith('(') && value.endsWith(')'));
   const digits = value.replace(/[^\d.,]/g, '');
 
-  const lastSeparator = Math.max(digits.lastIndexOf(','), digits.lastIndexOf('.'));
+  const lastSeparator = Math.max(
+    digits.lastIndexOf(','),
+    digits.lastIndexOf('.'),
+  );
   let normalized: string;
   if (lastSeparator === -1) {
     normalized = digits;
@@ -224,7 +235,10 @@ export function toTransactionRequest(
   };
 }
 
-export function isMappingCompatible(mapping: CsvMapping, columnCount: number): boolean {
+export function isMappingCompatible(
+  mapping: CsvMapping,
+  columnCount: number,
+): boolean {
   const columns = [
     mapping.dateColumn,
     mapping.descriptionColumn,
@@ -233,7 +247,9 @@ export function isMappingCompatible(mapping: CsvMapping, columnCount: number): b
     mapping.expenseColumn,
   ];
   return columns.every(
-    (column) => column === null || (Number.isInteger(column) && column >= 0 && column < columnCount),
+    (column) =>
+      column === null ||
+      (Number.isInteger(column) && column >= 0 && column < columnCount),
   );
 }
 
@@ -267,18 +283,28 @@ const HEADER_HINTS = {
 };
 
 // Preselección a partir de los nombres de columna; el usuario puede corregirla.
-export function guessMapping(headers: readonly string[], records: readonly CsvRecord[]): CsvMapping {
-  const find = (pattern: RegExp, exclude: number | null = null): number | null => {
-    const index = headers.findIndex((header, position) => position !== exclude && pattern.test(header));
+export function guessMapping(
+  headers: readonly string[],
+  records: readonly CsvRecord[],
+): CsvMapping {
+  const find = (
+    pattern: RegExp,
+    exclude: number | null = null,
+  ): number | null => {
+    const index = headers.findIndex(
+      (header, position) => position !== exclude && pattern.test(header),
+    );
     return index === -1 ? null : index;
   };
 
   const dateColumn = find(HEADER_HINTS.date) ?? 0;
-  const descriptionColumn = find(HEADER_HINTS.description, dateColumn) ?? (dateColumn === 0 ? 1 : 0);
+  const descriptionColumn =
+    find(HEADER_HINTS.description, dateColumn) ?? (dateColumn === 0 ? 1 : 0);
   const amountColumn = find(HEADER_HINTS.amount);
   const incomeColumn = find(HEADER_HINTS.income);
   const expenseColumn = find(HEADER_HINTS.expense);
-  const split = amountColumn === null && (incomeColumn !== null || expenseColumn !== null);
+  const split =
+    amountColumn === null && (incomeColumn !== null || expenseColumn !== null);
 
   return {
     dateColumn,
@@ -287,7 +313,9 @@ export function guessMapping(headers: readonly string[], records: readonly CsvRe
     amountColumn: split ? null : amountColumn,
     incomeColumn: split ? incomeColumn : null,
     expenseColumn: split ? expenseColumn : null,
-    dateOrder: detectDateOrder(records.map((record) => record.cells[dateColumn] ?? '')),
+    dateOrder: detectDateOrder(
+      records.map((record) => record.cells[dateColumn] ?? ''),
+    ),
   };
 }
 
@@ -299,7 +327,10 @@ export function chunk<T>(items: readonly T[], size: number): T[][] {
   return groups;
 }
 
-function buildImportRow(record: CsvRecord, mapping: CsvMapping): ImportRow | ImportIssue {
+function buildImportRow(
+  record: CsvRecord,
+  mapping: CsvMapping,
+): ImportRow | ImportIssue {
   const fail = (message: string): ImportIssue => ({ row: record.row, message });
   const cell = (column: number | null): string =>
     column === null ? '' : (record.cells[column] ?? '').trim();
@@ -315,17 +346,29 @@ function buildImportRow(record: CsvRecord, mapping: CsvMapping): ImportRow | Imp
     return fail('Descripción vacía');
   }
   if (description.length > DESCRIPTION_MAX_LENGTH) {
-    return fail(`Descripción demasiado larga (máximo ${DESCRIPTION_MAX_LENGTH} caracteres)`);
+    return fail(
+      `Descripción demasiado larga (máximo ${DESCRIPTION_MAX_LENGTH} caracteres)`,
+    );
   }
 
-  const amount = mapping.amountMode === 'single'
-    ? readSingleAmount(cell(mapping.amountColumn))
-    : readSplitAmount(cell(mapping.incomeColumn), cell(mapping.expenseColumn));
+  const amount =
+    mapping.amountMode === 'single'
+      ? readSingleAmount(cell(mapping.amountColumn))
+      : readSplitAmount(
+          cell(mapping.incomeColumn),
+          cell(mapping.expenseColumn),
+        );
   if (typeof amount === 'string') {
     return fail(amount);
   }
 
-  return { row: record.row, date, description, amount: Math.abs(amount.signed), type: amount.type };
+  return {
+    row: record.row,
+    date,
+    description,
+    amount: Math.abs(amount.signed),
+    type: amount.type,
+  };
 }
 
 function readSingleAmount(
@@ -367,7 +410,9 @@ function readSplitAmount(
 function buildLocalDate(year: number, month: number, day: number): Date | null {
   const date = new Date(year, month - 1, day);
   const isSameDay =
-    date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day;
+    date.getFullYear() === year &&
+    date.getMonth() === month - 1 &&
+    date.getDate() === day;
   return isSameDay ? date : null;
 }
 

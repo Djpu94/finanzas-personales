@@ -1,0 +1,9 @@
+<section class="error-state" role="alert">
+  <mat-icon class="error-state__icon" aria-hidden="true"
+    >error_outline</mat-icon
+  >
+  <p class="error-state__message">{{ message() }}</p>
+  <button mat-stroked-button type="button" (click)="retry.emit()">
+    Reintentar
+  </button>
+</section>

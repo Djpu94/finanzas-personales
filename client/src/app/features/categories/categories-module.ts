@@ -16,6 +16,7 @@ import { CategoriesPageComponent } from './components/categories-page.component'
 import { CategoriesTreeComponent } from './components/categories-tree.component';
 import { CategoryFormDialogComponent } from './components/category-form-dialog.component';
 import { TagsListComponent } from './components/tags-list.component';
+import { SharedModule } from '../../shared/shared-module';
 
 const routes: Routes = [{ path: '', component: CategoriesPageComponent }];
 
@@ -30,6 +31,7 @@ const routes: Routes = [{ path: '', component: CategoriesPageComponent }];
     CommonModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
+    SharedModule,
     MatButtonModule,
     MatChipsModule,
     MatDialogModule,

@@ -40,7 +40,9 @@ export class CategoryFormDialogComponent {
 
   private readonly editing = this.data.category;
 
-  protected readonly title = this.editing ? 'Editar categoría' : 'Nueva categoría';
+  protected readonly title = this.editing
+    ? 'Editar categoría'
+    : 'Nueva categoría';
   protected readonly typeOptions = CATEGORY_TYPE_OPTIONS;
   // Excluye la propia categoría y sus descendientes para evitar ciclos.
   protected readonly parentOptions = this.store.parentOptionsFor(
@@ -61,9 +63,7 @@ export class CategoryFormDialogComponent {
       Validators.required,
       Validators.pattern(HEX_COLOR_PATTERN),
     ]),
-    icon: this.fb.control(this.editing?.icon ?? '', [
-      Validators.maxLength(50),
-    ]),
+    icon: this.fb.control(this.editing?.icon ?? '', [Validators.maxLength(50)]),
   });
 
   protected submit(): void {

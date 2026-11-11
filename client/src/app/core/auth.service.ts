@@ -32,12 +32,14 @@ export class AuthService {
   }
 
   register(request: RegisterRequest): Observable<User> {
-    return this.api.post<User>('/auth/register', request);
+    return this.api.post<User>('/auth/register', request, {
+      silentErrors: true,
+    });
   }
 
   login(request: LoginRequest): Observable<User> {
     return this.api
-      .post<User>('/auth/login', request)
+      .post<User>('/auth/login', request, { silentErrors: true })
       .pipe(tap((user) => this.setUser(user)));
   }
 
@@ -49,10 +51,12 @@ export class AuthService {
 
   // Las peticiones concurrentes que reciban 401 comparten un único refresh.
   refresh(): Observable<void> {
-    this.refreshRequest ??= this.api.post<void>('/auth/refresh').pipe(
-      finalize(() => (this.refreshRequest = null)),
-      share(),
-    );
+    this.refreshRequest ??= this.api
+      .post<void>('/auth/refresh', undefined, { silentErrors: true })
+      .pipe(
+        finalize(() => (this.refreshRequest = null)),
+        share(),
+      );
     return this.refreshRequest;
   }
 
@@ -62,7 +66,9 @@ export class AuthService {
     try {
       await firstValueFrom(this.me());
     } catch (error) {
-      const profile = this.isNetworkError(error) ? this.readStoredProfile() : null;
+      const profile = this.isNetworkError(error)
+        ? this.readStoredProfile()
+        : null;
       if (profile) {
         this.user.set(profile);
         this.offlineSessionState.set(true);
@@ -80,7 +86,9 @@ export class AuthService {
   }
 
   private me(): Observable<User> {
-    return this.api.get<User>('/auth/me').pipe(tap((user) => this.setUser(user)));
+    return this.api
+      .get<User>('/auth/me')
+      .pipe(tap((user) => this.setUser(user)));
   }
 
   private setUser(user: User): void {

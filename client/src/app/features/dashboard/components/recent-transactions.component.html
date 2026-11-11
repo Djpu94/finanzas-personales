@@ -5,7 +5,14 @@
   </mat-card-header>
   <mat-card-content>
     @if (transactions().length === 0) {
-      <p class="muted">Todavía no hay movimientos.</p>
+      <app-empty-state
+        compact
+        icon="swap_horiz"
+        title="Todavía no hay movimientos"
+        message="Tus últimas transacciones aparecerán aquí."
+        ctaLabel="Añadir transacción"
+        ctaLink="/transactions"
+      />
     } @else {
       <ul class="recent-list">
         @for (transaction of transactions(); track transaction.id) {

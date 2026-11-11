@@ -46,7 +46,9 @@ function notBlank(control: AbstractControl<string>): ValidationErrors | null {
 export class TransactionFormDialogComponent {
   private readonly data = inject<TransactionFormData>(MAT_DIALOG_DATA);
   private readonly dialogRef =
-    inject<MatDialogRef<TransactionFormDialogComponent, Transaction>>(MatDialogRef);
+    inject<MatDialogRef<TransactionFormDialogComponent, Transaction>>(
+      MatDialogRef,
+    );
   private readonly store = inject(TransactionsStoreService);
   private readonly accountsStore = inject(AccountsStoreService);
   private readonly categoriesStore = inject(CategoriesStoreService);
@@ -57,7 +59,9 @@ export class TransactionFormDialogComponent {
 
   private readonly editing = this.data.transaction;
 
-  protected readonly title = this.editing ? 'Editar transacción' : 'Nueva transacción';
+  protected readonly title = this.editing
+    ? 'Editar transacción'
+    : 'Nueva transacción';
   protected readonly typeOptions = TRANSACTION_TYPE_OPTIONS;
   protected readonly saving = signal(false);
   protected readonly accounts = computed(() =>
@@ -82,10 +86,16 @@ export class TransactionFormDialogComponent {
     accountId: this.fb.control<string | null>(this.editing?.accountId ?? null, [
       Validators.required,
     ]),
-    categoryId: this.fb.control<string | null>(this.editing?.categoryId ?? null),
-    targetAccountId: this.fb.control<string | null>(this.editing?.targetAccountId ?? null),
+    categoryId: this.fb.control<string | null>(
+      this.editing?.categoryId ?? null,
+    ),
+    targetAccountId: this.fb.control<string | null>(
+      this.editing?.targetAccountId ?? null,
+    ),
     tagIds: this.fb.control<string[]>(this.editing?.tagIds ?? []),
-    notes: this.fb.control(this.editing?.notes ?? '', [Validators.maxLength(1000)]),
+    notes: this.fb.control(this.editing?.notes ?? '', [
+      Validators.maxLength(1000),
+    ]),
   });
 
   protected readonly type = toSignal(this.form.controls.type.valueChanges, {
@@ -113,7 +123,9 @@ export class TransactionFormDialogComponent {
 
   protected sameAccount(): boolean {
     const { type, accountId, targetAccountId } = this.form.getRawValue();
-    return type === 'transfer' && accountId !== null && accountId === targetAccountId;
+    return (
+      type === 'transfer' && accountId !== null && accountId === targetAccountId
+    );
   }
 
   protected submit(): void {
@@ -123,7 +135,13 @@ export class TransactionFormDialogComponent {
     this.form.markAllAsTouched();
     const raw = this.form.getRawValue();
     const { amount, date, accountId } = raw;
-    if (this.form.invalid || this.sameAccount() || amount === null || date === null || accountId === null) {
+    if (
+      this.form.invalid ||
+      this.sameAccount() ||
+      amount === null ||
+      date === null ||
+      accountId === null
+    ) {
       return;
     }
 
@@ -176,14 +194,20 @@ export class TransactionFormDialogComponent {
       targetAccountId.clearValidators();
       targetAccountId.setValue(null);
       const currentCategory = categoryId.value;
-      if (currentCategory !== null && !this.categoryMatchesType(currentCategory, type)) {
+      if (
+        currentCategory !== null &&
+        !this.categoryMatchesType(currentCategory, type)
+      ) {
         categoryId.setValue(null);
       }
     }
     targetAccountId.updateValueAndValidity({ emitEvent: false });
   }
 
-  private categoryMatchesType(categoryId: string, type: TransactionType): boolean {
+  private categoryMatchesType(
+    categoryId: string,
+    type: TransactionType,
+  ): boolean {
     return this.categoriesStore
       .categories()
       .some((category) => category.id === categoryId && category.type === type);

@@ -11,10 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CategoriesStoreService } from '../../categories/services/categories-store.service';
 import { conflictErrorMessage } from '../../../shared/utils/conflict-error-message';
 import { MonthKey, toMonthKey } from '../../dashboard/utils/month';
-import {
-  BudgetProgress,
-  CreateBudgetRequest,
-} from '../models/budget.model';
+import { BudgetProgress, CreateBudgetRequest } from '../models/budget.model';
 import { BudgetsStoreService } from '../services/budgets-store.service';
 
 export interface BudgetFormData {
@@ -39,7 +36,9 @@ function monthKeyToDate(month: MonthKey): Date {
 export class BudgetFormDialogComponent {
   private readonly data = inject<BudgetFormData>(MAT_DIALOG_DATA);
   private readonly dialogRef =
-    inject<MatDialogRef<BudgetFormDialogComponent, BudgetProgress>>(MatDialogRef);
+    inject<MatDialogRef<BudgetFormDialogComponent, BudgetProgress>>(
+      MatDialogRef,
+    );
   private readonly store = inject(BudgetsStoreService);
   private readonly categoriesStore = inject(CategoriesStoreService);
   private readonly snackBar = inject(MatSnackBar);
@@ -47,7 +46,9 @@ export class BudgetFormDialogComponent {
 
   private readonly editing = this.data.budget;
 
-  protected readonly title = this.editing ? 'Editar presupuesto' : 'Nuevo presupuesto';
+  protected readonly title = this.editing
+    ? 'Editar presupuesto'
+    : 'Nuevo presupuesto';
   // Los presupuestos solo aplican a categorías de gasto.
   protected readonly categoryOptions = this.categoriesStore
     .indentedCategories()
@@ -78,7 +79,8 @@ export class BudgetFormDialogComponent {
     if (this.saving()) {
       return;
     }
-    const { categoryId, amount, period, alertsEnabled } = this.form.getRawValue();
+    const { categoryId, amount, period, alertsEnabled } =
+      this.form.getRawValue();
     if (this.form.invalid || amount === null || period === null) {
       this.form.markAllAsTouched();
       return;

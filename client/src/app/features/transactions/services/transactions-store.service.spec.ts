@@ -28,7 +28,11 @@ const TRANSACTION = {
   updatedAt: '2026-01-10T00:00:00.000Z',
 } as Transaction;
 
-const OTHER = { ...TRANSACTION, id: 't2', description: 'Nómina' } as Transaction;
+const OTHER = {
+  ...TRANSACTION,
+  id: 't2',
+  description: 'Nómina',
+} as Transaction;
 
 const TRANSACTION_REQUEST: TransactionRequest = {
   type: 'expense',
@@ -134,9 +138,15 @@ describe('TransactionsStoreService', () => {
   });
 
   it('createBulk envía el lote sin recargar el listado', () => {
-    const response = { inserted: 1, failed: 1, errors: [{ index: 1, message: 'Importe inválido' }] };
+    const response = {
+      inserted: 1,
+      failed: 1,
+      errors: [{ index: 1, message: 'Importe inválido' }],
+    };
     let result: unknown;
-    store.createBulk([TRANSACTION_REQUEST]).subscribe((value) => (result = value));
+    store
+      .createBulk([TRANSACTION_REQUEST])
+      .subscribe((value) => (result = value));
 
     const request = http.expectOne('/api/transactions/bulk');
     expect(request.request.method).toBe('POST');

@@ -16,7 +16,9 @@ function reader(values: Record<string, string>) {
 
 describe('transaction-query', () => {
   it('sin parámetros devuelve la consulta por defecto', () => {
-    expect(parseTransactionQuery(reader({}))).toEqual(DEFAULT_TRANSACTION_QUERY);
+    expect(parseTransactionQuery(reader({}))).toEqual(
+      DEFAULT_TRANSACTION_QUERY,
+    );
   });
 
   it('descarta valores inválidos en lugar de enviarlos al backend', () => {

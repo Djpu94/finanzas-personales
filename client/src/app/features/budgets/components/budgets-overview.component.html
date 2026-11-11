@@ -29,36 +29,25 @@
     </div>
   </header>
 
-  @if (store.loading()) {
+  @if (store.loading() && items().length > 0) {
     <mat-progress-bar
       mode="indeterminate"
-      aria-label="Cargando presupuestos"
+      aria-label="Actualizando presupuestos"
     ></mat-progress-bar>
   }
 
-  @if (store.error()) {
-    <mat-card class="state-card" role="alert">
-      <mat-card-content>
-        <p>{{ store.error() }}</p>
-        <button mat-stroked-button type="button" (click)="store.load()">
-          Reintentar
-        </button>
-      </mat-card-content>
-    </mat-card>
-  } @else if (items().length === 0 && !store.loading()) {
-    <mat-card class="state-card">
-      <mat-card-content>
-        <mat-icon class="empty-icon" aria-hidden="true">savings</mat-icon>
-        <h2>No hay presupuestos para {{ monthLabel() }}</h2>
-        <p>
-          Define un límite mensual por categoría de gasto para saber cuánto te
-          queda disponible.
-        </p>
-        <button mat-flat-button type="button" (click)="create()">
-          Crear presupuesto
-        </button>
-      </mat-card-content>
-    </mat-card>
+  @if (store.error(); as message) {
+    <app-error-state [message]="message" (retry)="store.load()" />
+  } @else if (store.loading() && items().length === 0) {
+    <app-loading-skeleton variant="card" label="Cargando presupuestos" />
+  } @else if (items().length === 0) {
+    <app-empty-state
+      icon="savings"
+      [title]="'No hay presupuestos para ' + monthLabel()"
+      message="Define un límite mensual por categoría de gasto para saber cuánto te queda disponible."
+      ctaLabel="Crear presupuesto"
+      (cta)="create()"
+    />
   } @else {
     <div class="budget-grid">
       @for (item of items(); track trackById($index, item)) {
@@ -89,9 +78,12 @@
             ></mat-progress-bar>
             <p class="amounts">
               Gastado
-              <strong>{{ item.budget.spent | currencyCents: currency() }}</strong>
-              de {{ item.budget.limitAmount | currencyCents: currency() }}
-              ({{ item.budget.percentage | number: '1.0-0' }}%)
+              <strong>{{
+                item.budget.spent | currencyCents: currency()
+              }}</strong>
+              de {{ item.budget.limitAmount | currencyCents: currency() }} ({{
+                item.budget.percentage | number: '1.0-0'
+              }}%)
             </p>
           </mat-card-content>
 

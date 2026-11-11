@@ -50,6 +50,10 @@
         <span class="avatar" aria-hidden="true">{{ userInitial() }}</span>
       </button>
       <mat-menu #userMenu="matMenu">
+        <a mat-menu-item routerLink="/zen">
+          <mat-icon>spa</mat-icon>
+          <span>Modo Zen</span>
+        </a>
         <a mat-menu-item routerLink="/profile">
           <mat-icon>person</mat-icon>
           <span>Perfil</span>

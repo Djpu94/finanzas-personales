@@ -45,33 +45,42 @@ export class CategoriesStoreService {
   }
 
   create(request: CreateCategoryRequest): Observable<Category> {
-    return this.api.post<Category>('/categories', request).pipe(
-      tap((category) =>
-        this.categoriesState.update((categories) => [...categories, category]),
-      ),
-    );
+    return this.api
+      .post<Category>('/categories', request, { silentErrors: true })
+      .pipe(
+        tap((category) =>
+          this.categoriesState.update((categories) => [
+            ...categories,
+            category,
+          ]),
+        ),
+      );
   }
 
   update(id: string, request: UpdateCategoryRequest): Observable<Category> {
-    return this.api.patch<Category>(`/categories/${id}`, request).pipe(
-      tap((updated) =>
-        this.categoriesState.update((categories) =>
-          categories.map((category) =>
-            category.id === id ? updated : category,
+    return this.api
+      .patch<Category>(`/categories/${id}`, request, { silentErrors: true })
+      .pipe(
+        tap((updated) =>
+          this.categoriesState.update((categories) =>
+            categories.map((category) =>
+              category.id === id ? updated : category,
+            ),
           ),
         ),
-      ),
-    );
+      );
   }
 
   remove(id: string): Observable<void> {
-    return this.api.delete(`/categories/${id}`).pipe(
-      tap(() =>
-        this.categoriesState.update((categories) =>
-          categories.filter((category) => category.id !== id),
+    return this.api
+      .delete(`/categories/${id}`, { silentErrors: true })
+      .pipe(
+        tap(() =>
+          this.categoriesState.update((categories) =>
+            categories.filter((category) => category.id !== id),
+          ),
         ),
-      ),
-    );
+      );
   }
 
   // Excluye la categoría editada y sus descendientes para evitar ciclos.

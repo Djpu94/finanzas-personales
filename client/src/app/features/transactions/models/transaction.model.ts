@@ -14,7 +14,10 @@ export const TRANSACTION_TYPE_OPTIONS: readonly TransactionTypeOption[] = [
 ];
 
 export function findTransactionTypeLabel(type: TransactionType): string {
-  return TRANSACTION_TYPE_OPTIONS.find((option) => option.value === type)?.label ?? type;
+  return (
+    TRANSACTION_TYPE_OPTIONS.find((option) => option.value === type)?.label ??
+    type
+  );
 }
 
 export interface Transaction {

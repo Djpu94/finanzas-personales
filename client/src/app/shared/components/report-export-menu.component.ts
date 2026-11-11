@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { finalize } from 'rxjs';
 import { ApiService } from '../../core/api.service';
@@ -24,7 +30,7 @@ export class ReportExportMenuComponent {
     const period = this.period();
     this.exporting.set(format);
     this.api
-      .getBlob('/reports/monthly', { period, format })
+      .getBlob('/reports/monthly', { period, format }, { silentErrors: true })
       .pipe(finalize(() => this.exporting.set(null)))
       .subscribe({
         next: (blob) => downloadBlob(blob, `reporte-${period}.${format}`),

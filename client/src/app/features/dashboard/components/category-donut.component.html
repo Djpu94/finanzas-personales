@@ -5,7 +5,12 @@
   </mat-card-header>
   <mat-card-content>
     @if (slices().length === 0) {
-      <p class="muted">No hay gastos categorizados este mes.</p>
+      <app-empty-state
+        compact
+        icon="donut_large"
+        title="Sin gastos categorizados"
+        message="No hay gastos categorizados este mes."
+      />
     } @else {
       <div class="donut-layout">
         <div class="chart-frame">

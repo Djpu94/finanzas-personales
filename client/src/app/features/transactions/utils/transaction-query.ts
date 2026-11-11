@@ -61,7 +61,9 @@ export function toQueryParams(query: TransactionListQuery): Params {
   };
 }
 
-export function toApiParams(query: TransactionListQuery): Record<string, string> {
+export function toApiParams(
+  query: TransactionListQuery,
+): Record<string, string> {
   const { filters, page, pageSize } = query;
   const params: Record<string, string> = {
     page: String(page),
@@ -117,7 +119,9 @@ export function fromLocalDateString(value: string | null): Date | null {
   return isExactDate ? date : null;
 }
 
-export function hasActiveTransactionFilters(filters: TransactionFilters): boolean {
+export function hasActiveTransactionFilters(
+  filters: TransactionFilters,
+): boolean {
   return (
     filters.from !== null ||
     filters.to !== null ||

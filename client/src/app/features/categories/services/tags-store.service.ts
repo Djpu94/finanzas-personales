@@ -25,16 +25,18 @@ export class TagsStoreService {
   }
 
   create(request: CreateTagRequest): Observable<Tag> {
-    return this.api.post<Tag>('/tags', request).pipe(
-      tap((tag) => this.tagsState.update((tags) => [...tags, tag])),
-    );
+    return this.api
+      .post<Tag>('/tags', request, { silentErrors: true })
+      .pipe(tap((tag) => this.tagsState.update((tags) => [...tags, tag])));
   }
 
   remove(id: string): Observable<void> {
-    return this.api.delete(`/tags/${id}`).pipe(
-      tap(() =>
-        this.tagsState.update((tags) => tags.filter((tag) => tag.id !== id)),
-      ),
-    );
+    return this.api
+      .delete(`/tags/${id}`, { silentErrors: true })
+      .pipe(
+        tap(() =>
+          this.tagsState.update((tags) => tags.filter((tag) => tag.id !== id)),
+        ),
+      );
   }
 }

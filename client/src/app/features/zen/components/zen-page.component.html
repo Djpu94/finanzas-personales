@@ -1,0 +1,43 @@
+<section
+  class="zen-page"
+  aria-labelledby="zen-balance-label"
+  [attr.aria-busy]="store.loading()"
+>
+  @if (store.error() && store.netWorth() === null) {
+    <div class="zen-block">
+      <p role="alert">{{ store.error() }}</p>
+      <button mat-stroked-button type="button" (click)="store.load()">
+        Reintentar
+      </button>
+    </div>
+  } @else {
+    <div class="zen-block">
+      <p id="zen-balance-label" class="zen-label">Saldo neto</p>
+      <p class="zen-balance">
+        @if (store.netWorth() !== null) {
+          {{ store.netWorth() | currencyCents: store.currency() }}
+        } @else {
+          …
+        }
+      </p>
+    </div>
+
+    <div class="zen-block">
+      <p class="zen-label">Próximo movimiento</p>
+      @if (store.nextTransaction(); as tx) {
+        <p class="zen-next zen-next--{{ toneFor(tx.type) }}">
+          <span class="zen-next-amount">
+            {{ signFor(tx.type)
+            }}{{ tx.amount | currencyCents: store.currency() }}
+          </span>
+          <span class="zen-next-description">{{ tx.description }}</span>
+        </p>
+        <p class="zen-date">
+          {{ tx.date | date: 'longDate' : undefined : locale }}
+        </p>
+      } @else if (!store.loading()) {
+        <p class="zen-muted">No tienes movimientos programados.</p>
+      }
+    </div>
+  }
+</section>

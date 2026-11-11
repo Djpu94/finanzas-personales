@@ -99,11 +99,18 @@ export class TransactionsListComponent {
   );
 
   private readonly accountsById = computed(
-    () => new Map(this.accountsStore.accounts().map((account) => [account.id, account])),
+    () =>
+      new Map(
+        this.accountsStore.accounts().map((account) => [account.id, account]),
+      ),
   );
   private readonly categoriesById = computed(
     () =>
-      new Map(this.categoriesStore.categories().map((category) => [category.id, category])),
+      new Map(
+        this.categoriesStore
+          .categories()
+          .map((category) => [category.id, category]),
+      ),
   );
 
   protected readonly filterForm = this.fb.group({
@@ -155,7 +162,9 @@ export class TransactionsListComponent {
   }
 
   protected accountName(id: string | null): string {
-    return id ? (this.accountsById().get(id)?.name ?? 'Cuenta desconocida') : '—';
+    return id
+      ? (this.accountsById().get(id)?.name ?? 'Cuenta desconocida')
+      : '—';
   }
 
   protected currencyOf(accountId: string): string {
@@ -163,7 +172,7 @@ export class TransactionsListComponent {
   }
 
   protected category(id: string | null) {
-    return id ? this.categoriesById().get(id) ?? null : null;
+    return id ? (this.categoriesById().get(id) ?? null) : null;
   }
 
   protected onPage(event: PageEvent): void {
@@ -177,7 +186,11 @@ export class TransactionsListComponent {
   }
 
   protected clearFilters(): void {
-    this.navigateTo({ ...this.query(), filters: EMPTY_TRANSACTION_FILTERS, page: 1 });
+    this.navigateTo({
+      ...this.query(),
+      filters: EMPTY_TRANSACTION_FILTERS,
+      page: 1,
+    });
   }
 
   protected openCreate(): void {
@@ -197,13 +210,17 @@ export class TransactionsListComponent {
   }
 
   protected delete(transaction: Transaction): void {
-    if (!window.confirm(`¿Eliminar la transacción "${transaction.description}"?`)) {
+    if (
+      !window.confirm(`¿Eliminar la transacción "${transaction.description}"?`)
+    ) {
       return;
     }
 
     this.store.delete(transaction.id).subscribe({
       next: () => {
-        this.snackBar.open('Transacción eliminada.', 'Cerrar', { duration: 4000 });
+        this.snackBar.open('Transacción eliminada.', 'Cerrar', {
+          duration: 4000,
+        });
         const query = this.query();
         // Si la página se queda vacía, se vuelve a la anterior.
         if (this.transactions().length === 0 && query.page > 1) {
@@ -253,7 +270,8 @@ export class TransactionsListComponent {
 
   // Cualquier cambio de filtro vuelve a la página 1 y se refleja en la URL.
   private applyFilters(): void {
-    const { range, accountId, categoryId, type, search } = this.filterForm.getRawValue();
+    const { range, accountId, categoryId, type, search } =
+      this.filterForm.getRawValue();
     const trimmedSearch = search.trim();
 
     this.navigateTo({
