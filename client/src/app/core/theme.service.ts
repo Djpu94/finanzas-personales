@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { Chart } from 'chart.js';
+import { loadChartJs } from './chart-loader';
 import { readCssVariable } from './css-variables';
 
 export type ThemePreference = 'light' | 'dark' | 'system';
@@ -77,9 +77,13 @@ export class ThemeService {
 
     // Se leen después de cambiar la clase: los tokens del tema dependen de body.dark-theme.
     const fallback = CHART_FALLBACK_COLORS[theme];
-    Chart.defaults.color =
+    const textColor =
       readCssVariable('--color-text-secondary') || fallback.text;
-    Chart.defaults.borderColor =
+    const gridColor =
       readCssVariable('--color-border-subtle') || fallback.grid;
+    void loadChartJs().then(({ Chart }) => {
+      Chart.defaults.color = textColor;
+      Chart.defaults.borderColor = gridColor;
+    });
   }
 }

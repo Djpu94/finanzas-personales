@@ -80,10 +80,10 @@ describe('ThemeService', () => {
     const service = createService();
 
     service.setTheme('dark');
-    expect(Chart.defaults.color).toBe('#cac4d0');
+    await vi.waitFor(() => expect(Chart.defaults.color).toBe('#cac4d0'));
 
     service.setTheme('light');
-    expect(Chart.defaults.color).toBe('#49454f');
+    await vi.waitFor(() => expect(Chart.defaults.color).toBe('#49454f'));
   });
 
   it('en modo "system" sigue la preferencia del SO en vivo', () => {
