@@ -11,6 +11,7 @@
     "dev": "concurrently -k -n server,client -c blue,magenta \"npm run start:dev -w server\" \"npm run start -w client\"",
     "build": "npm run build -w server && npm run build -w client",
     "lint": "eslint .",
+    "test:e2e": "npm run test:e2e -w client",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
