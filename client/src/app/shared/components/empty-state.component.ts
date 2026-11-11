@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 
 export type EmptyStateSize = 'sm' | 'md' | 'lg';
+export type EmptyStateHeadingLevel = 2 | 3;
 
 @Component({
   selector: 'app-empty-state',
@@ -21,6 +22,8 @@ export class EmptyStateComponent {
   readonly ctaLabel = input<string | null>(null);
   readonly ctaLink = input<string | null>(null);
   readonly size = input<EmptyStateSize>('md');
+  // Debe ser el siguiente nivel tras el encabezado de su contenedor para no saltar niveles.
+  readonly headingLevel = input<EmptyStateHeadingLevel>(2);
 
   readonly cta = output<void>();
 }

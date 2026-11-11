@@ -7,6 +7,7 @@
     @if (transactions().length === 0) {
       <app-empty-state
         size="sm"
+        [headingLevel]="3"
         icon="swap_horiz"
         title="Todavía no hay movimientos"
         message="Tus últimas transacciones aparecerán aquí."
