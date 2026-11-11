@@ -1,4 +1,4 @@
-<nav aria-label="Navegación principal">
+<nav aria-label="Navegación principal" class="sidenav-nav">
   <mat-nav-list>
     @for (item of items; track item.route) {
       <a
@@ -7,10 +7,29 @@
         [routerLink]="item.route"
         routerLinkActive="active-link"
         ariaCurrentWhenActive="page"
+        [attr.aria-label]="layout.sidenavCollapsed() ? item.label : null"
+        [attr.title]="layout.sidenavCollapsed() ? item.label : null"
       >
         <mat-icon matListItemIcon aria-hidden="true">{{ item.icon }}</mat-icon>
-        <span matListItemTitle>{{ item.label }}</span>
+        @if (!layout.sidenavCollapsed()) {
+          <span matListItemTitle>{{ item.label }}</span>
+        }
       </a>
     }
   </mat-nav-list>
+
+  @if (!layout.isHandset()) {
+    <div class="sidenav-footer">
+      <button
+        mat-icon-button
+        type="button"
+        class="collapse-toggle"
+        [attr.aria-label]="layout.sidenavCollapsed() ? 'Expandir menú' : 'Contraer menú'"
+        [attr.aria-expanded]="!layout.sidenavCollapsed()"
+        (click)="layout.toggleCollapsed()"
+      >
+        <mat-icon aria-hidden="true">{{ layout.sidenavCollapsed() ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+      </button>
+    </div>
+  }
 </nav>

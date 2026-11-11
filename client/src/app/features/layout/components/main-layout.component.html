@@ -1,6 +1,7 @@
 <mat-sidenav-container class="layout-container">
   <mat-sidenav
     class="layout-sidenav"
+    [class.layout-sidenav--collapsed]="layout.sidenavCollapsed()"
     [mode]="layout.isHandset() ? 'over' : 'side'"
     [opened]="layout.sidenavOpened()"
     (closedStart)="layout.closeMobileSidenav()"
@@ -12,66 +13,66 @@
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
 
     <header class="layout-header">
-    <mat-toolbar class="layout-toolbar">
-      <button
-        mat-icon-button
-        type="button"
-        aria-label="Mostrar u ocultar el menú"
-        (click)="layout.toggleSidenav()"
-      >
-        <mat-icon>menu</mat-icon>
-      </button>
-      <span class="app-name">Finanzas personales</span>
-      <span class="spacer"></span>
-      <button
-        mat-icon-button
-        type="button"
-        aria-label="Elegir tema"
-        [matMenuTriggerFor]="themeMenu"
-      >
-        <mat-icon>{{ themeIcon() }}</mat-icon>
-      </button>
-      <mat-menu #themeMenu="matMenu">
-        @for (option of themeOptions; track option.value) {
+      <mat-toolbar class="layout-toolbar">
+        <button
+          mat-icon-button
+          type="button"
+          aria-label="Mostrar u ocultar el menú"
+          (click)="layout.toggleSidenav()"
+        >
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span class="app-name">Finanzas personales</span>
+        <span class="spacer"></span>
+        <button
+          mat-icon-button
+          type="button"
+          aria-label="Elegir tema"
+          [matMenuTriggerFor]="themeMenu"
+        >
+          <mat-icon>{{ themeIcon() }}</mat-icon>
+        </button>
+        <mat-menu #themeMenu="matMenu">
+          @for (option of themeOptions; track option.value) {
+            <button
+              mat-menu-item
+              type="button"
+              [class.active-theme]="theme.currentTheme() === option.value"
+              (click)="theme.setTheme(option.value)"
+            >
+              <mat-icon>{{ option.icon }}</mat-icon>
+              <span>{{ option.label }}</span>
+            </button>
+          }
+        </mat-menu>
+        <button
+          mat-icon-button
+          type="button"
+          aria-label="Menú de usuario"
+          [matMenuTriggerFor]="userMenu"
+        >
+          <span class="avatar" aria-hidden="true">{{ userInitial() }}</span>
+        </button>
+        <mat-menu #userMenu="matMenu">
+          <a mat-menu-item routerLink="/zen">
+            <mat-icon>spa</mat-icon>
+            <span>Modo Zen</span>
+          </a>
+          <a mat-menu-item routerLink="/profile">
+            <mat-icon>person</mat-icon>
+            <span>Perfil</span>
+          </a>
           <button
             mat-menu-item
             type="button"
-            [class.active-theme]="theme.currentTheme() === option.value"
-            (click)="theme.setTheme(option.value)"
+            [disabled]="loggingOut()"
+            (click)="logout()"
           >
-            <mat-icon>{{ option.icon }}</mat-icon>
-            <span>{{ option.label }}</span>
+            <mat-icon>logout</mat-icon>
+            <span>Cerrar sesión</span>
           </button>
-        }
-      </mat-menu>
-      <button
-        mat-icon-button
-        type="button"
-        aria-label="Menú de usuario"
-        [matMenuTriggerFor]="userMenu"
-      >
-        <span class="avatar" aria-hidden="true">{{ userInitial() }}</span>
-      </button>
-      <mat-menu #userMenu="matMenu">
-        <a mat-menu-item routerLink="/zen">
-          <mat-icon>spa</mat-icon>
-          <span>Modo Zen</span>
-        </a>
-        <a mat-menu-item routerLink="/profile">
-          <mat-icon>person</mat-icon>
-          <span>Perfil</span>
-        </a>
-        <button
-          mat-menu-item
-          type="button"
-          [disabled]="loggingOut()"
-          (click)="logout()"
-        >
-          <mat-icon>logout</mat-icon>
-          <span>Cerrar sesión</span>
-        </button>
-      </mat-menu>
-    </mat-toolbar>
+        </mat-menu>
+      </mat-toolbar>
     </header>
 
     <main id="contenido" class="layout-content" tabindex="-1">

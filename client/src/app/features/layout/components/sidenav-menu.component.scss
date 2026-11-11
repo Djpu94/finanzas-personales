@@ -2,7 +2,21 @@
 
 :host {
   display: block;
+  height: 100%;
   padding: var(--space-3) var(--space-2);
+}
+
+.sidenav-nav {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sidenav-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+  padding-block-start: var(--space-2);
 }
 
 .nav-item {

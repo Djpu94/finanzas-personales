@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { LayoutService } from '../../../core/layout.service';
 
 interface SidenavItem {
   label: string;
@@ -14,6 +15,8 @@ interface SidenavItem {
   styleUrl: './sidenav-menu.component.scss',
 })
 export class SidenavMenuComponent {
+  protected readonly layout = inject(LayoutService);
+
   protected readonly items: readonly SidenavItem[] = [
     { label: 'Dashboard', icon: 'dashboard', route: '/dashboard' },
     { label: 'Transacciones', icon: 'swap_horiz', route: '/transactions' },

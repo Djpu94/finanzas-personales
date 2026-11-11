@@ -12,6 +12,10 @@
   width: var(--layout-sidenav-width);
   background-color: var(--color-surface-sunken);
   border-inline-end: 1px solid var(--color-border-subtle);
+
+  &--collapsed {
+    width: var(--layout-sidenav-width-collapsed);
+  }
 }
 
 .skip-link {
