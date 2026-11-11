@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from './core/auth.guard';
-import { OfflinePageComponent } from './shared/components/offline-page.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -22,7 +21,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/zen/zen-module').then((m) => m.ZenModule),
   },
-  { path: 'offline', component: OfflinePageComponent },
+  {
+    path: 'offline',
+    loadChildren: () =>
+      import('./features/offline/offline-module').then((m) => m.OfflineModule),
+  },
   { path: '**', redirectTo: 'dashboard' },
 ];
 

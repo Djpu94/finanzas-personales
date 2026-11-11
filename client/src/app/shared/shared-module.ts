@@ -7,7 +7,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CurrencyCentsPipe } from './pipes/currency-cents.pipe';
 import { ChartContainerDirective } from './directives/chart-container.directive';
 import { ReportExportMenuComponent } from './components/report-export-menu.component';
-import { BannersComponent } from './components/banners.component';
 import { OfflinePageComponent } from './components/offline-page.component';
 import { EmptyStateComponent } from './components/empty-state.component';
 import { LoadingSkeletonComponent } from './components/loading-skeleton.component';
@@ -17,7 +16,6 @@ const SHARED_COMPONENTS = [
   CurrencyCentsPipe,
   ChartContainerDirective,
   ReportExportMenuComponent,
-  BannersComponent,
   OfflinePageComponent,
   EmptyStateComponent,
   LoadingSkeletonComponent,
