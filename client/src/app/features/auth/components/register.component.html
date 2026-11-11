@@ -1,7 +1,14 @@
-<section class="auth-page">
-  <mat-card class="auth-card">
+<main id="contenido" class="auth-page">
+  <header class="auth-brand">
+    <p class="auth-brand__name">Finanzas personales</p>
+    <p class="auth-brand__tagline">
+      Controla tu patrimonio, tus ingresos y tus gastos en un solo lugar.
+    </p>
+  </header>
+
+  <mat-card class="auth-card" appearance="raised">
     <mat-card-header>
-      <mat-card-title>Crear cuenta</mat-card-title>
+      <h1 mat-card-title class="auth-title">Crear cuenta</h1>
     </mat-card-header>
 
     <mat-card-content>
@@ -39,6 +46,7 @@
             formControlName="password"
             autocomplete="new-password"
           />
+          <mat-hint>Mínimo 8 caracteres.</mat-hint>
           @if (form.controls.password.hasError('required')) {
             <mat-error>La contraseña es obligatoria.</mat-error>
           } @else if (form.controls.password.hasError('minlength')) {
@@ -63,21 +71,23 @@
           }
         </mat-form-field>
 
-        <div class="auth-actions">
-          <a mat-button routerLink="/login">Ya tengo cuenta</a>
-          <button
-            mat-flat-button
-            type="submit"
-            [disabled]="loading()"
-            [attr.aria-busy]="loading()"
-          >
-            @if (loading()) {
-              <mat-spinner diameter="18" />
-            }
-            Registrarme
-          </button>
-        </div>
+        <button
+          mat-flat-button
+          type="submit"
+          class="auth-submit"
+          [disabled]="loading()"
+          [attr.aria-busy]="loading()"
+        >
+          @if (loading()) {
+            <mat-spinner diameter="18" aria-hidden="true" />
+          }
+          Registrarme
+        </button>
       </form>
     </mat-card-content>
+
+    <mat-card-actions align="end">
+      <a mat-button routerLink="/login">Ya tengo cuenta</a>
+    </mat-card-actions>
   </mat-card>
-</section>
+</main>

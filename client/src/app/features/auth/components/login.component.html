@@ -1,7 +1,14 @@
-<section class="auth-page">
-  <mat-card class="auth-card">
+<main id="contenido" class="auth-page">
+  <header class="auth-brand">
+    <p class="auth-brand__name">Finanzas personales</p>
+    <p class="auth-brand__tagline">
+      Controla tu patrimonio, tus ingresos y tus gastos en un solo lugar.
+    </p>
+  </header>
+
+  <mat-card class="auth-card" appearance="raised">
     <mat-card-header>
-      <mat-card-title>Iniciar sesión</mat-card-title>
+      <h1 mat-card-title class="auth-title">Iniciar sesión</h1>
     </mat-card-header>
 
     <mat-card-content>
@@ -13,6 +20,7 @@
             type="email"
             formControlName="email"
             autocomplete="email"
+            inputmode="email"
           />
           @if (form.controls.email.hasError('required')) {
             <mat-error>El email es obligatorio.</mat-error>
@@ -36,21 +44,23 @@
           }
         </mat-form-field>
 
-        <div class="auth-actions">
-          <a mat-button routerLink="/register">Crear cuenta</a>
-          <button
-            mat-flat-button
-            type="submit"
-            [disabled]="loading()"
-            [attr.aria-busy]="loading()"
-          >
-            @if (loading()) {
-              <mat-spinner diameter="18" />
-            }
-            Entrar
-          </button>
-        </div>
+        <button
+          mat-flat-button
+          type="submit"
+          class="auth-submit"
+          [disabled]="loading()"
+          [attr.aria-busy]="loading()"
+        >
+          @if (loading()) {
+            <mat-spinner diameter="18" aria-hidden="true" />
+          }
+          Entrar
+        </button>
       </form>
     </mat-card-content>
+
+    <mat-card-actions align="end">
+      <a mat-button routerLink="/register">Crear cuenta</a>
+    </mat-card-actions>
   </mat-card>
-</section>
+</main>

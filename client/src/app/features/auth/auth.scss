@@ -1,26 +1,88 @@
+@use '../../../styles/mixins' as m;
+
 :host {
   display: block;
 }
 
 .auth-page {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  padding: 2rem 1rem;
+  gap: var(--space-6);
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: var(--space-6) var(--space-4);
+
+  @include m.bp-up(md) {
+    flex-direction: row;
+    gap: 0;
+    padding: 0;
+  }
+}
+
+.auth-brand {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-3);
+  align-self: stretch;
+  flex: 1 1 50%;
+  padding: var(--space-12);
+  background-color: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+
+  @include m.bp-up(md) {
+    display: flex;
+  }
+
+  &__name {
+    margin: 0;
+    font-size: var(--font-size-h1);
+    font-weight: 600;
+  }
+
+  &__tagline {
+    margin: 0;
+    max-width: var(--content-narrow-width);
+  }
 }
 
 .auth-card {
   width: 100%;
-  max-width: 420px;
+  max-width: var(--content-narrow-width);
+  box-sizing: border-box;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elevation-2);
+
+  @include m.bp-up(md) {
+    flex: 1 1 50%;
+    max-width: none;
+    margin-inline: var(--space-8);
+    width: auto;
+  }
+}
+
+.auth-title {
+  font-size: var(--font-size-h2);
+  font-weight: 600;
 }
 
 .full-width {
   width: 100%;
 }
 
-.auth-actions {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 1rem;
+.auth-submit {
+  position: relative;
+  width: 100%;
+  min-height: var(--touch-target-min);
+  margin-top: var(--space-2);
+
+  mat-spinner {
+    position: absolute;
+    inset-inline-start: var(--space-4);
+    top: 50%;
+    transform: translateY(-50%);
+    --mdc-circular-progress-active-indicator-color: var(--color-on-primary);
+  }
 }
