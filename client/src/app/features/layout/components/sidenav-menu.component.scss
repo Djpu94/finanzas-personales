@@ -32,6 +32,7 @@
   }
 
   @include m.focus-ring;
+  @include m.reduced-motion;
 }
 
 .active-link {

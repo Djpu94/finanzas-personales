@@ -9,6 +9,7 @@ export type ResolvedTheme = 'light' | 'dark';
 const THEME_STORAGE_KEY = 'theme.preference';
 const DARK_CLASS = 'dark-theme';
 const DARK_MEDIA_QUERY = '(prefers-color-scheme: dark)';
+const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
 
 // Respaldo solo para entornos sin hojas de estilo globales (p. ej. tests unitarios).
 const CHART_FALLBACK_COLORS: Record<
@@ -84,6 +85,17 @@ export class ThemeService {
     void loadChartJs().then(({ Chart }) => {
       Chart.defaults.color = textColor;
       Chart.defaults.borderColor = gridColor;
+      // Solo se desactiva la animación; sin preferencia explícita se mantiene la de Chart.js.
+      if (this.prefersReducedMotion()) {
+        Chart.defaults.animation = false;
+      }
     });
+  }
+
+  private prefersReducedMotion(): boolean {
+    return (
+      this.document.defaultView?.matchMedia?.(REDUCED_MOTION_QUERY).matches ??
+      false
+    );
   }
 }

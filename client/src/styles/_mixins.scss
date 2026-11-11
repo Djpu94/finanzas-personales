@@ -50,6 +50,14 @@ $breakpoints: (
   box-shadow: var(--elevation-#{$level});
 }
 
+// Sin transiciones para quien pide reducir movimiento. Las transiciones de cada componente siguen en su SCSS.
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    animation: none;
+  }
+}
+
 // Bloque de estado vacío/error dentro de una zona (accounts, categories, budgets).
 @mixin state-block {
   display: flex;

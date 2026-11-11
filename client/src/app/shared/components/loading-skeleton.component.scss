@@ -1,3 +1,5 @@
+@use '../../../styles/mixins' as m;
+
 .skeleton-host {
   display: flex;
   flex-direction: column;
@@ -51,8 +53,6 @@
 }
 
 // Sin movimiento: el bloque queda estático pero sigue indicando carga por aria.
-@media (prefers-reduced-motion: reduce) {
-  .skeleton {
-    animation: none;
-  }
+.skeleton {
+  @include m.reduced-motion;
 }

@@ -30,6 +30,7 @@
   text-decoration: none;
   transform: translateY(-200%);
   transition: transform var(--duration-fast) var(--ease-standard);
+  @include m.reduced-motion;
 
   &:focus-visible,
   &:focus {
